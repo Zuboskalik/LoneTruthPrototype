@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "aura-unity": {
+      "type": "stdio",
+      "command": "%LOCALAPPDATA%\Programs\AuraForUnity\python\python.exe",
+      "args": ["-m", "aura_unity_mcp.server"]
+    }
+  }
+}

@@ -74,7 +74,7 @@ namespace LoneTruth.Interaction
                 return;
             }
 
-            Rigidbody2D rb = interactor.GetComponent<Rigidbody2D>();
+            Rigidbody rb = interactor.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.position = targetDoor.position;

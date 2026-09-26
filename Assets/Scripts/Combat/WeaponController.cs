@@ -15,12 +15,15 @@ namespace LoneTruth.Combat
         [Header("Weapon")]
         [SerializeField] private ItemSO ammoItem;
         [SerializeField] private ItemType weaponItemType = ItemType.Weapon;
+        [SerializeField] private ItemType ammoItemType = ItemType.Ammo;
         [SerializeField] private int loadedAmmo;
         [SerializeField] private int maxLoadedAmmo = 6;
+        [SerializeField] private KeyCode reloadKey = KeyCode.R;
 
         [Header("Raycast")]
         [SerializeField] private float fireRange = 20f;
         [SerializeField] private LayerMask hitLayers = ~0;
+        [SerializeField] private int damagePerShot = 25;
 
         public int LoadedAmmo => loadedAmmo;
 
@@ -39,14 +42,14 @@ namespace LoneTruth.Combat
 
         private void Update()
         {
-            if (!IsWeaponSelected())
-            {
-                return;
-            }
-
-            if (Input.GetMouseButtonDown(0))
+            if (IsWeaponSelected() && Input.GetMouseButtonDown(0))
             {
                 Fire();
+            }
+
+            if (IsAmmoSelected() && Input.GetKeyDown(reloadKey))
+            {
+                Reload();
             }
         }
 
@@ -54,6 +57,12 @@ namespace LoneTruth.Combat
         {
             InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
             return selectedSlot != null && !selectedSlot.IsEmpty && selectedSlot.item.ItemType == weaponItemType;
+        }
+
+        private bool IsAmmoSelected()
+        {
+            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
+            return selectedSlot != null && !selectedSlot.IsEmpty && selectedSlot.item.ItemType == ammoItemType;
         }
 
         public bool Fire()
@@ -65,12 +74,10 @@ namespace LoneTruth.Combat
 
             loadedAmmo--;
 
-            Vector2 origin = firePoint != null ? (Vector2)firePoint.position : (Vector2)transform.position;
-            Vector2 direction = (playerController != null && playerController.IsFacingRight) ? Vector2.right : Vector2.left;
+            Vector3 origin = firePoint != null ? firePoint.position : transform.position;
+            Vector3 direction = (playerController != null && playerController.IsFacingRight) ? Vector3.right : Vector3.left;
 
-            RaycastHit2D hit = Physics2D.Raycast(origin, direction, fireRange, hitLayers);
-
-            if (hit.collider != null)
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, fireRange, hitLayers))
             {
                 OnHit(hit);
             }
@@ -78,9 +85,15 @@ namespace LoneTruth.Combat
             return true;
         }
 
-        private void OnHit(RaycastHit2D hit)
+        private void OnHit(RaycastHit hit)
         {
             Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 0.5f);
+
+            TargetDummy dummy = hit.collider.GetComponentInParent<TargetDummy>();
+            if (dummy != null)
+            {
+                dummy.TakeDamage(damagePerShot);
+            }
         }
 
         public bool Reload()

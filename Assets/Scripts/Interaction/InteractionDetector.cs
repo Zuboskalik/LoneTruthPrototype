@@ -43,11 +43,11 @@ namespace LoneTruth.Interaction
             currentTarget = null;
             currentTargetTransform = null;
 
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius, interactableLayer);
+            Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, interactableLayer);
 
             float nearestDistanceSqr = float.MaxValue;
 
-            foreach (Collider2D hit in hits)
+            foreach (Collider hit in hits)
             {
                 IInteractable interactable = hit.GetComponentInParent<IInteractable>();
                 if (interactable == null)

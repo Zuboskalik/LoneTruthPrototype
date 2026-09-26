@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LoneTruth.Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
         [Header("Movement")]
@@ -22,7 +22,7 @@ namespace LoneTruth.Player
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
 
-        private Rigidbody2D rb;
+        private Rigidbody rb;
         private float moveInput;
         private bool facingRight = true;
         private bool isGrounded;
@@ -36,7 +36,7 @@ namespace LoneTruth.Player
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
 
             if (spriteRenderer == null)
             {
@@ -82,11 +82,11 @@ namespace LoneTruth.Player
 
             if (isDodging)
             {
-                rb.linearVelocity = new Vector2(dodgeDirection * dodgeSpeed, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector3(dodgeDirection * dodgeSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             }
             else
             {
-                rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector3(moveInput * moveSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             }
         }
 
@@ -98,7 +98,7 @@ namespace LoneTruth.Player
                 return;
             }
 
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
         }
 
         private void UpdateFacingDirection()
