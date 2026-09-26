@@ -102,8 +102,15 @@ namespace LoneTruth.Interaction
             dialogueCanvas = canvasObject.AddComponent<Canvas>();
             dialogueCanvas.renderMode = RenderMode.WorldSpace;
 
+            // The canvas RectTransform lives in its own local units, which is also the space
+            // the Text component's fontSize is measured in. Using textCanvasSize directly (a
+            // handful of local units) made the box far narrower than a 24pt glyph, so Wrap
+            // broke the line after every single character. Scale up only the box (not the
+            // transform) so fontSize keeps its original on-screen size and the text has room
+            // to wrap by word instead of by letter.
+            const float canvasUnitScale = 100f;
             RectTransform canvasRect = dialogueCanvas.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = textCanvasSize;
+            canvasRect.sizeDelta = textCanvasSize * canvasUnitScale;
             canvasObject.transform.localScale = Vector3.one * 0.01f;
 
             GameObject textObject = new GameObject("DialogueText");

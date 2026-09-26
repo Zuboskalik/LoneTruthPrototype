@@ -11,21 +11,31 @@ namespace LoneTruth.Combat
         [SerializeField] private InventoryManager inventoryManager;
         [SerializeField] private PlayerController playerController;
         [SerializeField] private Transform firePoint;
+        [SerializeField] private WeaponFireEffects fireEffects;
 
         [Header("Weapon")]
+        [SerializeField] private ItemSO weaponItem;
         [SerializeField] private ItemSO ammoItem;
         [SerializeField] private ItemType weaponItemType = ItemType.Weapon;
         [SerializeField] private ItemType ammoItemType = ItemType.Ammo;
         [SerializeField] private int loadedAmmo;
         [SerializeField] private int maxLoadedAmmo = 6;
-        [SerializeField] private KeyCode reloadKey = KeyCode.R;
+
+        [Header("Input")]
+        [SerializeField] private KeyCode useKey = KeyCode.G;
+        [SerializeField] private KeyCode attackKey = KeyCode.Space;
 
         [Header("Raycast")]
         [SerializeField] private float fireRange = 20f;
         [SerializeField] private LayerMask hitLayers = ~0;
         [SerializeField] private int damagePerShot = 25;
 
+        private bool isEquipped;
+
+        public ItemSO WeaponItem => weaponItem;
         public int LoadedAmmo => loadedAmmo;
+        public int MaxLoadedAmmo => maxLoadedAmmo;
+        public bool IsEquipped => isEquipped;
 
         private void Awake()
         {
@@ -38,36 +48,52 @@ namespace LoneTruth.Combat
             {
                 playerController = GetComponent<PlayerController>();
             }
+
+            if (fireEffects == null)
+            {
+                fireEffects = GetComponent<WeaponFireEffects>();
+            }
         }
 
         private void Update()
         {
-            if (IsWeaponSelected() && Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(useKey))
+            {
+                UseSelectedItem();
+            }
+
+            if (isEquipped && Input.GetKeyDown(attackKey))
             {
                 Fire();
             }
+        }
 
-            if (IsAmmoSelected() && Input.GetKeyDown(reloadKey))
+        private void UseSelectedItem()
+        {
+            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
+            if (selectedSlot == null || selectedSlot.IsEmpty)
+            {
+                return;
+            }
+
+            if (selectedSlot.item.ItemType == weaponItemType)
+            {
+                ToggleEquip();
+            }
+            else if (selectedSlot.item.ItemType == ammoItemType)
             {
                 Reload();
             }
         }
 
-        private bool IsWeaponSelected()
+        private void ToggleEquip()
         {
-            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
-            return selectedSlot != null && !selectedSlot.IsEmpty && selectedSlot.item.ItemType == weaponItemType;
-        }
-
-        private bool IsAmmoSelected()
-        {
-            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
-            return selectedSlot != null && !selectedSlot.IsEmpty && selectedSlot.item.ItemType == ammoItemType;
+            isEquipped = !isEquipped;
         }
 
         public bool Fire()
         {
-            if (loadedAmmo <= 0)
+            if (!isEquipped || loadedAmmo <= 0)
             {
                 return false;
             }
@@ -77,9 +103,33 @@ namespace LoneTruth.Combat
             Vector3 origin = firePoint != null ? firePoint.position : transform.position;
             Vector3 direction = (playerController != null && playerController.IsFacingRight) ? Vector3.right : Vector3.left;
 
-            if (Physics.Raycast(origin, direction, out RaycastHit hit, fireRange, hitLayers))
+            RaycastHit[] hits = Physics.RaycastAll(origin, direction, fireRange, hitLayers);
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+            Vector3 tracerEndPoint = origin + direction * fireRange;
+            bool hitSomething = false;
+
+            foreach (RaycastHit hit in hits)
             {
+                if (hit.collider.transform.IsChildOf(transform))
+                {
+                    continue;
+                }
+
+                tracerEndPoint = hit.point;
+                hitSomething = true;
                 OnHit(hit);
+                break;
+            }
+
+            if (fireEffects != null)
+            {
+                fireEffects.PlayTracer(origin, tracerEndPoint);
+
+                if (hitSomething)
+                {
+                    fireEffects.PlayImpactFlash(tracerEndPoint);
+                }
             }
 
             return true;
@@ -103,22 +153,30 @@ namespace LoneTruth.Combat
                 return false;
             }
 
-            if (loadedAmmo >= maxLoadedAmmo)
+            int needed = maxLoadedAmmo - loadedAmmo;
+            if (needed <= 0)
             {
                 return false;
             }
 
-            if (!inventoryManager.HasItem(ammoItem, 1))
+            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
+            if (selectedSlot == null || selectedSlot.IsEmpty || selectedSlot.item != ammoItem)
             {
                 return false;
             }
 
-            if (!inventoryManager.RemoveItem(ammoItem, 1))
+            int amountToLoad = Mathf.Min(needed, selectedSlot.quantity);
+            if (amountToLoad <= 0)
             {
                 return false;
             }
 
-            loadedAmmo++;
+            if (!inventoryManager.RemoveItem(ammoItem, amountToLoad))
+            {
+                return false;
+            }
+
+            loadedAmmo += amountToLoad;
             return true;
         }
 

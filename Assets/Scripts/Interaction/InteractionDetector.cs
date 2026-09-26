@@ -92,8 +92,12 @@ namespace LoneTruth.Interaction
             promptCanvas = canvasObject.AddComponent<Canvas>();
             promptCanvas.renderMode = RenderMode.WorldSpace;
 
+            // See InteractableNPC.BuildDialogueUI for why this scale factor is needed: the
+            // canvas RectTransform's local units are also what fontSize is measured in, so a
+            // few-unit-wide box with a 24pt font wraps after every character.
+            const float canvasUnitScale = 100f;
             RectTransform canvasRect = promptCanvas.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = promptCanvasSize;
+            canvasRect.sizeDelta = promptCanvasSize * canvasUnitScale;
             canvasObject.transform.localScale = Vector3.one * 0.01f;
 
             GameObject textObject = new GameObject("PromptText");
