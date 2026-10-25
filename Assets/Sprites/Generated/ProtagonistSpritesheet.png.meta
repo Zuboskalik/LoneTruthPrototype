@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: a430d48e549263b4999897556af35d1b
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 2529264602450876761
+    second: ProtagonistSpritesheet_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,26 +40,26 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
-  nPOTScale: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 163
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -71,10 +74,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,12 +113,672 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Holt_Idle_00
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 965
+        width: 166
+        height: 339
+      alignment: 9
+      pivot: {x: 0.60320693, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a76fe31b3501ad447bddc17d2cf51f16
+      internalID: 309286352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Idle_01
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 965
+        width: 184
+        height: 337
+      alignment: 9
+      pivot: {x: 0.5602291, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7868b2520876d9145b943ba6b078a3f3
+      internalID: 1838808105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Idle_02
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 965
+        width: 173
+        height: 336
+      alignment: 9
+      pivot: {x: 0.6131408, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 722fdd4a31662ac439bdea8f29dec7cf
+      internalID: 1575454733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Idle_03
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 965
+        width: 181
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5712398, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a3a30513df3e154cb3edf56506ab714
+      internalID: -2006637846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Idle_04
+      rect:
+        serializedVersion: 2
+        x: 1424
+        y: 965
+        width: 171
+        height: 339
+      alignment: 9
+      pivot: {x: 0.6157719, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 654e56b70c8262540b033d5a5fff878b
+      internalID: 820710347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Idle_05
+      rect:
+        serializedVersion: 2
+        x: 1769
+        y: 965
+        width: 177
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5366335, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05ac50a0e92baf34a92e59e5851e9033
+      internalID: 213138916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 643
+        width: 155
+        height: 305
+      alignment: 9
+      pivot: {x: 0.5869487, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ade283488a51984089765aad5d3917d
+      internalID: -1422580104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 643
+        width: 177
+        height: 305
+      alignment: 9
+      pivot: {x: 0.6078717, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a7b81ca2f989704f846cd393faed699
+      internalID: 1307257490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 643
+        width: 169
+        height: 305
+      alignment: 9
+      pivot: {x: 0.5719637, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00c3342e36c34ee4aae20d544c346976
+      internalID: -1196588275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 643
+        width: 181
+        height: 305
+      alignment: 9
+      pivot: {x: 0.59079534, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60144400ca4d2d9468ba680f655a3bed
+      internalID: -1963255654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 643
+        width: 148
+        height: 305
+      alignment: 9
+      pivot: {x: 0.5811454, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a31cb4a359ca46418ac6c3518d11ff4
+      internalID: -691036231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 643
+        width: 150
+        height: 305
+      alignment: 9
+      pivot: {x: 0.6769775, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14ea20e5c8b0e7741ba43cc3cee5c509
+      internalID: 491008416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 1814
+        y: 643
+        width: 176
+        height: 305
+      alignment: 9
+      pivot: {x: 0.5956934, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcd4d4bad9c2302468401e4c7c917df7
+      internalID: 361070971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 2099
+        y: 643
+        width: 167
+        height: 305
+      alignment: 9
+      pivot: {x: 0.5990729, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6812abe7953df94fae57a94ba66bfe9
+      internalID: 367796576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_00
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 337
+        width: 201
+        height: 283
+      alignment: 9
+      pivot: {x: 0.720383, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9314a7a923c826a4796fd9985207cbdb
+      internalID: 884455785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_01
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 337
+        width: 212
+        height: 283
+      alignment: 9
+      pivot: {x: 0.7331966, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 755f31f3734d1474fada92b633bd73fe
+      internalID: -1015573740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_02
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 337
+        width: 222
+        height: 283
+      alignment: 9
+      pivot: {x: 0.7575472, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 702f03a936fdd8542a199f6c35ec36a4
+      internalID: -2019241247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_03
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 337
+        width: 232
+        height: 283
+      alignment: 9
+      pivot: {x: 0.7266009, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02c87cf685e8d0749858751e9403c8c9
+      internalID: -1120721900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_04
+      rect:
+        serializedVersion: 2
+        x: 1244
+        y: 337
+        width: 206
+        height: 281
+      alignment: 9
+      pivot: {x: 0.74239314, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c54449afdec519a41ae3033726ba0fb8
+      internalID: -903872482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_05
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 337
+        width: 210
+        height: 283
+      alignment: 9
+      pivot: {x: 0.7413208, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 693013b8bf72db64ab84ccd1a4a58cc8
+      internalID: 583270293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_06
+      rect:
+        serializedVersion: 2
+        x: 1796
+        y: 337
+        width: 213
+        height: 283
+      alignment: 9
+      pivot: {x: 0.7665781, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d78b7911cd08b304d98d39392a5ae3d9
+      internalID: -1484474610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Run_07
+      rect:
+        serializedVersion: 2
+        x: 2073
+        y: 337
+        width: 224
+        height: 282
+      alignment: 9
+      pivot: {x: 0.72390205, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4fd26263becd8f458454f35e6e3d84d
+      internalID: -1896785190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_00
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 15
+        width: 201
+        height: 301
+      alignment: 9
+      pivot: {x: 0.24557108, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95eab8f14b91e824e89a201138f9370a
+      internalID: -1503698604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_01
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 15
+        width: 201
+        height: 301
+      alignment: 9
+      pivot: {x: 0.25023836, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 112ec99cb895a9c49a6f3192970c9062
+      internalID: 441471730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_02
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 15
+        width: 203
+        height: 300
+      alignment: 9
+      pivot: {x: 0.23911831, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73ec7de15b333de409bb4010fec15599
+      internalID: -194800623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_03
+      rect:
+        serializedVersion: 2
+        x: 1030
+        y: 15
+        width: 203
+        height: 301
+      alignment: 9
+      pivot: {x: 0.25660804, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e2fd38fa2ca5fb41b71783ff0330d6f
+      internalID: -1872070157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_04
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 15
+        width: 254
+        height: 300
+      alignment: 9
+      pivot: {x: 0.20310818, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 301c2f5fcf1079649a047665c4f70fe2
+      internalID: -1547391886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_05
+      rect:
+        serializedVersion: 2
+        x: 1574
+        y: 15
+        width: 184
+        height: 300
+      alignment: 9
+      pivot: {x: 0.25784832, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58417406962a7e94aaa406c204f6a446
+      internalID: -200859526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_06
+      rect:
+        serializedVersion: 2
+        x: 1848
+        y: 15
+        width: 165
+        height: 300
+      alignment: 9
+      pivot: {x: 0.28484848, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cd504638a121d54cb9422e9e6cd451f
+      internalID: -1945687459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Holt_Aim_07
+      rect:
+        serializedVersion: 2
+        x: 2131
+        y: 15
+        width: 143
+        height: 301
+      alignment: 9
+      pivot: {x: 0.29925495, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf1a0caddabcc2c44b69c7bc39c90c9c
+      internalID: -1622365739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c8d2dd7d79cb4eb499ebc65672d903a7
     internalID: 0
     vertices: []
     indices: 
@@ -124,7 +787,37 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Holt_Aim_00: -1503698604
+      Holt_Aim_01: 441471730
+      Holt_Aim_02: -194800623
+      Holt_Aim_03: -1872070157
+      Holt_Aim_04: -1547391886
+      Holt_Aim_05: -200859526
+      Holt_Aim_06: -1945687459
+      Holt_Aim_07: -1622365739
+      Holt_Idle_00: 309286352
+      Holt_Idle_01: 1838808105
+      Holt_Idle_02: 1575454733
+      Holt_Idle_03: -2006637846
+      Holt_Idle_04: 820710347
+      Holt_Idle_05: 213138916
+      Holt_Run_00: 884455785
+      Holt_Run_01: -1015573740
+      Holt_Run_02: -2019241247
+      Holt_Run_03: -1120721900
+      Holt_Run_04: -903872482
+      Holt_Run_05: 583270293
+      Holt_Run_06: -1484474610
+      Holt_Run_07: -1896785190
+      Holt_Walk_00: -1422580104
+      Holt_Walk_01: 1307257490
+      Holt_Walk_02: -1196588275
+      Holt_Walk_03: -1963255654
+      Holt_Walk_04: -691036231
+      Holt_Walk_05: 491008416
+      Holt_Walk_06: 361070971
+      Holt_Walk_07: 367796576
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

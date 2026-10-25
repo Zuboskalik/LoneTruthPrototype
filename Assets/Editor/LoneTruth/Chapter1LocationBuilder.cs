@@ -54,6 +54,11 @@ namespace LoneTruth.EditorTools
             DrawPlaceholders();
             DrawStoryPlaceholders();
             ConfigureImports();
+            if (HasHoltSheet)
+            {
+                ImportHoltSheet();
+            }
+
             Items items = BuildItems();
             Dictionary<string, RuntimeAnimatorController> controllers = BuildAnimation();
             Prefabs prefabs = BuildPrefabs(controllers, items);
@@ -770,43 +775,50 @@ namespace LoneTruth.EditorTools
             // Holt: Speed drives idle/walk (PlayerController already writes it); Interact and
             // ReadLetter are triggers kept ready for the interaction code; Aim holds aiming.
             string holtPath = $"{AnimDir}/AC_Holt.controller";
-            AssetDatabase.DeleteAsset(holtPath);
-            var holt = AnimatorController.CreateAnimatorControllerAtPath(holtPath);
-            holt.AddParameter("Speed", AnimatorControllerParameterType.Float);
-            holt.AddParameter("Interact", AnimatorControllerParameterType.Trigger);
-            holt.AddParameter("ReadLetter", AnimatorControllerParameterType.Trigger);
-            holt.AddParameter("Aim", AnimatorControllerParameterType.Bool);
-            AnimatorStateMachine sm = holt.layers[0].stateMachine;
-            AnimatorState idle = sm.AddState("Idle", new Vector3(250, 0));
-            idle.motion = SpriteClip("Holt_Idle", "CH_Holt_Idle", 4, 4, true);
-            AnimatorState walk = sm.AddState("Walk", new Vector3(250, 100));
-            walk.motion = SpriteClip("Holt_Walk", "CH_Holt_Walk", 8, 10, true);
-            AnimatorState interact = sm.AddState("Interact", new Vector3(500, 0));
-            interact.motion = SpriteClip("Holt_Interact", "CH_Holt_Interact", 4, 10, false);
-            AnimatorState read = sm.AddState("ReadLetter", new Vector3(500, 100));
-            read.motion = SpriteClip("Holt_ReadLetter", "CH_Holt_ReadLetter", 6, 3, false);
-            AnimatorState aim = sm.AddState("Aim", new Vector3(500, 200));
-            aim.motion = SpriteClip("Holt_Aim", "CH_Holt_Aim", 2, 2, true);
-            sm.defaultState = idle;
-
-            AnimatorStateTransition t = idle.AddTransition(walk);
-            t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
-            t = walk.AddTransition(idle);
-            t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
-            foreach (var pair in new[] { (interact, "Interact"), (read, "ReadLetter") })
+            if (HasHoltSheet)
             {
-                t = sm.AddAnyStateTransition(pair.Item1);
-                t.hasExitTime = false; t.duration = 0f; t.canTransitionToSelf = false; t.AddCondition(AnimatorConditionMode.If, 0f, pair.Item2);
-                t = pair.Item1.AddTransition(idle);
-                t.hasExitTime = true; t.exitTime = 1f; t.duration = 0f;
+                result["Holt"] = BuildHoltSheetController(holtPath);
             }
+            else
+            {
+                AssetDatabase.DeleteAsset(holtPath);
+                var holt = AnimatorController.CreateAnimatorControllerAtPath(holtPath);
+                holt.AddParameter("Speed", AnimatorControllerParameterType.Float);
+                holt.AddParameter("Interact", AnimatorControllerParameterType.Trigger);
+                holt.AddParameter("ReadLetter", AnimatorControllerParameterType.Trigger);
+                holt.AddParameter("Aim", AnimatorControllerParameterType.Bool);
+                AnimatorStateMachine sm = holt.layers[0].stateMachine;
+                AnimatorState idle = sm.AddState("Idle", new Vector3(250, 0));
+                idle.motion = SpriteClip("Holt_Idle", "CH_Holt_Idle", 4, 4, true);
+                AnimatorState walk = sm.AddState("Walk", new Vector3(250, 100));
+                walk.motion = SpriteClip("Holt_Walk", "CH_Holt_Walk", 8, 10, true);
+                AnimatorState interact = sm.AddState("Interact", new Vector3(500, 0));
+                interact.motion = SpriteClip("Holt_Interact", "CH_Holt_Interact", 4, 10, false);
+                AnimatorState read = sm.AddState("ReadLetter", new Vector3(500, 100));
+                read.motion = SpriteClip("Holt_ReadLetter", "CH_Holt_ReadLetter", 6, 3, false);
+                AnimatorState aim = sm.AddState("Aim", new Vector3(500, 200));
+                aim.motion = SpriteClip("Holt_Aim", "CH_Holt_Aim", 2, 2, true);
+                sm.defaultState = idle;
 
-            t = sm.AddAnyStateTransition(aim);
-            t.hasExitTime = false; t.duration = 0f; t.canTransitionToSelf = false; t.AddCondition(AnimatorConditionMode.If, 0f, "Aim");
-            t = aim.AddTransition(idle);
-            t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.IfNot, 0f, "Aim");
+                AnimatorStateTransition t = idle.AddTransition(walk);
+                t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
+                t = walk.AddTransition(idle);
+                t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
+                foreach (var pair in new[] { (interact, "Interact"), (read, "ReadLetter") })
+                {
+                    t = sm.AddAnyStateTransition(pair.Item1);
+                    t.hasExitTime = false; t.duration = 0f; t.canTransitionToSelf = false; t.AddCondition(AnimatorConditionMode.If, 0f, pair.Item2);
+                    t = pair.Item1.AddTransition(idle);
+                    t.hasExitTime = true; t.exitTime = 1f; t.duration = 0f;
+                }
 
-            result["Holt"] = holt;
+                t = sm.AddAnyStateTransition(aim);
+                t.hasExitTime = false; t.duration = 0f; t.canTransitionToSelf = false; t.AddCondition(AnimatorConditionMode.If, 0f, "Aim");
+                t = aim.AddTransition(idle);
+                t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.IfNot, 0f, "Aim");
+
+                result["Holt"] = holt;
+            }
 
             foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "Ruth", "Cornelius", "Clerk" })
             {
@@ -968,7 +980,13 @@ namespace LoneTruth.EditorTools
             var spriteGo = new GameObject("Sprite");
             spriteGo.transform.SetParent(player.transform, false);
             var sr = spriteGo.AddComponent<SpriteRenderer>();
-            sr.sprite = S($"{CharDir}/CH_Holt_Ref.png");
+            sr.sprite = HasHoltSheet ? HoltFrame("Holt_Idle_00") : S($"{CharDir}/CH_Holt_Ref.png");
+            if (HasHoltSheet)
+            {
+                // Matches the idle clip, which scales the larger idle row down.
+                spriteGo.transform.localScale = Vector3.one * HoltIdleScale();
+            }
+
             var anim = spriteGo.AddComponent<Animator>();
             anim.runtimeAnimatorController = controllers["Holt"];
             var ground = new GameObject("GroundCheck");
@@ -976,7 +994,7 @@ namespace LoneTruth.EditorTools
             ground.transform.localPosition = new Vector3(0f, 0.05f, 0f);
             var fire = new GameObject("FirePoint");
             fire.transform.SetParent(player.transform, false);
-            fire.transform.localPosition = new Vector3(0.45f, 1.25f, 0f);
+            fire.transform.localPosition = HasHoltSheet ? HoltSheetMuzzle : new Vector3(0.45f, 1.25f, 0f);
             var pc = player.AddComponent<PlayerController>();
             SetField(pc, "groundCheck", ground.transform);
             SetField(pc, "groundLayer", (LayerMask)1);

@@ -13,12 +13,14 @@ namespace LoneTruth.Interaction
         [SerializeField] private KeyCode interactKey = KeyCode.E;
 
         [Header("Prompt UI")]
+        [Tooltip("World offset above the target where the prompt is shown.")]
         [SerializeField] private Vector3 promptOffset = new Vector3(0f, 1.5f, 0f);
-        [SerializeField] private Vector2 promptCanvasSize = new Vector2(2.5f, 0.6f);
-        [SerializeField] private int promptFontSize = 24;
+        [Tooltip("Font size on the 1920×1080 reference screen.")]
+        [SerializeField] private int promptTextSize = 32;
         [SerializeField] private Color promptColor = Color.white;
 
         private Canvas promptCanvas;
+        private RectTransform promptCanvasRect;
         private Text promptText;
 
         private IInteractable currentTarget;
@@ -95,55 +97,57 @@ namespace LoneTruth.Interaction
                 return;
             }
 
+            // The prompt is screen-space UI placed over the target, so walls never cut it.
+            Camera cam = Camera.main;
+            Vector3 screen = cam != null ? cam.WorldToScreenPoint(currentTargetTransform.position + promptOffset) : Vector3.back;
+            if (screen.z <= 0f)
+            {
+                promptCanvas.gameObject.SetActive(false);
+                return;
+            }
+
             promptCanvas.gameObject.SetActive(true);
             promptText.text = Loc.T(currentTarget.GetInteractionPrompt());
-            promptCanvas.transform.position = currentTargetTransform.position + promptOffset;
-
-            Camera cam = Camera.main;
-            if (cam != null)
-            {
-                promptCanvas.transform.forward = cam.transform.forward;
-            }
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(promptCanvasRect, screen, null, out Vector2 local);
+            promptText.rectTransform.anchoredPosition = local;
         }
 
         private void BuildPromptUI()
         {
             GameObject canvasObject = new GameObject("InteractionPromptCanvas");
-            // Parented to the player so the prompt survives scene loads with a persistent player
-            // (it is placed in world space every frame anyway).
+            // Parented to the player so the prompt survives scene loads with a persistent player.
             canvasObject.transform.SetParent(transform, false);
 
             promptCanvas = canvasObject.AddComponent<Canvas>();
-            promptCanvas.renderMode = RenderMode.WorldSpace;
-
-            // See InteractableNPC.BuildDialogueUI for why this scale factor is needed: the
-            // canvas RectTransform's local units are also what fontSize is measured in, so a
-            // few-unit-wide box with a 24pt font wraps after every character.
-            const float canvasUnitScale = 100f;
-            RectTransform canvasRect = promptCanvas.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = promptCanvasSize * canvasUnitScale;
-            canvasObject.transform.localScale = Vector3.one * 0.01f;
+            promptCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            // Below the game UI (dialogue, cards: 50+), so cutscene text covers it.
+            promptCanvas.sortingOrder = 40;
+            var scaler = canvasObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+            scaler.matchWidthOrHeight = 0.5f;
+            promptCanvasRect = (RectTransform)canvasObject.transform;
 
             GameObject textObject = new GameObject("PromptText");
             textObject.transform.SetParent(canvasObject.transform, false);
 
             promptText = textObject.AddComponent<Text>();
             promptText.font = UIFonts.Default;
-            promptText.fontSize = promptFontSize;
+            promptText.fontSize = promptTextSize;
             promptText.alignment = TextAnchor.MiddleCenter;
             promptText.color = promptColor;
             promptText.horizontalOverflow = HorizontalWrapMode.Overflow;
             promptText.verticalOverflow = VerticalWrapMode.Overflow;
-            // Draw over the set: a prompt above a door next to a side wall would otherwise be cut by it.
-            var overlay = new Material(Canvas.GetDefaultCanvasMaterial());
-            overlay.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
-            promptText.material = overlay;
+            promptText.raycastTarget = false;
+            var shadow = textObject.AddComponent<Shadow>();
+            shadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
+            shadow.effectDistance = new Vector2(2f, -2f);
 
-            RectTransform textRect = promptText.GetComponent<RectTransform>();
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
+            RectTransform textRect = promptText.rectTransform;
+            textRect.anchorMin = new Vector2(0.5f, 0.5f);
+            textRect.anchorMax = new Vector2(0.5f, 0.5f);
+            textRect.pivot = new Vector2(0.5f, 0.5f);
+            textRect.sizeDelta = new Vector2(900f, 60f);
 
             promptCanvas.gameObject.SetActive(false);
         }

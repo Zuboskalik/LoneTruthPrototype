@@ -179,6 +179,10 @@ namespace LoneTruth.Combat
             }
 
             loadedAmmo--;
+            if (playerController != null)
+            {
+                playerController.PlayAnimationTrigger("Fire");
+            }
 
             bool right = playerController == null || playerController.IsFacingRight;
             Vector3 direction = right ? Vector3.right : Vector3.left;
