@@ -27,13 +27,24 @@ namespace LoneTruth.Interaction
         private void Awake()
         {
             BuildPromptUI();
+            weapon = GetComponent<LoneTruth.Combat.WeaponController>();
         }
 
         public IInteractable CurrentTarget => currentTarget;
 
+        private LoneTruth.Combat.WeaponController weapon;
+
         private void Update()
         {
             if (LoneTruth.Core.GameMaster.Instance != null && !LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration))
+            {
+                currentTarget = null;
+                promptCanvas.gameObject.SetActive(false);
+                return;
+            }
+
+            // In aiming E fires the revolver instead of interacting.
+            if (weapon != null && weapon.IsAiming)
             {
                 currentTarget = null;
                 promptCanvas.gameObject.SetActive(false);
@@ -123,6 +134,10 @@ namespace LoneTruth.Interaction
             promptText.color = promptColor;
             promptText.horizontalOverflow = HorizontalWrapMode.Overflow;
             promptText.verticalOverflow = VerticalWrapMode.Overflow;
+            // Draw over the set: a prompt above a door next to a side wall would otherwise be cut by it.
+            var overlay = new Material(Canvas.GetDefaultCanvasMaterial());
+            overlay.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
+            promptText.material = overlay;
 
             RectTransform textRect = promptText.GetComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;

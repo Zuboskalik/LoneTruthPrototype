@@ -792,6 +792,8 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-03", 2f, play);
             GameObject bed = InspectSpot("Bed_Sleep_x5", new Vector3(5f, 0f, 0f), play, 1.6f);
             GameObject letter = InspectSpot("Letter_Inspect_x7", new Vector3(7f, 0f, 0f), play);
+            // The demo has no combat scenes yet, so the room is where aiming and shooting can be tried.
+            new GameObject("CombatZone_Demo").AddComponent<LoneTruth.Combat.CombatZone>().transform.SetParent(play, false);
 
             Transform story = Group("--- Story");
             CutsceneSequence sleep = Sequence("3_SleepToMorning", story, StoryFlags.Day1Morning,

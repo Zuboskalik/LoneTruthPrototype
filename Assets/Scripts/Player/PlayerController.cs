@@ -32,7 +32,11 @@ namespace LoneTruth.Player
         private float dodgeCooldownTimer;
         private float dodgeDirection;
 
+        private bool isAiming;
+        private bool hasAimParam;
+
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
+        private static readonly int AimParam = Animator.StringToHash("Aim");
 
         private void Awake()
         {
@@ -47,7 +51,27 @@ namespace LoneTruth.Player
             {
                 animator = GetComponentInChildren<Animator>();
             }
+
+            if (animator != null)
+            {
+                foreach (AnimatorControllerParameter p in animator.parameters)
+                {
+                    hasAimParam |= p.nameHash == AimParam && p.type == AnimatorControllerParameterType.Bool;
+                }
+            }
         }
+
+        /// <summary>Aiming (set by WeaponController): Holt stands still and A / D only turn him.</summary>
+        public void SetAiming(bool value)
+        {
+            isAiming = value;
+            if (hasAimParam)
+            {
+                animator.SetBool(AimParam, value);
+            }
+        }
+
+        public bool IsAiming => isAiming;
 
         /// <summary>Horizontal input used while a cutscene owns the player (-1..1, 0 = stand).</summary>
         public float ScriptedInput { get; set; }
@@ -83,7 +107,18 @@ namespace LoneTruth.Player
                 dodgeCooldownTimer -= Time.deltaTime;
             }
 
-            if (allowed && Input.GetKeyDown(KeyCode.LeftShift))
+            if (isAiming)
+            {
+                // Turn on the spot, like Resident Evil's aim.
+                if (moveInput > 0f && !facingRight || moveInput < 0f && facingRight)
+                {
+                    Flip();
+                }
+
+                moveInput = 0f;
+            }
+
+            if (allowed && !isAiming && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 TryDodgeRoll();
             }

@@ -139,7 +139,8 @@ namespace LoneTruth.EditorTools
         };
 
         /// <param name="walk">walk phase in [0,1), or -1 for standing</param>
-        /// <param name="arm">0 down, 1 reaching forward (interact), 2 holding a letter at chest</param>
+        /// <param name="arm">0 down, 1 reaching forward (interact), 2 holding a letter at chest,
+        /// 3 aiming (arm straight out at shoulder height with the revolver)</param>
         /// <param name="bob">vertical breathing offset in px</param>
         private static PlaceholderPainter PaintHuman(Human h, float walk, int arm, int bob, int seed)
         {
@@ -174,6 +175,14 @@ namespace LoneTruth.EditorTools
             {
                 p.Rect(cx + 12 * s, 128 * s + bob, 30 * s, 8 * s, h.Coat);
                 p.Rect(cx + 40 * s, 127 * s + bob, 6 * s, 9 * s, h.Skin);
+            }
+            else if (arm == 3)
+            {
+                p.Rect(cx + 6 * s, 133 * s + bob, 22 * s, 9 * s, h.Coat);
+                p.Rect(cx + 26 * s, 132 * s + bob, 6 * s, 10 * s, h.Skin);
+                p.Rect(cx + 27 * s, 124 * s + bob, 6 * s, 10 * s, PlaceholderPainter.C("#6B4E36")); // grip
+                p.Rect(cx + 28 * s, 136 * s + bob, 9 * s, 7 * s, PlaceholderPainter.C("#8F959D"));  // cylinder
+                p.Rect(cx + 36 * s, 138 * s + bob, 7 * s, 4 * s, PlaceholderPainter.C("#A3A9B1"));  // barrel
             }
             else
             {
@@ -233,6 +242,7 @@ namespace LoneTruth.EditorTools
             for (int i = 0; i < 8; i++) Char($"CH_Holt_Walk_{i:00}", Holt, i / 8f, 0, (i % 4 == 1) ? 1 : 0, 20 + i);
             for (int i = 0; i < 4; i++) Char($"CH_Holt_Interact_{i:00}", Holt, -1, i == 0 || i == 3 ? 0 : 1, 0, 30 + i);
             for (int i = 0; i < 6; i++) Char($"CH_Holt_ReadLetter_{i:00}", Holt, -1, i == 0 || i == 5 ? 0 : 2, i % 2, 40 + i);
+            for (int i = 0; i < 2; i++) Char($"CH_Holt_Aim_{i:00}", Holt, -1, 3, i, 50 + i);
 
             // --- NPCs present in 1-01 / 1-02
             Char("CH_Conductor_Ref", Conductor, -1, 0, 0, 50);
@@ -758,13 +768,14 @@ namespace LoneTruth.EditorTools
             var result = new Dictionary<string, RuntimeAnimatorController>();
 
             // Holt: Speed drives idle/walk (PlayerController already writes it); Interact and
-            // ReadLetter are triggers kept ready for the interaction code.
+            // ReadLetter are triggers kept ready for the interaction code; Aim holds aiming.
             string holtPath = $"{AnimDir}/AC_Holt.controller";
             AssetDatabase.DeleteAsset(holtPath);
             var holt = AnimatorController.CreateAnimatorControllerAtPath(holtPath);
             holt.AddParameter("Speed", AnimatorControllerParameterType.Float);
             holt.AddParameter("Interact", AnimatorControllerParameterType.Trigger);
             holt.AddParameter("ReadLetter", AnimatorControllerParameterType.Trigger);
+            holt.AddParameter("Aim", AnimatorControllerParameterType.Bool);
             AnimatorStateMachine sm = holt.layers[0].stateMachine;
             AnimatorState idle = sm.AddState("Idle", new Vector3(250, 0));
             idle.motion = SpriteClip("Holt_Idle", "CH_Holt_Idle", 4, 4, true);
@@ -774,6 +785,8 @@ namespace LoneTruth.EditorTools
             interact.motion = SpriteClip("Holt_Interact", "CH_Holt_Interact", 4, 10, false);
             AnimatorState read = sm.AddState("ReadLetter", new Vector3(500, 100));
             read.motion = SpriteClip("Holt_ReadLetter", "CH_Holt_ReadLetter", 6, 3, false);
+            AnimatorState aim = sm.AddState("Aim", new Vector3(500, 200));
+            aim.motion = SpriteClip("Holt_Aim", "CH_Holt_Aim", 2, 2, true);
             sm.defaultState = idle;
 
             AnimatorStateTransition t = idle.AddTransition(walk);
@@ -787,6 +800,11 @@ namespace LoneTruth.EditorTools
                 t = pair.Item1.AddTransition(idle);
                 t.hasExitTime = true; t.exitTime = 1f; t.duration = 0f;
             }
+
+            t = sm.AddAnyStateTransition(aim);
+            t.hasExitTime = false; t.duration = 0f; t.canTransitionToSelf = false; t.AddCondition(AnimatorConditionMode.If, 0f, "Aim");
+            t = aim.AddTransition(idle);
+            t.hasExitTime = false; t.duration = 0f; t.AddCondition(AnimatorConditionMode.IfNot, 0f, "Aim");
 
             result["Holt"] = holt;
 

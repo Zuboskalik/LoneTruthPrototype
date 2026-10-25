@@ -1,9 +1,16 @@
+using LoneTruth.Core;
 using LoneTruth.Inventory;
 using LoneTruth.Player;
+using LoneTruth.UI;
 using UnityEngine;
 
 namespace LoneTruth.Combat
 {
+    /// <summary>
+    /// Resident Evil / Silent Hill–style shooting: with the revolver drawn, hold the aim key
+    /// (RMB / Ctrl) to aim — Holt stops and can only turn — then fire with the action key (E, the
+    /// same as interact) or LMB. Aiming is only allowed inside a CombatZone.
+    /// </summary>
     [RequireComponent(typeof(InventoryManager))]
     public class WeaponController : MonoBehaviour
     {
@@ -22,8 +29,16 @@ namespace LoneTruth.Combat
         [SerializeField] private int maxLoadedAmmo = 6;
 
         [Header("Input")]
-        [SerializeField] private KeyCode attackKey = KeyCode.Space;
+        [SerializeField] private KeyCode aimKey = KeyCode.LeftControl;
+        [SerializeField] private int aimMouseButton = 1;
+        [SerializeField] private KeyCode fireKey = KeyCode.E;
         [SerializeField] private KeyCode reloadKey = KeyCode.R;
+        [SerializeField] private float fireCooldown = 0.35f;
+
+        [Header("Lines")]
+        [SerializeField] private string holsteredLine = "Револьвер в кобуре. Сначала достаньте его: выберите (Q) и примените (G).";
+        [SerializeField] private string notHereLine = "Не то место, чтобы хвататься за револьвер.";
+        [SerializeField] private string emptyLine = "Барабан пуст. R — перезарядить.";
 
         [Header("Raycast")]
         [SerializeField] private float fireRange = 20f;
@@ -31,12 +46,15 @@ namespace LoneTruth.Combat
         [SerializeField] private int damagePerShot = 25;
 
         private bool isEquipped;
+        private bool isAiming;
+        private float fireTimer;
 
         public ItemSO WeaponItem => weaponItem;
         public ItemSO AmmoItem => ammoItem;
         public int LoadedAmmo => loadedAmmo;
         public int MaxLoadedAmmo => maxLoadedAmmo;
         public bool IsEquipped => isEquipped;
+        public bool IsAiming => isAiming;
 
         private void Awake()
         {
@@ -58,10 +76,16 @@ namespace LoneTruth.Combat
 
         private void Update()
         {
-            // Using the selected item (G) now lives in InventoryActions; this handles fire and reload.
-            if (LoneTruth.Core.GameMaster.Instance != null && !LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration))
+            // Using the selected item (G) now lives in InventoryActions; this handles aiming, fire and reload.
+            if (GameMaster.Instance != null && !GameMaster.Instance.IsInState(GameState.Exploration))
             {
+                SetAiming(false);
                 return;
+            }
+
+            if (fireTimer > 0f)
+            {
+                fireTimer -= Time.deltaTime;
             }
 
             if (Input.GetKeyDown(reloadKey))
@@ -69,28 +93,103 @@ namespace LoneTruth.Combat
                 Reload();
             }
 
-            if (isEquipped && (Input.GetKeyDown(attackKey) || (Input.GetMouseButtonDown(0) && !LoneTruth.UI.GameUI.PointerOverHud)))
+            bool aimHeld = Input.GetKey(aimKey) || Input.GetMouseButton(aimMouseButton);
+            bool aimPressed = Input.GetKeyDown(aimKey) || Input.GetMouseButtonDown(aimMouseButton);
+            if (!isAiming && aimPressed)
             {
-                Fire();
+                TryStartAiming();
+            }
+            else if (isAiming && (!aimHeld || !isEquipped || !CombatZone.WeaponsAllowed))
+            {
+                SetAiming(false);
+            }
+
+            bool firePressed = Input.GetKeyDown(fireKey) || (Input.GetMouseButtonDown(0) && !GameUI.PointerOverHud);
+            if (isAiming && firePressed && fireTimer <= 0f)
+            {
+                if (loadedAmmo <= 0)
+                {
+                    Say(emptyLine);
+                }
+                else if (Fire())
+                {
+                    fireTimer = fireCooldown;
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            SetAiming(false);
+        }
+
+        private void TryStartAiming()
+        {
+            if (!isEquipped)
+            {
+                Say(holsteredLine);
+                return;
+            }
+
+            if (!CombatZone.WeaponsAllowed)
+            {
+                Say(notHereLine);
+                return;
+            }
+
+            SetAiming(true);
+        }
+
+        private void SetAiming(bool value)
+        {
+            if (isAiming == value)
+            {
+                return;
+            }
+
+            isAiming = value;
+            if (playerController != null)
+            {
+                playerController.SetAiming(value);
+            }
+        }
+
+        private static void Say(string line)
+        {
+            if (GameUI.Instance != null)
+            {
+                GameUI.Instance.Toast(line, 2.5f);
             }
         }
 
         public void ToggleEquip()
         {
             isEquipped = !isEquipped;
+            if (!isEquipped)
+            {
+                SetAiming(false);
+            }
         }
 
         public bool Fire()
         {
-            if (!isEquipped || loadedAmmo <= 0)
+            if (!isEquipped || !isAiming || loadedAmmo <= 0)
             {
                 return false;
             }
 
             loadedAmmo--;
 
-            Vector3 origin = firePoint != null ? firePoint.position : transform.position;
-            Vector3 direction = (playerController != null && playerController.IsFacingRight) ? Vector3.right : Vector3.left;
+            bool right = playerController == null || playerController.IsFacingRight;
+            Vector3 direction = right ? Vector3.right : Vector3.left;
+            Vector3 origin = transform.position;
+            if (firePoint != null)
+            {
+                // The fire point is authored for facing right; mirror it when Holt faces left.
+                Vector3 local = firePoint.localPosition;
+                local.x = right ? Mathf.Abs(local.x) : -Mathf.Abs(local.x);
+                origin = transform.TransformPoint(local);
+            }
 
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, fireRange, hitLayers);
             System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));

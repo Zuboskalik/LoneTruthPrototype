@@ -34,6 +34,7 @@ namespace LoneTruth.UI
         }
 
         private const string Hint = "Q / колесо — выбрать   ·   G — применить   ·   R — перезарядить";
+        private const string AimHint = "ПКМ / Ctrl — прицелиться   ·   E / ЛКМ — выстрел";
 
         private readonly List<SlotView> views = new List<SlotView>();
         private GameObject barRoot;
@@ -139,7 +140,9 @@ namespace LoneTruth.UI
             }
 
             nameText.text = selectedName;
-            hintText.text = Loc.T(Hint);
+            hintText.text = weapon != null && weapon.IsEquipped
+                ? Loc.T(Hint) + "   ·   " + Loc.T(AimHint)
+                : Loc.T(Hint);
             // Money sits right after the last item and appears once Holt has some.
             moneyText.gameObject.SetActive(StoryState.Money > 0);
             moneyText.text = "$ " + StoryState.Money;
