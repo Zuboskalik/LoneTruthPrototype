@@ -116,6 +116,15 @@ namespace LoneTruth.Core
             return key;
         }
 
+        /// <summary>Whether a language file has a non-empty translation for this key (editor checks).</summary>
+        public static bool HasTranslation(string code, string key)
+        {
+            EnsureLoaded();
+            return code == SourceCode ||
+                   (tables.TryGetValue(code, out var table) && table.TryGetValue(Normalize(key), out string value) &&
+                    !string.IsNullOrEmpty(value));
+        }
+
         /// <summary>T() for a format string: Loc.Format("Заряжено: {0}", n).</summary>
         public static string Format(string key, params object[] args)
         {
