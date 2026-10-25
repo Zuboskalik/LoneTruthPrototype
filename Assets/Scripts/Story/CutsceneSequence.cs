@@ -182,7 +182,9 @@ namespace LoneTruth.Story
                     break;
 
                 case CutsceneStepType.Line:
+                    CutsceneActor.SetTalking(s.speaker, true);
                     if (ui != null) yield return ui.ShowLine(s.speaker, s.text);
+                    CutsceneActor.SetTalking(s.speaker, false);
                     break;
 
                 case CutsceneStepType.MoveActor:

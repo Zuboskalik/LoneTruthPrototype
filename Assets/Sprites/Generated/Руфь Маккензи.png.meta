@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: 9367516e95135174395af0980c835309
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 7612027444592376645
+    second: "\u0420\u0443\u0444\u044C \u041C\u0430\u043A\u043A\u0435\u043D\u0437\u0438_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,26 +40,26 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
-  nPOTScale: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 92
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -71,10 +74,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,12 +113,364 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Ruth_Stand_00
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 174
+        width: 73
+        height: 158
+      alignment: 9
+      pivot: {x: 0.54093903, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb58addae00352e4d9c7ffb993fbe630
+      internalID: 653916386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_01
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 174
+        width: 77
+        height: 158
+      alignment: 9
+      pivot: {x: 0.5111805, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 230ee14111263d2428f645ebe95a0b4a
+      internalID: -1942558937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_02
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 174
+        width: 77
+        height: 158
+      alignment: 9
+      pivot: {x: 0.50599015, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62fc0b433352956469576805f70bbf10
+      internalID: 2008430492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_03
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 174
+        width: 64
+        height: 158
+      alignment: 9
+      pivot: {x: 0.4778347, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afc035cc58472fe4aad690ac7f6c989e
+      internalID: 299054874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_04
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 174
+        width: 73
+        height: 158
+      alignment: 9
+      pivot: {x: 0.5200087, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769c4b4500f99c141b7dda3691d675db
+      internalID: 1249812207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_05
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 174
+        width: 61
+        height: 158
+      alignment: 9
+      pivot: {x: 0.48931986, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b5e23d86b49c79468c8a9fc8c640043
+      internalID: 885002548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_06
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 174
+        width: 61
+        height: 158
+      alignment: 9
+      pivot: {x: 0.49490908, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d345c52e5ff60a4eae0d0e4f4369299
+      internalID: 1740351159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Stand_07
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 174
+        width: 62
+        height: 158
+      alignment: 9
+      pivot: {x: 0.5057767, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b7dc8cc80418bd4183b000b89428cb2
+      internalID: -1886889147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 7
+        width: 80
+        height: 160
+      alignment: 9
+      pivot: {x: 0.5812004, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 870f997541e9f8a40afd9acdbfc6a94d
+      internalID: -1364353289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 7
+        width: 102
+        height: 160
+      alignment: 9
+      pivot: {x: 0.47643593, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f781c376cfd27af49a88e26be7871974
+      internalID: 1880198812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 7
+        width: 88
+        height: 160
+      alignment: 9
+      pivot: {x: 0.55238515, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d77c94023c65ca74287e97c9ed1da691
+      internalID: 1256618574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 7
+        width: 85
+        height: 160
+      alignment: 9
+      pivot: {x: 0.5670123, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e5575de2cd70c34184b09452f1e8c5d
+      internalID: -1577946616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 7
+        width: 87
+        height: 160
+      alignment: 9
+      pivot: {x: 0.55516106, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 670ecb3a8b0d90b49a22882c76061fe1
+      internalID: -1881025508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 7
+        width: 80
+        height: 160
+      alignment: 9
+      pivot: {x: 0.5908531, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc521d3adc9e39345bbb3c1029624f4a
+      internalID: 671185397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 7
+        width: 83
+        height: 160
+      alignment: 9
+      pivot: {x: 0.59426624, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc93b9aad2e9fe84783a49b7db7db441
+      internalID: -750188640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ruth_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 7
+        width: 79
+        height: 160
+      alignment: 9
+      pivot: {x: 0.5584779, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fff4a64daab4f6499b6bdc597ecc685
+      internalID: -841795005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a3b1f7aa27d30974c854381c324d89bd
     internalID: 0
     vertices: []
     indices: 
@@ -124,7 +479,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ruth_Stand_00: 653916386
+      Ruth_Stand_01: -1942558937
+      Ruth_Stand_02: 2008430492
+      Ruth_Stand_03: 299054874
+      Ruth_Stand_04: 1249812207
+      Ruth_Stand_05: 885002548
+      Ruth_Stand_06: 1740351159
+      Ruth_Stand_07: -1886889147
+      Ruth_Walk_00: -1364353289
+      Ruth_Walk_01: 1880198812
+      Ruth_Walk_02: 1256618574
+      Ruth_Walk_03: -1577946616
+      Ruth_Walk_04: -1881025508
+      Ruth_Walk_05: 671185397
+      Ruth_Walk_06: -750188640
+      Ruth_Walk_07: -841795005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

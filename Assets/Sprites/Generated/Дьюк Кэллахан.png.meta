@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: d427912fd4a061c40ae52cac8796dcff
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 7741350767672754817
+    second: "\u0414\u044C\u044E\u043A \u041A\u044D\u043B\u043B\u0430\u0445\u0430\u043D_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,26 +40,26 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
-  nPOTScale: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 85
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -71,10 +74,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,12 +113,232 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Callahan_Idle_00
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 514
+        width: 93
+        height: 182
+      alignment: 9
+      pivot: {x: 0.60038686, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b61b2f679d2675646ac38077669c820a
+      internalID: 2024816990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Idle_01
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 514
+        width: 103
+        height: 181
+      alignment: 9
+      pivot: {x: 0.54879403, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45cdebfbb5316a94abe55924e6a790ec
+      internalID: 855296891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Idle_02
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 514
+        width: 91
+        height: 181
+      alignment: 9
+      pivot: {x: 0.59612566, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1a0d12324b316f4e94446cddd07ff1b
+      internalID: -872664454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Idle_03
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 514
+        width: 93
+        height: 180
+      alignment: 9
+      pivot: {x: 0.59691334, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f638e900338d9a349bfa3c25c60ea24a
+      internalID: -1449170247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Idle_04
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 514
+        width: 94
+        height: 181
+      alignment: 9
+      pivot: {x: 0.6008184, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 036da60388d8432449f5934546ead7dc
+      internalID: 1816106744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Idle_05
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 514
+        width: 92
+        height: 180
+      alignment: 9
+      pivot: {x: 0.5857491, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 408e55de811e71e4c8d4e31808e86b07
+      internalID: -197526416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 342
+        width: 88
+        height: 164
+      alignment: 9
+      pivot: {x: 0.6008745, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6db0e242bf13dd42b80aa6d44260856
+      internalID: -68423830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 342
+        width: 103
+        height: 164
+      alignment: 9
+      pivot: {x: 0.62939394, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3fcba4358ad72a4e9db080ca3d2f14a
+      internalID: -1564637611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 342
+        width: 101
+        height: 164
+      alignment: 9
+      pivot: {x: 0.6038281, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70c2628b34c12b246b5fecb2c0475ee6
+      internalID: 1581877690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Callahan_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 342
+        width: 103
+        height: 164
+      alignment: 9
+      pivot: {x: 0.6090751, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a45f6e0c7bc716a409b80975868d52b1
+      internalID: 1965661061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: df71921a08aece64ba59f8ce0dd96af5
     internalID: 0
     vertices: []
     indices: 
@@ -124,7 +347,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Callahan_Idle_00: 2024816990
+      Callahan_Idle_01: 855296891
+      Callahan_Idle_02: -872664454
+      Callahan_Idle_03: -1449170247
+      Callahan_Idle_04: 1816106744
+      Callahan_Idle_05: -197526416
+      Callahan_Walk_00: -68423830
+      Callahan_Walk_01: -1564637611
+      Callahan_Walk_02: 1581877690
+      Callahan_Walk_03: 1965661061
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

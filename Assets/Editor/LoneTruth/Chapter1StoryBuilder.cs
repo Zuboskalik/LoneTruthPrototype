@@ -413,6 +413,12 @@ namespace LoneTruth.EditorTools
 
             var talk = host.AddComponent<CutsceneInteractable>();
             talk.Configure(prompt, fallbackSpeaker, fallback);
+            if (!string.IsNullOrEmpty(fallbackSpeaker) && host.GetComponentInChildren<Animator>() != null)
+            {
+                // Lets the character play its Talk animation during its cutscene lines.
+                host.AddComponent<CutsceneActor>().Configure(fallbackSpeaker);
+            }
+
             return talk;
         }
 

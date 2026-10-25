@@ -54,11 +54,7 @@ namespace LoneTruth.EditorTools
             DrawPlaceholders();
             DrawStoryPlaceholders();
             ConfigureImports();
-            if (HasHoltSheet)
-            {
-                ImportHoltSheet();
-            }
-
+            ImportCharacterSheets();
             Items items = BuildItems();
             Dictionary<string, RuntimeAnimatorController> controllers = BuildAnimation();
             Prefabs prefabs = BuildPrefabs(controllers, items);
@@ -823,6 +819,13 @@ namespace LoneTruth.EditorTools
             foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "Ruth", "Cornelius", "Clerk" })
             {
                 string path = $"{AnimDir}/AC_{npc}.controller";
+                RuntimeAnimatorController sheetController = BuildNpcSheetController(npc, path);
+                if (sheetController != null)
+                {
+                    result[npc] = sheetController;
+                    continue;
+                }
+
                 AssetDatabase.DeleteAsset(path);
                 var ac = AnimatorController.CreateAnimatorControllerAtPath(path);
                 AnimatorState s = ac.layers[0].stateMachine.AddState("Idle");
@@ -1239,7 +1242,17 @@ namespace LoneTruth.EditorTools
             GameObject go = Inst(p.Npc, name, pos, parent);
             Transform sprite = go.transform.Find("Sprite");
             sprite.localPosition = new Vector3(0f, 0f, spriteZ);
-            sprite.GetComponent<SpriteRenderer>().sprite = S($"{CharDir}/CH_{key}_Ref.png");
+            CharacterSheet sheet = NpcSheet(key);
+            if (sheet != null)
+            {
+                sprite.GetComponent<SpriteRenderer>().sprite = SheetFrame(sheet, NpcIdleFrame(key));
+                sprite.localScale = Vector3.one * NpcIdleScale(key);
+            }
+            else
+            {
+                sprite.GetComponent<SpriteRenderer>().sprite = S($"{CharDir}/CH_{key}_Ref.png");
+            }
+
             var c = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>($"{AnimDir}/AC_{key}.controller");
             if (c != null)
             {
