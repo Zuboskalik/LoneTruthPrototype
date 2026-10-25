@@ -46,7 +46,7 @@ namespace LoneTruth.UI
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            font = UIFonts.Default;
             Build();
         }
 

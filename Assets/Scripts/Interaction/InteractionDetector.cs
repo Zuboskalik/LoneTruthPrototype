@@ -1,3 +1,4 @@
+using LoneTruth.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -115,7 +116,7 @@ namespace LoneTruth.Interaction
             textObject.transform.SetParent(canvasObject.transform, false);
 
             promptText = textObject.AddComponent<Text>();
-            promptText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            promptText.font = UIFonts.Default;
             promptText.fontSize = promptFontSize;
             promptText.alignment = TextAnchor.MiddleCenter;
             promptText.color = promptColor;

@@ -1,4 +1,5 @@
 using System.Collections;
+using LoneTruth.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -117,7 +118,7 @@ namespace LoneTruth.Interaction
             textObject.transform.SetParent(canvasObject.transform, false);
 
             dialogueText = textObject.AddComponent<Text>();
-            dialogueText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            dialogueText.font = UIFonts.Default;
             dialogueText.fontSize = textFontSize;
             dialogueText.alignment = TextAnchor.MiddleCenter;
             dialogueText.color = textColor;

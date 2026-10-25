@@ -65,7 +65,7 @@ namespace LoneTruth.UI
             go.transform.SetParent(parent, false);
 
             Text text = go.AddComponent<Text>();
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            text.font = UIFonts.Default;
             text.fontSize = 26;
             text.fontStyle = FontStyle.Bold;
             text.alignment = anchor;
