@@ -54,6 +54,19 @@ namespace LoneTruth.Core
             onComplete?.Invoke();
         }
 
+        public float Alpha => canvasGroup != null ? canvasGroup.alpha : 0f;
+
+        public void SetAlphaImmediate(float alpha)
+        {
+            SetAlpha(alpha);
+        }
+
+        /// <summary>Fade from the current alpha to the target (used by cutscenes).</summary>
+        public IEnumerator FadeTo(float target, float duration)
+        {
+            yield return Fade(Alpha, target, duration);
+        }
+
         private IEnumerator Fade(float from, float to, float duration)
         {
             if (duration <= 0f)

@@ -23,7 +23,7 @@ namespace LoneTruth.EditorTools
     /// file exists yet, prefabs and scenes are regenerated. X in the scene = metres from the
     /// room's left edge, ground at y = 0, play line at z = 0, background facades at z ≈ 3.
     /// </summary>
-    public static class Chapter1LocationBuilder
+    public static partial class Chapter1LocationBuilder
     {
         private const string ArtRoot = "Assets/Art/Chapter1";
         private const string CharDir = ArtRoot + "/Characters";
@@ -52,25 +52,31 @@ namespace LoneTruth.EditorTools
         {
             EnsureFolders();
             DrawPlaceholders();
+            DrawStoryPlaceholders();
             ConfigureImports();
+            Items items = BuildItems();
             Dictionary<string, RuntimeAnimatorController> controllers = BuildAnimation();
-            Prefabs prefabs = BuildPrefabs(controllers);
+            Prefabs prefabs = BuildPrefabs(controllers, items);
             Material[] mats = BuildMaterials();
+            Material[] interior = BuildInteriorMaterials();
             VolumeProfile profile = BuildVolumeProfile();
 
-            BuildStation(prefabs, controllers, mats, profile);
-            BuildStreet(prefabs, controllers, mats, profile);
+            BuildStation(prefabs, controllers, mats, profile, items);
+            BuildStreet(prefabs, controllers, mats, profile, items);
+            BuildSaloon(prefabs, controllers, interior, profile, items);
+            BuildRoom(prefabs, controllers, interior, profile, items);
+            BuildOffice(prefabs, controllers, interior, profile, items);
 
-            AddToBuildSettings(StationScene, StreetScene);
+            AddToBuildSettings(StationScene, StreetScene, SaloonScene, RoomScene, OfficeScene);
             AssetDatabase.SaveAssets();
-            return "Built " + StationScene + " and " + StreetScene;
+            return "Built 1-01 Station, 1-02 Main Street, 1-03 Saloon, 1-04 Holt's room, 1-05 Company office";
         }
 
         // ------------------------------------------------------------------ folders
 
         private static void EnsureFolders()
         {
-            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir })
+            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", EnvDir + "/Interiors", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir, IconDir, ItemDir })
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), dir));
             }
@@ -84,8 +90,10 @@ namespace LoneTruth.EditorTools
         {
             public float Height;   // metres
             public Color Coat, Trousers, Hat, Accent, Skin;
-            public int HatStyle;   // 0 none, 1 fedora, 2 wide brim, 3 cap, 4 newsboy cap
+            public int HatStyle;   // 0 none, 1 fedora, 2 wide brim, 3 cap, 4 newsboy cap, 5 hair bun, 6 balding
             public bool LongCoat;
+            public float Width;    // body width multiplier (0 = 1)
+            public bool Glasses;
         }
 
         private static Human Holt => new Human
@@ -151,7 +159,8 @@ namespace LoneTruth.EditorTools
 
             // torso / coat
             float coatBottom = h.LongCoat ? 40 * s : 78 * s;
-            p.Trap(cx, coatBottom, h.LongCoat ? 46 * s : 34 * s, 36 * s, shoulder - coatBottom + bob, h.Coat);
+            float bw = h.Width > 0f ? h.Width : 1f;
+            p.Trap(cx, coatBottom, (h.LongCoat ? 46 * s : 34 * s) * bw, 36 * s * Mathf.Lerp(1f, bw, 0.6f), shoulder - coatBottom + bob, h.Coat);
             p.Rect(cx - 13 * s, shoulder - 6 * s + bob, 26 * s, 8 * s, h.Accent); // scarf / collar / badge band
 
             // arms
@@ -193,6 +202,18 @@ namespace LoneTruth.EditorTools
                 case 4:
                     p.Ellipse(cx + 2 * s, headC + 11 * s, 14 * s, 7 * s, h.Hat);
                     break;
+                case 5:
+                    p.Ellipse(cx - 1 * s, headC + 7 * s, 11 * s, 7 * s, h.Hat);
+                    p.Ellipse(cx - 9 * s, headC + 4 * s, 6 * s, 6 * s, h.Hat);
+                    break;
+                case 6:
+                    p.Rect(cx - 9 * s, headC + 2 * s, 4 * s, 6 * s, h.Hat);
+                    break;
+            }
+
+            if (h.Glasses)
+            {
+                p.Rect(cx + 5 * s, headC + 1 * s, 8 * s, 3 * s, PlaceholderPainter.C("#B08D3E"));
             }
 
             p.InkOutline(Ink, 2);
@@ -769,7 +790,7 @@ namespace LoneTruth.EditorTools
 
             result["Holt"] = holt;
 
-            foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman" })
+            foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "Ruth", "Cornelius", "Clerk" })
             {
                 string path = $"{AnimDir}/AC_{npc}.controller";
                 AssetDatabase.DeleteAsset(path);
@@ -877,7 +898,7 @@ namespace LoneTruth.EditorTools
 
         private class Prefabs
         {
-            public GameObject Player, GameMaster, Fader, Camera, Npc, Lamppost, TransitionStub, SceneDoor, Rain, Prop, InspectPoint;
+            public GameObject Player, GameMaster, Fader, Camera, Npc, Lamppost, TransitionStub, SceneDoor, Rain, Prop, InspectPoint, GameUI;
         }
 
         private static GameObject SavePrefab(GameObject go, string name)
@@ -914,7 +935,7 @@ namespace LoneTruth.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        private static Prefabs BuildPrefabs(Dictionary<string, RuntimeAnimatorController> controllers)
+        private static Prefabs BuildPrefabs(Dictionary<string, RuntimeAnimatorController> controllers, Items items)
         {
             var prefabs = new Prefabs();
 
@@ -946,12 +967,22 @@ namespace LoneTruth.EditorTools
             player.AddComponent<InventoryManager>();
             var wc = player.AddComponent<WeaponController>();
             SetField(wc, "firePoint", fire.transform);
-            SetField(wc, "weaponItem", AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/ScriptableObjects/Weapon_Revolver.asset"));
-            SetField(wc, "ammoItem", AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/ScriptableObjects/Ammo_Revolver.asset"));
+            SetField(wc, "weaponItem", items.Revolver);
+            SetField(wc, "ammoItem", items.Ammo);
+            SetField(wc, "loadedAmmo", 6);
+            player.AddComponent<Health>();
+            player.AddComponent<InventoryActions>();
+            player.AddComponent<PersistentPlayer>();
             player.AddComponent<WeaponFireEffects>();
             var det = player.AddComponent<InteractionDetector>();
             SetField(det, "promptOffset", new Vector3(0f, 2.4f, 0f));
             prefabs.Player = SavePrefab(player, "P_Player");
+
+            // Screen-space UI (dialogue, cards, toasts, objective, SH4-style item bar); persistent.
+            var ui = new GameObject("P_GameUI");
+            ui.AddComponent<LoneTruth.UI.GameUI>();
+            ui.AddComponent<LoneTruth.UI.InventoryBarUI>();
+            prefabs.GameUI = SavePrefab(ui, "P_GameUI");
 
             // Persistent systems
             var gm = new GameObject("P_GameMaster");
@@ -1167,12 +1198,14 @@ namespace LoneTruth.EditorTools
             go.AddComponent<BoxCollider>().size = size;
         }
 
-        private static GameObject Npc(Prefabs p, Dictionary<string, RuntimeAnimatorController> ac, string name, string key, Vector3 pos, Transform parent, string prompt, string line)
+        private static GameObject Npc(Prefabs p, Dictionary<string, RuntimeAnimatorController> ac, string name, string key, Vector3 pos, Transform parent, string prompt, string line, float spriteZ = 0f)
         {
             GameObject go = Inst(p.Npc, name, pos, parent);
             Transform sprite = go.transform.Find("Sprite");
+            sprite.localPosition = new Vector3(0f, 0f, spriteZ);
             sprite.GetComponent<SpriteRenderer>().sprite = S($"{CharDir}/CH_{key}_Ref.png");
-            if (ac.TryGetValue(key, out RuntimeAnimatorController c))
+            var c = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>($"{AnimDir}/AC_{key}.controller");
+            if (c != null)
             {
                 sprite.GetComponent<Animator>().runtimeAnimatorController = c;
             }
@@ -1230,6 +1263,7 @@ namespace LoneTruth.EditorTools
             // GameMaster and ScreenFader stay at the scene root: they call DontDestroyOnLoad.
             Inst(p.GameMaster, "GameMaster", Vector3.zero, null);
             Inst(p.Fader, "ScreenFader", Vector3.zero, null);
+            Inst(p.GameUI, "GameUI", Vector3.zero, null);
             Transform sys = Group("--- Systems");
 
             GameObject player = Inst(p.Player, "Player", new Vector3(playerX, 0.02f, 0f), null);
@@ -1254,6 +1288,7 @@ namespace LoneTruth.EditorTools
             ml.color = PlaceholderPainter.C("#7D8FB3");
             ml.intensity = 0.25f;
             ml.shadows = LightShadows.Soft;
+            lastKeyLight = ml;
 
             RenderSettings.ambientMode = AmbientMode.Flat;
             RenderSettings.ambientLight = PlaceholderPainter.C("#1E242D");
@@ -1265,9 +1300,12 @@ namespace LoneTruth.EditorTools
             return player;
         }
 
+        private static Light lastKeyLight;
+        private static MeshRenderer lastSky;
+
         private static void Backdrop(Material sky, float centerX, Transform parent)
         {
-            Quad("Sky", sky, new Vector3(centerX, 12f, 70f), Vector3.zero, new Vector3(220f, 60f, 1f), parent);
+            lastSky = Quad("Sky", sky, new Vector3(centerX, 12f, 70f), Vector3.zero, new Vector3(220f, 60f, 1f), parent).GetComponent<MeshRenderer>();
             for (int i = 0; i < 4; i++)
             {
                 SpriteObj($"Mountains_{i}", $"{EnvDir}/Shared/ENV_Mountains_Fog.png",
@@ -1289,153 +1327,5 @@ namespace LoneTruth.EditorTools
             EditorBuildSettings.scenes = list.ToArray();
         }
 
-        // ------------------------------------------------------------------ 1-01 Station
-
-        private static void BuildStation(Prefabs p, Dictionary<string, RuntimeAnimatorController> ac, Material[] mats, VolumeProfile profile)
-        {
-            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-
-            // Player starts at the prologue point (x = 2); camera clamps keep the 30 m strip in view.
-            CommonSystems(p, 2f, 6f, 24f, profile);
-
-            Transform bg = Group("--- Background");
-            Backdrop(mats[0], 15f, bg);
-            SpriteObj("Train_Departing", $"{EnvDir}/Station/ENV_Station_Train.png", new Vector3(-1.5f, -1.2f, 6.5f), bg, 1f, new Color(0.8f, 0.82f, 0.88f));
-            Quad("Trackbed", mats[3], new Vector3(15f, -1.2f, 6f), new Vector3(90f, 0f, 0f), new Vector3(50f, 4f, 1f), bg);
-
-            Transform geo = Group("--- Geometry");
-            Quad("Platform_Floor", mats[1], new Vector3(15f, 0f, 0.5f), new Vector3(90f, 0f, 0f), new Vector3(34f, 7f, 1f), geo);
-            Quad("Platform_Edge", mats[1], new Vector3(15f, -0.6f, 4f), Vector3.zero, new Vector3(34f, 1.2f, 1f), geo);
-
-            Transform set = Group("--- Set Dressing");
-            SpriteObj("Canopy", $"{EnvDir}/Station/ENV_Station_Canopy.png", new Vector3(15f, 0f, 2.2f), set, 1f, new Color(0.85f, 0.85f, 0.9f));     // навес 8–22 м
-            SpriteObj("TelegraphBooth", $"{EnvDir}/Station/ENV_Station_TelegraphBooth.png", new Vector3(16f, 0f, 3.2f), set);
-            SpriteObj("StationNameSign", $"{PropDir}/PRP_Station_NameSign.png", new Vector3(5f, 0f, 3.4f), set, 1f, new Color(0.9f, 0.9f, 0.9f));
-            Inst(p.Lamppost, "Lamp_x13", new Vector3(13f, 0f, 1.2f), set);                                                                  // карта: свет, x = 13
-
-            var window = new GameObject("TelegraphWindow_Light");
-            window.transform.SetParent(set, false);
-            window.transform.localPosition = new Vector3(16f, 1.7f, 2.4f);
-            var wl = window.AddComponent<Light>();
-            wl.type = LightType.Point;
-            wl.color = PlaceholderPainter.C("#F0C060");
-            wl.intensity = 2.5f;
-            wl.range = 5f;
-
-            Transform fg = Group("--- Foreground (silhouettes)");
-            Color sil = new Color(0.12f, 0.12f, 0.14f);
-            PropInst(p, "FG_Lamppost_Silhouette", $"{PropDir}/PRP_Lamppost.png", new Vector3(4.5f, -1.0f, -3.2f), fg, 1.2f, sil);
-            PropInst(p, "FG_CrateStack", $"{PropDir}/PRP_CrateStack.png", new Vector3(26.5f, -1.0f, -3.2f), fg, 1.2f, sil);
-
-            Transform play = Group("--- Gameplay");
-            Inspect(p, "Event_Prologue_Letter_x3", new Vector3(3f, 0f, 0f), play, "Перечитать письмо",
-                "«Томас жив. Он пишет мне по ночам. В последнем письме он назвал ваше имя». — А. Бирн");
-            Npc(p, ac, "NPC_Conductor_x6", "Conductor", new Vector3(6f, 0f, 0.6f), play, "Поговорить", "Дальше не поеду.");
-            Inspect(p, "Clue_UnsentTelegrams_x16", new Vector3(16f, 0f, 0f), play, "Осмотреть",
-                "Стопка неотправленных телеграмм родных шахтёров. Компания их держит.");
-            SpriteObj("UnsentTelegrams_Art", $"{PropDir}/PRP_TelegramStack.png", new Vector3(16f, 1.25f, 3.05f), play);
-            Npc(p, ac, "NPC_Callahan_x24", "Callahan", new Vector3(24f, 0f, 0.6f), play, "Поговорить",
-                "Человек компании? Я провожу до салуна.");
-            SceneDoor(p, "1-01_to_1-02", "MainStreet", "from_1-01", "Спуститься на Главную улицу",
-                $"{EnvDir}/Station/ENV_Station_StairsDown.png", 29f, play);
-            Spawn("from_1-02", 27.5f, play);
-
-            Transform bounds = Group("--- Collision & Bounds");
-            Box("Ground", new Vector3(15f, -0.5f, 0f), new Vector3(36f, 1f, 6f), bounds);
-            Box("Wall_Left_x0", new Vector3(-0.3f, 2f, 0f), new Vector3(0.6f, 6f, 6f), bounds);       // край перрона
-            Box("Wall_Right_x30", new Vector3(30.3f, 2f, 0f), new Vector3(0.6f, 6f, 6f), bounds);
-
-            Transform fx = Group("--- FX");
-            Inst(p.Rain, "Rain", new Vector3(15f, 9f, 1f), fx);
-
-            EditorSceneManager.SaveScene(scene, StationScene);
-        }
-
-        // ------------------------------------------------------------------ 1-02 Main Street
-
-        private static void BuildStreet(Prefabs p, Dictionary<string, RuntimeAnimatorController> ac, Material[] mats, VolumeProfile profile)
-        {
-            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-
-            // Default entry: arrival from the station (x = 2). Night state of the first evening.
-            CommonSystems(p, 3.5f, 6f, 54f, profile);
-
-            Transform bg = Group("--- Background");
-            Backdrop(mats[0], 30f, bg);
-            SpriteObj("Headframe_Distant", $"{EnvDir}/MainStreet/ENV_Headframe_Distant.png", new Vector3(46f, -2f, 32f), bg, 1.6f, new Color(0.55f, 0.6f, 0.68f));
-
-            Transform geo = Group("--- Geometry");
-            Quad("Road_Mud", mats[2], new Vector3(30f, 0f, -0.5f), new Vector3(90f, 0f, 0f), new Vector3(64f, 7f, 1f), geo);
-            Quad("Boardwalk", mats[1], new Vector3(30f, 0.01f, 2.4f), new Vector3(90f, 0f, 0f), new Vector3(64f, 1.4f, 1f), geo);
-
-            Transform fac = Group("--- Facades");
-            Color night = new Color(0.82f, 0.83f, 0.88f);
-            SpriteObj("FAC_Saloon_6-14", $"{EnvDir}/MainStreet/FAC_Saloon.png", new Vector3(10f, 0f, 3f), fac, 1f, night);
-            SpriteObj("FAC_CompanyOffice_16-24", $"{EnvDir}/MainStreet/FAC_CompanyOffice.png", new Vector3(20f, 0f, 3f), fac, 1f, night);
-            SpriteObj("FAC_SheriffOffice_25-31", $"{EnvDir}/MainStreet/FAC_SheriffOffice.png", new Vector3(28f, 0f, 3f), fac, 1f, night);
-            SpriteObj("FAC_AlleyMouth_33-39", $"{EnvDir}/MainStreet/FAC_AlleyMouth.png", new Vector3(36f, 0f, 3f), fac, 1f, night);
-            SpriteObj("FAC_SawmillFence_40-49", $"{EnvDir}/MainStreet/FAC_SawmillFence.png", new Vector3(44.5f, 0f, 3.2f), fac, 1f, night);
-            SpriteObj("FAC_Chapel_49-56", $"{EnvDir}/MainStreet/FAC_Chapel.png", new Vector3(52.5f, 0f, 3f), fac, 1f, night);
-            SpriteObj("FAC_MineRoadFence_56-60", $"{EnvDir}/MainStreet/FAC_MineRoadFence.png", new Vector3(58f, 0f, 3.2f), fac, 1f, night);
-            PropInst(p, "NoticeBoard_x23", $"{PropDir}/PRP_NoticeBoard.png", new Vector3(23f, 0f, 2.7f), fac);
-
-            var saloonGlow = new GameObject("Saloon_Windows_Light");
-            saloonGlow.transform.SetParent(fac, false);
-            saloonGlow.transform.localPosition = new Vector3(10f, 2.2f, 2.2f);
-            var sg = saloonGlow.AddComponent<Light>();
-            sg.type = LightType.Point;
-            sg.color = PlaceholderPainter.C("#E8A84E");
-            sg.intensity = 3f;
-            sg.range = 6f;
-
-            Transform set = Group("--- Set Dressing");
-            Inst(p.Lamppost, "Lamp_x6", new Vector3(6f, 0f, 1.6f), set);
-            Inst(p.Lamppost, "Lamp_x31", new Vector3(31f, 0f, 1.6f), set);
-            Inst(p.Lamppost, "Lamp_x48", new Vector3(48f, 0f, 1.6f), set);
-            PropInst(p, "Barrels_Hide_x41", $"{PropDir}/PRP_Barrels.png", new Vector3(41f, 0f, 1.8f), set);     // укрытие ночью (система укрытий — позже)
-
-            Transform fg = Group("--- Foreground (silhouettes)");
-            Color sil = new Color(0.12f, 0.12f, 0.14f);
-            PropInst(p, "FG_HitchingPost_x4", $"{PropDir}/PRP_HitchingPost.png", new Vector3(4f, -1.0f, -3f), fg, 1.1f, sil);
-            PropInst(p, "FG_TelegraphPole_x18", $"{PropDir}/PRP_TelegraphPole.png", new Vector3(18f, -0.6f, -3.6f), fg, 1f, sil);
-            PropInst(p, "FG_Barrels_x34", $"{PropDir}/PRP_Barrels.png", new Vector3(34f, -1.0f, -3f), fg, 1.1f, sil);
-            PropInst(p, "FG_TelegraphPole_x50", $"{PropDir}/PRP_TelegraphPole.png", new Vector3(50f, -0.6f, -3.6f), fg, 1f, sil);
-
-            Transform play = Group("--- Gameplay");
-            SceneDoor(p, "1-02_to_1-01", "Station", "from_1-02", "Подняться на станцию",
-                $"{EnvDir}/MainStreet/ENV_Street_StationSteps.png", 2f, play);
-            Spawn("from_1-01", 3.5f, play);
-
-            // Closed transitions — kept at the map positions, never load anything.
-            Stub(p, "1-02_to_1-03", "1-03", "Салун «Последняя лампа»", "Заперто. Внутри ещё горит свет.", $"{PropDir}/DOOR_Saloon_Closed.png", 10f, play);
-            Stub(p, "1-02_to_1-05", "1-05", "Контора компании", "Контора заперта.", $"{PropDir}/DOOR_CompanyOffice_Closed.png", 20f, play);
-            Stub(p, "1-02_to_1-08", "1-08", "Контора шерифа", "Заперто.", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
-            Stub(p, "1-02_to_1-14", "1-14", "Переулок", "Проход перегорожен калиткой.", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
-            Stub(p, "1-02_to_1-18", "1-18", "Ворота лесопилки", "Ворота на цепи.", $"{PropDir}/DOOR_SawmillGate_Closed.png", 45f, play);
-            Stub(p, "1-02_to_1-09", "1-09", "Часовня", "Двери часовни закрыты.", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
-            Stub(p, "1-02_to_1-21", "1-21", "Дорога к шахте", "Ворота на замке.", $"{PropDir}/DOOR_MineGate_Closed.png", 58f, play);
-
-            // Map NPCs that belong to other times of day stay in the scene, inactive, for the flag system.
-            Transform day = Group("State_Day (inactive at arrival)");
-            day.SetParent(play, false);
-            Npc(p, ac, "NPC_PasserbyMiner_x13", "PasserbyMiner", new Vector3(13f, 0f, 0.8f), day, "Поговорить", "…");
-            Npc(p, ac, "NPC_PasserbyWoman_x15", "PasserbyWoman", new Vector3(15f, 0f, 0.8f), day, "Поговорить", "…");
-            day.gameObject.SetActive(false);
-            Transform eveningDay2 = Group("State_Day2Evening (inactive)");
-            eveningDay2.SetParent(play, false);
-            Npc(p, ac, "NPC_Liam_x38", "Liam", new Vector3(38f, 0f, 0.6f), eveningDay2, "Поговорить", "…");
-            eveningDay2.gameObject.SetActive(false);
-
-            Transform bounds = Group("--- Collision & Bounds");
-            Box("Ground", new Vector3(30f, -0.5f, 0f), new Vector3(66f, 1f, 6f), bounds);
-            Box("Wall_Left_x0", new Vector3(-0.3f, 2f, 0f), new Vector3(0.6f, 6f, 6f), bounds);
-            Box("Wall_Right_x60", new Vector3(60.3f, 2f, 0f), new Vector3(0.6f, 6f, 6f), bounds);     // за воротами к шахте
-
-            Transform fx = Group("--- FX");
-            Inst(p.Rain, "Rain_West", new Vector3(15f, 9f, 1f), fx);
-            Inst(p.Rain, "Rain_East", new Vector3(45f, 9f, 1f), fx);
-
-            EditorSceneManager.SaveScene(scene, StreetScene);
-        }
     }
 }

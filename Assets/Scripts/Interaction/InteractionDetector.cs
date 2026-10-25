@@ -27,8 +27,17 @@ namespace LoneTruth.Interaction
             BuildPromptUI();
         }
 
+        public IInteractable CurrentTarget => currentTarget;
+
         private void Update()
         {
+            if (LoneTruth.Core.GameMaster.Instance != null && !LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration))
+            {
+                currentTarget = null;
+                promptCanvas.gameObject.SetActive(false);
+                return;
+            }
+
             FindNearestInteractable();
             UpdatePromptUI();
 
@@ -87,7 +96,9 @@ namespace LoneTruth.Interaction
         private void BuildPromptUI()
         {
             GameObject canvasObject = new GameObject("InteractionPromptCanvas");
-            canvasObject.transform.SetParent(null);
+            // Parented to the player so the prompt survives scene loads with a persistent player
+            // (it is placed in world space every frame anyway).
+            canvasObject.transform.SetParent(transform, false);
 
             promptCanvas = canvasObject.AddComponent<Canvas>();
             promptCanvas.renderMode = RenderMode.WorldSpace;

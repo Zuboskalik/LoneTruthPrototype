@@ -33,6 +33,11 @@ namespace LoneTruth.Inventory
 
         private void HandleSlotSelectionInput()
         {
+            if (LoneTruth.Core.GameMaster.Instance != null && !LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration))
+            {
+                return;
+            }
+
             float scroll = Input.mouseScrollDelta.y;
 
             if (scroll > scrollThreshold)
@@ -44,11 +49,8 @@ namespace LoneTruth.Inventory
                 SelectNextSlot();
             }
 
+            // Q cycles the selection; E is reserved for interaction (it used to do both).
             if (Input.GetKeyDown(KeyCode.Q))
-            {
-                SelectPreviousSlot();
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
             {
                 SelectNextSlot();
             }
@@ -56,12 +58,41 @@ namespace LoneTruth.Inventory
 
         public void SelectNextSlot()
         {
-            SelectSlot((SelectedSlotIndex + 1) % slots.Count);
+            SelectSlot(NextFilled(1));
+        }
+
+        // Steps over empty slots so the selection always lands on an item, as in the item bar.
+        private int NextFilled(int dir)
+        {
+            for (int step = 1; step <= slots.Count; step++)
+            {
+                int i = ((SelectedSlotIndex + dir * step) % slots.Count + slots.Count) % slots.Count;
+                if (!slots[i].IsEmpty)
+                {
+                    return i;
+                }
+            }
+
+            return SelectedSlotIndex;
+        }
+
+        public int CountItem(ItemSO item)
+        {
+            int total = 0;
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot.item == item)
+                {
+                    total += slot.quantity;
+                }
+            }
+
+            return total;
         }
 
         public void SelectPreviousSlot()
         {
-            SelectSlot((SelectedSlotIndex - 1 + slots.Count) % slots.Count);
+            SelectSlot(NextFilled(-1));
         }
 
         public void SelectSlot(int index)
@@ -105,6 +136,11 @@ namespace LoneTruth.Inventory
                 }
             }
 
+            if (GetSelectedSlot() == null || GetSelectedSlot().IsEmpty)
+            {
+                SelectSlot(NextFilled(1));
+            }
+
             OnInventoryUpdated?.Invoke();
 
             return quantity <= 0;
@@ -135,6 +171,11 @@ namespace LoneTruth.Inventory
                 {
                     slots[i] = new InventorySlot(null, 0);
                 }
+            }
+
+            if (GetSelectedSlot() == null || GetSelectedSlot().IsEmpty)
+            {
+                SelectSlot(NextFilled(1));
             }
 
             OnInventoryUpdated?.Invoke();

@@ -45,6 +45,9 @@ GameObject:
   - component: {fileID: 1190065849434168228}
   - component: {fileID: 8270301118454616215}
   - component: {fileID: 1168871831496378084}
+  - component: {fileID: 660161353095379782}
+  - component: {fileID: 6559905507504638279}
+  - component: {fileID: 6733378991716925095}
   - component: {fileID: 2509041013957074727}
   - component: {fileID: 7995085233102008052}
   m_Layer: 0
@@ -174,19 +177,58 @@ MonoBehaviour:
   playerController: {fileID: 0}
   firePoint: {fileID: 5839375417650521445}
   fireEffects: {fileID: 0}
-  weaponItem: {fileID: 11400000, guid: 1dc9134d232022243a9d7126ec7dabf1, type: 2}
-  ammoItem: {fileID: 11400000, guid: ea2078e1019e1f4439bae6fc52f3bea4, type: 2}
+  weaponItem: {fileID: 11400000, guid: 73f3ada3ca5930046aa552c20c956776, type: 2}
+  ammoItem: {fileID: 11400000, guid: 912bd6acbf4fea44b96018063f4b4334, type: 2}
   weaponItemType: 1
   ammoItemType: 2
-  loadedAmmo: 0
+  loadedAmmo: 6
   maxLoadedAmmo: 6
-  useKey: 103
   attackKey: 32
+  reloadKey: 114
   fireRange: 20
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   damagePerShot: 25
+--- !u!114 &660161353095379782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732229811787774295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a7e31d8bc82b14f8f680fc4807fff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Combat.Health
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &6559905507504638279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732229811787774295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7b2efbcb8000c4b9addab31f597861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Inventory.InventoryActions
+  useKey: 103
+--- !u!114 &6733378991716925095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732229811787774295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a771ff84b96d4428dcfb1909edf64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Player.PersistentPlayer
 --- !u!114 &2509041013957074727
 MonoBehaviour:
   m_ObjectHideFlags: 0

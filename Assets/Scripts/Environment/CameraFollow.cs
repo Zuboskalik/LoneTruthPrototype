@@ -33,7 +33,14 @@ namespace LoneTruth.Environment
         {
             if (target == null)
             {
-                return;
+                // The scene's own player is replaced by the persistent one after a scene load.
+                GameObject player = LoneTruth.Player.PersistentPlayer.Current;
+                if (player == null)
+                {
+                    return;
+                }
+
+                target = player.transform;
             }
 
             float targetX = target.position.x;

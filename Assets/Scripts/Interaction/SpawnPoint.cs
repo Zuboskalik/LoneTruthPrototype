@@ -24,20 +24,22 @@ namespace LoneTruth.Interaction
 
             PendingSpawnId = null;
 
-            PlayerController player = FindAnyObjectByType<PlayerController>();
-            if (player == null)
+            GameObject playerObject = PersistentPlayer.Current;
+            if (playerObject == null)
             {
                 return;
             }
 
-            Vector3 target = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
-            Rigidbody rb = player.GetComponent<Rigidbody>();
+            Transform player = playerObject.transform;
+
+            Vector3 target = new Vector3(transform.position.x, player.position.y, player.position.z);
+            Rigidbody rb = playerObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.position = target;
             }
 
-            player.transform.position = target;
+            player.position = target;
         }
 
         private void OnDrawGizmos()

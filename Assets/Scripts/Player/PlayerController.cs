@@ -49,16 +49,41 @@ namespace LoneTruth.Player
             }
         }
 
+        /// <summary>Horizontal input used while a cutscene owns the player (-1..1, 0 = stand).</summary>
+        public float ScriptedInput { get; set; }
+
+        private static bool InputAllowed =>
+            LoneTruth.Core.GameMaster.Instance == null ||
+            LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration);
+
+        public void PlayAnimationTrigger(string trigger)
+        {
+            if (animator == null)
+            {
+                return;
+            }
+
+            foreach (AnimatorControllerParameter p in animator.parameters)
+            {
+                if (p.name == trigger && p.type == AnimatorControllerParameterType.Trigger)
+                {
+                    animator.SetTrigger(trigger);
+                    return;
+                }
+            }
+        }
+
         private void Update()
         {
-            moveInput = Input.GetAxisRaw("Horizontal");
+            bool allowed = InputAllowed;
+            moveInput = allowed ? Input.GetAxisRaw("Horizontal") : ScriptedInput;
 
             if (dodgeCooldownTimer > 0f)
             {
                 dodgeCooldownTimer -= Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (allowed && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 TryDodgeRoll();
             }

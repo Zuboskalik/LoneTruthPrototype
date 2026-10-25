@@ -22,8 +22,8 @@ namespace LoneTruth.Combat
         [SerializeField] private int maxLoadedAmmo = 6;
 
         [Header("Input")]
-        [SerializeField] private KeyCode useKey = KeyCode.G;
         [SerializeField] private KeyCode attackKey = KeyCode.Space;
+        [SerializeField] private KeyCode reloadKey = KeyCode.R;
 
         [Header("Raycast")]
         [SerializeField] private float fireRange = 20f;
@@ -33,6 +33,7 @@ namespace LoneTruth.Combat
         private bool isEquipped;
 
         public ItemSO WeaponItem => weaponItem;
+        public ItemSO AmmoItem => ammoItem;
         public int LoadedAmmo => loadedAmmo;
         public int MaxLoadedAmmo => maxLoadedAmmo;
         public bool IsEquipped => isEquipped;
@@ -57,36 +58,24 @@ namespace LoneTruth.Combat
 
         private void Update()
         {
-            if (Input.GetKeyDown(useKey))
+            // Using the selected item (G) now lives in InventoryActions; this handles fire and reload.
+            if (LoneTruth.Core.GameMaster.Instance != null && !LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration))
             {
-                UseSelectedItem();
+                return;
             }
 
-            if (isEquipped && Input.GetKeyDown(attackKey))
+            if (Input.GetKeyDown(reloadKey))
+            {
+                Reload();
+            }
+
+            if (isEquipped && (Input.GetKeyDown(attackKey) || Input.GetMouseButtonDown(0)))
             {
                 Fire();
             }
         }
 
-        private void UseSelectedItem()
-        {
-            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
-            if (selectedSlot == null || selectedSlot.IsEmpty)
-            {
-                return;
-            }
-
-            if (selectedSlot.item.ItemType == weaponItemType)
-            {
-                ToggleEquip();
-            }
-            else if (selectedSlot.item.ItemType == ammoItemType)
-            {
-                Reload();
-            }
-        }
-
-        private void ToggleEquip()
+        public void ToggleEquip()
         {
             isEquipped = !isEquipped;
         }
@@ -159,13 +148,8 @@ namespace LoneTruth.Combat
                 return false;
             }
 
-            InventorySlot selectedSlot = inventoryManager.GetSelectedSlot();
-            if (selectedSlot == null || selectedSlot.IsEmpty || selectedSlot.item != ammoItem)
-            {
-                return false;
-            }
-
-            int amountToLoad = Mathf.Min(needed, selectedSlot.quantity);
+            // Rounds come from anywhere in the inventory, not only from the selected slot.
+            int amountToLoad = Mathf.Min(needed, inventoryManager.CountItem(ammoItem));
             if (amountToLoad <= 0)
             {
                 return false;

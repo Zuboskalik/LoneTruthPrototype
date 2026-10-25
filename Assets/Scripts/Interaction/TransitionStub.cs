@@ -42,6 +42,11 @@ namespace LoneTruth.Interaction
             }
 
             lineRoutine = StartCoroutine(ShowLine());
+
+            if (LoneTruth.UI.GameUI.Instance != null)
+            {
+                LoneTruth.UI.GameUI.Instance.Toast(closedLine, 2.5f);
+            }
         }
 
         public string GetInteractionPrompt()
