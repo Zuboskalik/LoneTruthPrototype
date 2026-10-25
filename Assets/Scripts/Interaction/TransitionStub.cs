@@ -1,4 +1,5 @@
 using System.Collections;
+using LoneTruth.Core;
 using UnityEngine;
 
 namespace LoneTruth.Interaction
@@ -51,7 +52,7 @@ namespace LoneTruth.Interaction
 
         public string GetInteractionPrompt()
         {
-            return showingLine ? closedLine : displayName + " — " + closedPrompt;
+            return showingLine ? Loc.T(closedLine) : Loc.T(displayName) + " — " + Loc.T(closedPrompt);
         }
 
         private IEnumerator ShowLine()

@@ -1,4 +1,5 @@
 using System.Collections;
+using LoneTruth.Core;
 using LoneTruth.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +58,7 @@ namespace LoneTruth.Interaction
 
         private void ShowDialogue(string text)
         {
-            dialogueText.text = text;
+            dialogueText.text = Loc.T(text);
             dialogueCanvas.gameObject.SetActive(true);
             PositionDialogueUI();
 

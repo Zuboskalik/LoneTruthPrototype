@@ -69,7 +69,7 @@ namespace LoneTruth.Combat
                 Reload();
             }
 
-            if (isEquipped && (Input.GetKeyDown(attackKey) || Input.GetMouseButtonDown(0)))
+            if (isEquipped && (Input.GetKeyDown(attackKey) || (Input.GetMouseButtonDown(0) && !LoneTruth.UI.GameUI.PointerOverHud)))
             {
                 Fire();
             }

@@ -33,6 +33,8 @@ namespace LoneTruth.UI
             public GameObject Brackets;
         }
 
+        private const string Hint = "Q / колесо — выбрать   ·   G — применить   ·   R — перезарядить";
+
         private readonly List<SlotView> views = new List<SlotView>();
         private GameObject barRoot;
         private Text nameText;
@@ -120,8 +122,8 @@ namespace LoneTruth.UI
                 if (selected)
                 {
                     selectedName = isWeapon
-                        ? $"{slot.item.ItemName}  ·  {weapon.LoadedAmmo}/{weapon.MaxLoadedAmmo}"
-                        : slot.item.ItemName;
+                        ? $"{slot.item.DisplayName}  ·  {weapon.LoadedAmmo}/{weapon.MaxLoadedAmmo}"
+                        : slot.item.DisplayName;
                 }
             }
 
@@ -137,6 +139,7 @@ namespace LoneTruth.UI
             }
 
             nameText.text = selectedName;
+            hintText.text = Loc.T(Hint);
             // Money sits right after the last item and appears once Holt has some.
             moneyText.gameObject.SetActive(StoryState.Money > 0);
             moneyText.text = "$ " + StoryState.Money;
@@ -154,7 +157,6 @@ namespace LoneTruth.UI
             GameUI.Place(nameText.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(8, 4), new Vector2(900, 30));
 
             hintText = ui.MakeText("Hint", barRoot.transform, 16, new Color(0.55f, 0.53f, 0.48f), TextAnchor.LowerLeft);
-            hintText.text = "Q / колесо — выбрать   ·   G — применить   ·   R — перезарядить";
             GameUI.Place(hintText.rectTransform, new Vector2(0, 0), new Vector2(0, 0), new Vector2(8, -22), new Vector2(900, 22));
 
             moneyText = ui.MakeText("Money", barRoot.transform, 24, countColor, TextAnchor.MiddleLeft);

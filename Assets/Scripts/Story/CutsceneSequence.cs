@@ -221,7 +221,7 @@ namespace LoneTruth.Story
 
                 case CutsceneStepType.GiveMoney:
                     StoryState.AddInt(StoryState.MoneyKey, s.amount);
-                    if (ui != null && s.boolValue) ui.Toast($"Получено: ${s.amount}");
+                    if (ui != null && s.boolValue) ui.Toast(Loc.Format("Получено: ${0}", s.amount));
                     break;
 
                 case CutsceneStepType.Objective:
@@ -251,7 +251,9 @@ namespace LoneTruth.Story
             inv.AddItem(item, Mathf.Max(1, amount));
             if (announce && GameUI.Instance != null)
             {
-                GameUI.Instance.Toast(amount > 1 ? $"Получено: {item.ItemName} ×{amount}" : $"Получено: {item.ItemName}");
+                GameUI.Instance.Toast(amount > 1
+                    ? Loc.Format("Получено: {0} ×{1}", item.DisplayName, amount)
+                    : Loc.Format("Получено: {0}", item.DisplayName));
             }
         }
 

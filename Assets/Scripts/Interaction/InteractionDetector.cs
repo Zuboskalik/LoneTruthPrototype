@@ -1,3 +1,4 @@
+using LoneTruth.Core;
 using LoneTruth.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -84,7 +85,7 @@ namespace LoneTruth.Interaction
             }
 
             promptCanvas.gameObject.SetActive(true);
-            promptText.text = currentTarget.GetInteractionPrompt();
+            promptText.text = Loc.T(currentTarget.GetInteractionPrompt());
             promptCanvas.transform.position = currentTargetTransform.position + promptOffset;
 
             Camera cam = Camera.main;

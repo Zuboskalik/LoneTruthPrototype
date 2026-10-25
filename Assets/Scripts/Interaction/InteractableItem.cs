@@ -1,3 +1,4 @@
+using LoneTruth.Core;
 using LoneTruth.Inventory;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace LoneTruth.Interaction
                 return "Pick up";
             }
 
-            return $"Pick up {item.ItemName}";
+            return Loc.Format("Подобрать: {0}", item.DisplayName);
         }
     }
 }

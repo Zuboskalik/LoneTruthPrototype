@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using LoneTruth.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +34,18 @@ namespace LoneTruth.UI
         private Text objectiveText;
         private Coroutine toastRoutine;
 
+        // Untranslated text currently on screen, so a language switch can re-render it.
+        private string rawSpeaker;
+        private string rawLine;
+        private string rawCard;
+        private string rawToast;
+        private string rawObjective;
+
+        private RectTransform languageRoot;
+        private readonly List<Text> languageLabels = new List<Text>();
+        private readonly List<string> languageCodes = new List<string>();
+        private int hoveredLanguage = -1;
+
         public Font Font => font;
         public RectTransform Root => canvas != null ? (RectTransform)canvas.transform : null;
 
@@ -50,6 +63,21 @@ namespace LoneTruth.UI
             Build();
         }
 
+        private void OnEnable()
+        {
+            Loc.Changed += Relocalize;
+        }
+
+        private void OnDisable()
+        {
+            Loc.Changed -= Relocalize;
+        }
+
+        private void Update()
+        {
+            UpdateLanguageSwitch();
+        }
+
         // ---------------------------------------------------------------- public API
 
         /// <summary>Debug / automated tests: dialogue and cards advance on their own.</summary>
@@ -63,20 +91,28 @@ namespace LoneTruth.UI
             }
 
             return Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) ||
-                   Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0);
+                   Input.GetKeyDown(KeyCode.Return) || (Input.GetMouseButtonDown(0) && !PointerOverHud);
         }
+
+        /// <summary>True while the mouse is over clickable HUD (the language switch), so a click
+        /// there does not also advance dialogue or fire the revolver.</summary>
+        public static bool PointerOverHud =>
+            Instance != null && Instance.languageRoot != null && Instance.languageRoot.gameObject.activeInHierarchy &&
+            RectTransformUtility.RectangleContainsScreenPoint(Instance.languageRoot, Input.mousePosition, null);
 
         /// <summary>One line of dialogue. Waits for the player; a press during the reveal completes it.</summary>
         public IEnumerator ShowLine(string speaker, string text)
         {
             dialoguePanel.SetActive(true);
-            speakerText.text = string.IsNullOrEmpty(speaker) ? "" : speaker.ToUpperInvariant();
+            rawSpeaker = speaker;
+            rawLine = text;
+            RenderSpeaker();
             speakerText.gameObject.SetActive(!string.IsNullOrEmpty(speaker));
             // Holt's inner voice (speaker "") is set in italics, like a voice-over.
             lineText.fontStyle = string.IsNullOrEmpty(speaker) ? FontStyle.Italic : FontStyle.Normal;
             continueHint.gameObject.SetActive(false);
 
-            yield return Reveal(lineText, text);
+            yield return Reveal(lineText);
             continueHint.gameObject.SetActive(true);
             yield return null;
             while (!AdvancePressed())
@@ -85,6 +121,7 @@ namespace LoneTruth.UI
             }
 
             dialoguePanel.SetActive(false);
+            rawLine = null;
             yield return null;
         }
 
@@ -92,7 +129,8 @@ namespace LoneTruth.UI
         public IEnumerator ShowCard(string text, float duration)
         {
             cardPanel.SetActive(true);
-            cardText.text = text;
+            rawCard = text;
+            cardText.text = Loc.T(text);
             Graphic[] graphics = { cardPanel.GetComponent<Image>(), cardText };
             yield return FadeGraphics(graphics, 0f, 1f, 0.6f);
 
@@ -111,6 +149,7 @@ namespace LoneTruth.UI
 
             yield return FadeGraphics(graphics, 1f, 0f, 0.6f);
             cardPanel.SetActive(false);
+            rawCard = null;
             yield return null;
         }
 
@@ -126,7 +165,8 @@ namespace LoneTruth.UI
 
         public void SetObjective(string text)
         {
-            objectiveText.text = string.IsNullOrEmpty(text) ? "" : "ЦЕЛЬ  ·  " + text;
+            rawObjective = text;
+            objectiveText.text = string.IsNullOrEmpty(text) ? "" : Loc.T("ЦЕЛЬ") + "  ·  " + Loc.T(text);
         }
 
         public void SetHudVisible(bool visible)
@@ -141,29 +181,126 @@ namespace LoneTruth.UI
 
         // ---------------------------------------------------------------- internals
 
-        private IEnumerator Reveal(Text target, string text)
+        private IEnumerator Reveal(Text target)
         {
             target.text = "";
             float shown = 0f;
             yield return null;
-            while (shown < text.Length)
+            // Re-read the translation every frame: the language may be switched mid-line.
+            while (shown < Loc.T(rawLine).Length)
             {
                 if (AdvancePressed())
                 {
                     break;
                 }
 
+                string text = Loc.T(rawLine);
                 shown += Time.unscaledDeltaTime * charactersPerSecond;
                 target.text = text.Substring(0, Mathf.Min(text.Length, Mathf.FloorToInt(shown)));
                 yield return null;
             }
 
-            target.text = text;
+            target.text = Loc.T(rawLine);
+        }
+
+        private void RenderSpeaker()
+        {
+            speakerText.text = string.IsNullOrEmpty(rawSpeaker) ? "" : Loc.T(rawSpeaker).ToUpperInvariant();
+        }
+
+        private void Relocalize()
+        {
+            if (dialoguePanel.activeSelf && rawLine != null)
+            {
+                RenderSpeaker();
+                if (continueHint.gameObject.activeSelf)
+                {
+                    lineText.text = Loc.T(rawLine);
+                }
+            }
+
+            if (cardPanel.activeSelf && rawCard != null)
+            {
+                cardText.text = Loc.T(rawCard);
+            }
+
+            if (toastText.gameObject.activeSelf && rawToast != null)
+            {
+                toastText.text = Loc.T(rawToast);
+            }
+
+            SetObjective(rawObjective);
+            RenderLanguageSwitch();
+        }
+
+        // ---------------------------------------------------------------- language switch
+
+        private void BuildLanguageSwitch()
+        {
+            // Own canvas above the fader and cards, so the language can be changed at any moment.
+            var go = new GameObject("LanguageSwitch", typeof(RectTransform), typeof(Canvas));
+            go.transform.SetParent(transform, false);
+            var switchCanvas = go.GetComponent<Canvas>();
+            switchCanvas.overrideSorting = true;
+            switchCanvas.sortingOrder = 130;
+            languageRoot = (RectTransform)go.transform;
+
+            const float labelWidth = 56f;
+            IReadOnlyList<Loc.Language> langs = Loc.Languages;
+            Place(languageRoot, new Vector2(1, 1), new Vector2(1, 1), new Vector2(-40, -32), new Vector2(labelWidth * langs.Count, 40));
+            for (int i = 0; i < langs.Count; i++)
+            {
+                Text label = MakeText("Lang_" + langs[i].Code, languageRoot, 24, mutedColor, TextAnchor.MiddleCenter);
+                label.text = langs[i].Code.ToUpperInvariant();
+                label.fontStyle = FontStyle.Bold;
+                Place(label.rectTransform, new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(i * labelWidth, 0), new Vector2(labelWidth, 40));
+                languageLabels.Add(label);
+                languageCodes.Add(langs[i].Code);
+            }
+
+            RenderLanguageSwitch();
+        }
+
+        private void UpdateLanguageSwitch()
+        {
+            int hovered = -1;
+            if (PointerOverHud)
+            {
+                for (int i = 0; i < languageLabels.Count; i++)
+                {
+                    if (RectTransformUtility.RectangleContainsScreenPoint(languageLabels[i].rectTransform, Input.mousePosition, null))
+                    {
+                        hovered = i;
+                        break;
+                    }
+                }
+            }
+
+            if (hovered != hoveredLanguage)
+            {
+                hoveredLanguage = hovered;
+                RenderLanguageSwitch();
+            }
+
+            if (hovered >= 0 && Input.GetMouseButtonDown(0))
+            {
+                Loc.SetLanguage(languageCodes[hovered]);
+            }
+        }
+
+        private void RenderLanguageSwitch()
+        {
+            for (int i = 0; i < languageLabels.Count; i++)
+            {
+                bool active = languageCodes[i] == Loc.CurrentCode;
+                languageLabels[i].color = active ? speakerColor : i == hoveredLanguage ? textColor : mutedColor;
+            }
         }
 
         private IEnumerator ToastRoutine(string text, float seconds)
         {
-            toastText.text = text;
+            rawToast = text;
+            toastText.text = Loc.T(text);
             toastText.gameObject.SetActive(true);
             yield return FadeGraphics(new Graphic[] { toastText }, 0f, 1f, 0.25f);
             yield return new WaitForSeconds(seconds);
@@ -257,6 +394,8 @@ namespace LoneTruth.UI
             cardText.lineSpacing = 1.25f;
             Place(cardText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1300, 700));
             cardPanel.SetActive(false);
+
+            BuildLanguageSwitch();
         }
 
         public Text MakeText(string name, Transform parent, int size, Color color, TextAnchor anchor)

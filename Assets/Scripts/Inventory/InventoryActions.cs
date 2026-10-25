@@ -61,7 +61,7 @@ namespace LoneTruth.Inventory
                     if (weapon != null && item == weapon.WeaponItem)
                     {
                         weapon.ToggleEquip();
-                        Say(weapon.IsEquipped ? item.ItemName + " — в руке" : item.ItemName + " — в кобуре");
+                        Say(Loc.Format(weapon.IsEquipped ? "{0} — в руке" : "{0} — в кобуре", item.DisplayName));
                     }
 
                     break;
@@ -87,7 +87,7 @@ namespace LoneTruth.Inventory
                     }
 
                     inventory.RemoveItem(item, 1);
-                    Say(item.ItemName + " — использовано");
+                    Say(Loc.Format("{0} — использовано", item.DisplayName));
                     break;
 
                 case ItemType.Key:
@@ -117,7 +117,7 @@ namespace LoneTruth.Inventory
             int before = weapon.LoadedAmmo;
             if (weapon.Reload())
             {
-                Say($"Заряжено: {weapon.LoadedAmmo - before}");
+                Say(Loc.Format("Заряжено: {0}", weapon.LoadedAmmo - before));
             }
         }
 

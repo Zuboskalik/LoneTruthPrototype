@@ -1,3 +1,4 @@
+using LoneTruth.Core;
 using UnityEngine;
 
 namespace LoneTruth.Inventory
@@ -29,6 +30,8 @@ namespace LoneTruth.Inventory
 
         public string Id => id;
         public string ItemName => itemName;
+        /// <summary>The name in the current language (see Loc).</summary>
+        public string DisplayName => Loc.T(itemName);
         public Sprite Icon => icon;
         public ItemType ItemType => itemType;
         public int MaxStack => maxStack;

@@ -78,7 +78,7 @@ namespace LoneTruth.Interaction
 
         public string GetInteractionPrompt()
         {
-            return IsLocked ? prompt + " (заперто)" : prompt;
+            return IsLocked ? Loc.T(prompt) + " (" + Loc.T("заперто") + ")" : Loc.T(prompt);
         }
 
         private void Go()
