@@ -21,6 +21,8 @@ namespace LoneTruth.UI
         [SerializeField] private Color textColor = new Color(0.93f, 0.9f, 0.85f);
         [SerializeField] private Color mutedColor = new Color(0.64f, 0.62f, 0.56f);
         [SerializeField] private float charactersPerSecond = 55f;
+        [Tooltip("Seconds a card that waits for input stays up before the \"press E\" hint appears.")]
+        [SerializeField] private float cardHintDelay = 4.5f;
 
         private Font font;
         private Canvas canvas;
@@ -30,6 +32,7 @@ namespace LoneTruth.UI
         private Text continueHint;
         private GameObject cardPanel;
         private Text cardText;
+        private Text cardHint;
         private Text toastText;
         private Text objectiveText;
         private Coroutine toastRoutine;
@@ -125,6 +128,8 @@ namespace LoneTruth.UI
             yield return null;
         }
 
+        private const string CardHintText = "Нажмите E, чтобы продолжить";
+
         /// <summary>Full-screen card over black (titles, letters). duration ≤ 0 waits for input.</summary>
         public IEnumerator ShowCard(string text, float duration)
         {
@@ -140,14 +145,30 @@ namespace LoneTruth.UI
             }
             else
             {
+                // A letter can look like the game is idle: after a while, say how to go on.
                 yield return new WaitForSeconds(0.3f);
+                float waited = 0f;
                 while (!AdvancePressed())
                 {
+                    waited += Time.unscaledDeltaTime;
+                    if (waited >= cardHintDelay && !cardHint.gameObject.activeSelf)
+                    {
+                        cardHint.text = Loc.T(CardHintText);
+                        cardHint.gameObject.SetActive(true);
+                        StartCoroutine(FadeGraphics(new Graphic[] { cardHint }, 0f, 1f, 0.8f));
+                    }
+
                     yield return null;
                 }
             }
 
+            if (cardHint.gameObject.activeSelf)
+            {
+                graphics = new Graphic[] { graphics[0], cardText, cardHint };
+            }
+
             yield return FadeGraphics(graphics, 1f, 0f, 0.6f);
+            cardHint.gameObject.SetActive(false);
             cardPanel.SetActive(false);
             rawCard = null;
             yield return null;
@@ -222,6 +243,7 @@ namespace LoneTruth.UI
             if (cardPanel.activeSelf && rawCard != null)
             {
                 cardText.text = Loc.T(rawCard);
+                cardHint.text = Loc.T(CardHintText);
             }
 
             if (toastText.gameObject.activeSelf && rawToast != null)
@@ -393,6 +415,9 @@ namespace LoneTruth.UI
             cardText = MakeText("CardText", cardPanel.transform, 34, textColor, TextAnchor.MiddleCenter);
             cardText.lineSpacing = 1.25f;
             Place(cardText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1300, 700));
+            cardHint = MakeText("CardHint", cardPanel.transform, 24, mutedColor, TextAnchor.MiddleCenter);
+            Place(cardHint.rectTransform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 70), new Vector2(1300, 40));
+            cardHint.gameObject.SetActive(false);
             cardPanel.SetActive(false);
 
             BuildLanguageSwitch();

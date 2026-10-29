@@ -816,7 +816,7 @@ namespace LoneTruth.EditorTools
                 result["Holt"] = holt;
             }
 
-            foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "Ruth", "Cornelius", "Clerk" })
+            foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "SaloonMan", "SaloonWoman", "Ruth", "Cornelius", "Clerk" })
             {
                 string path = $"{AnimDir}/AC_{npc}.controller";
                 RuntimeAnimatorController sheetController = BuildNpcSheetController(npc, path);
@@ -829,7 +829,7 @@ namespace LoneTruth.EditorTools
                 AssetDatabase.DeleteAsset(path);
                 var ac = AnimatorController.CreateAnimatorControllerAtPath(path);
                 AnimatorState s = ac.layers[0].stateMachine.AddState("Idle");
-                s.motion = SpriteClip($"{npc}_Idle", $"CH_{npc}_Idle", 2, 1.5f, true);
+                s.motion = SpriteClip($"{npc}_Idle", $"CH_{NpcPlaceholderKey(npc)}_Idle", 2, 1.5f, true);
                 result[npc] = ac;
             }
 
@@ -1247,10 +1247,11 @@ namespace LoneTruth.EditorTools
             {
                 sprite.GetComponent<SpriteRenderer>().sprite = SheetFrame(sheet, NpcIdleFrame(key));
                 sprite.localScale = Vector3.one * NpcIdleScale(key);
+                sprite.GetComponent<SpriteRenderer>().flipX = NpcFacesLeft(key);
             }
             else
             {
-                sprite.GetComponent<SpriteRenderer>().sprite = S($"{CharDir}/CH_{key}_Ref.png");
+                sprite.GetComponent<SpriteRenderer>().sprite = S($"{CharDir}/CH_{NpcPlaceholderKey(key)}_Ref.png");
             }
 
             var c = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>($"{AnimDir}/AC_{key}.controller");

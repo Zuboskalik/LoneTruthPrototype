@@ -106,8 +106,9 @@ namespace LoneTruth.Interaction
                 return;
             }
 
-            promptCanvas.gameObject.SetActive(true);
-            promptText.text = Loc.T(currentTarget.GetInteractionPrompt());
+            string prompt = currentTarget.GetInteractionPrompt();
+            promptCanvas.gameObject.SetActive(!string.IsNullOrEmpty(prompt));
+            promptText.text = Loc.T(prompt);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(promptCanvasRect, screen, null, out Vector2 local);
             promptText.rectTransform.anchoredPosition = local;
         }

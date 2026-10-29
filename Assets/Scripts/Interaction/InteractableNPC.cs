@@ -36,13 +36,15 @@ namespace LoneTruth.Interaction
 
         public void Interact(GameObject interactor)
         {
+            PlayReaction();
             ShowDialogue(dialogueLine);
             SpawnKeyOnTable();
         }
 
         public string GetInteractionPrompt()
         {
-            return interactionPrompt;
+            // No prompt while the line is up: both sit above the head and would overlap.
+            return dialogueCanvas != null && dialogueCanvas.gameObject.activeSelf ? "" : interactionPrompt;
         }
 
         private void SpawnKeyOnTable()
@@ -54,6 +56,25 @@ namespace LoneTruth.Interaction
 
             Instantiate(keyItemPrefab, tableSpawnPoint.position, tableSpawnPoint.rotation);
             keySpawned = true;
+        }
+
+        /// <summary>Plays the "React" trigger (a short gesture with the line), if the animator has one.</summary>
+        private void PlayReaction()
+        {
+            Animator animator = GetComponentInChildren<Animator>();
+            if (animator == null || animator.runtimeAnimatorController == null)
+            {
+                return;
+            }
+
+            foreach (AnimatorControllerParameter p in animator.parameters)
+            {
+                if (p.name == "React" && p.type == AnimatorControllerParameterType.Trigger)
+                {
+                    animator.SetTrigger("React");
+                    return;
+                }
+            }
         }
 
         private void ShowDialogue(string text)

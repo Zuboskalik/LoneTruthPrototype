@@ -523,6 +523,9 @@ namespace LoneTruth.EditorTools
 
             Transform play = Group("--- Gameplay");
             GameObject conductor = Npc(p, ac, "NPC_Conductor_x6", "Conductor", new Vector3(6f, 0f, 0.6f), play, "Поговорить", "Дальше не поеду.");
+            conductor.AddComponent<CutsceneActor>().Configure("Проводник");
+            // Holt arrives on his left; the art faces right.
+            conductor.GetComponentInChildren<SpriteRenderer>().flipX = true;
             GameObject callahan = Npc(p, ac, "NPC_Callahan_x24", "Callahan", new Vector3(24f, 0f, 0.6f), play, "Поговорить", "Пойдёмте, мистер Холт.");
             Talk(callahan, "Поговорить", "Кэллахан", "Пойдёмте, мистер Холт. Ночью здесь не стоят.");
 
@@ -734,8 +737,8 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-04", 21.5f, play);
 
             GameObject ruth = Npc(p, ac, "NPC_Ruth_x10", "Ruth", new Vector3(10f, 0f, 0f), play, "Поговорить", "", 2.2f);
-            Npc(p, ac, "NPC_Visitor_x18", "PasserbyMiner", new Vector3(18f, 0f, 0.9f), play, "Поговорить", "Шахта молчит уже месяц.");
-            Npc(p, ac, "NPC_Visitor_x19", "PasserbyWoman", new Vector3(19.5f, 0f, 0.9f), play, "Поговорить", "Не мешайте, мистер. Я пью за упокой.");
+            Npc(p, ac, "NPC_Visitor_x18", "SaloonMan", new Vector3(18f, 0f, 0.9f), play, "Поговорить", "Шахта молчит уже месяц.");
+            Npc(p, ac, "NPC_Visitor_x19", "SaloonWoman", new Vector3(19.5f, 0f, 0.9f), play, "Поговорить", "Не мешайте, мистер. Я пью за упокой.");
 
             Transform story = Group("--- Story");
 

@@ -12,7 +12,8 @@ namespace LoneTruth.EditorTools
     /// Hand-drawn character spritesheets in Assets/Sprites/Generated: slicing into named frames
     /// and building animation clips from them. A sheet is sliced only while it has no sprites
     /// with its prefix, so hand edits made in the Sprite Editor (rects, pivots) survive rebuilds;
-    /// delete the sprites there to re-slice. Characters without a sheet keep the placeholder art.
+    /// delete the sprites there to re-slice. Characters without a sheet keep the placeholder art;
+    /// which frames each NPC uses is in Chapter1NpcSheets.
     /// </summary>
     public static partial class Chapter1LocationBuilder
     {
@@ -41,44 +42,6 @@ namespace LoneTruth.EditorTools
             public SheetRow[] Rows;
 
             public bool Exists => File.Exists(Path);
-        }
-
-        // Duke Callahan: idle gestures / walk + shooting / reloading, dynamite / hit, falling.
-        // Only idle and walk are used until there are combat scenes with him.
-        private static readonly CharacterSheet CallahanSheet = new CharacterSheet
-        {
-            Path = "Assets/Sprites/Generated/Дьюк Кэллахан.png",
-            Prefix = "Callahan",
-            Ppu = 85f, // walk row: ~161 px for 1.9 m
-            Rows = new[] { new SheetRow(0, "Idle", false, 6), new SheetRow(1, "Walk", true, 4) }
-        };
-
-        // Ruth McKenzie: the two rows behind the counter are not used; the standing row gives idle
-        // and talk, the walking row is cut for later.
-        private static readonly CharacterSheet RuthSheet = new CharacterSheet
-        {
-            Path = "Assets/Sprites/Generated/Руфь Маккензи.png",
-            Prefix = "Ruth",
-            Ppu = 92f, // ~155 px for 1.68 m
-            Rows = new[] { new SheetRow(2, "Stand", false, 8), new SheetRow(3, "Walk", true, 8) }
-        };
-
-        /// <summary>NPC key (as used by Npc()) → sheet, idle frame and idle scale.</summary>
-        private static CharacterSheet NpcSheet(string key)
-        {
-            CharacterSheet sheet = key == "Callahan" ? CallahanSheet : key == "Ruth" ? RuthSheet : null;
-            return sheet != null && sheet.Exists ? sheet : null;
-        }
-
-        private static void ImportCharacterSheets()
-        {
-            foreach (CharacterSheet sheet in new[] { HoltSheet, CallahanSheet, RuthSheet })
-            {
-                if (sheet.Exists)
-                {
-                    ImportSheet(sheet);
-                }
-            }
         }
 
         private static void ImportSheet(CharacterSheet sheet)
@@ -313,62 +276,5 @@ namespace LoneTruth.EditorTools
             t.duration = 0f;
             return t;
         }
-
-        /// <summary>Callahan: idle and walk (Speed, written by cutscene MoveActor steps).</summary>
-        private static RuntimeAnimatorController BuildCallahanController(string controllerPath)
-        {
-            float idleScale = NpcIdleScale("Callahan");
-            AssetDatabase.DeleteAsset(controllerPath);
-            var ac = AnimatorController.CreateAnimatorControllerAtPath(controllerPath);
-            ac.AddParameter("Speed", AnimatorControllerParameterType.Float);
-            AnimatorStateMachine sm = ac.layers[0].stateMachine;
-            AnimatorState idle = sm.AddState("Idle", new Vector3(250, 0));
-            // The 2nd idle frame (hand on the hat brim): the 1st one has the revolver drawn.
-            idle.motion = SheetClip(CallahanSheet, "Callahan_Idle", 1, true, idleScale, "Idle_01");
-            AnimatorState walk = sm.AddState("Walk", new Vector3(250, 100));
-            walk.motion = SheetClip(CallahanSheet, "Callahan_Walk", 6, true, 1f, "Walk_00", "Walk_01", "Walk_02", "Walk_03");
-            sm.defaultState = idle;
-            Go(idle, walk, false).AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
-            Go(walk, idle, false).AddCondition(AnimatorConditionMode.Less, 0.1f, "Speed");
-            return ac;
-        }
-
-        /// <summary>
-        /// Ruth: arms crossed with an occasional pull on the pipe; hands on hips while she talks.
-        /// Only frames whose costume matches (towel on the shoulder, keys at the left hip) are used.
-        /// </summary>
-        private static RuntimeAnimatorController BuildRuthController(string controllerPath)
-        {
-            AssetDatabase.DeleteAsset(controllerPath);
-            var ac = AnimatorController.CreateAnimatorControllerAtPath(controllerPath);
-            ac.AddParameter("Speed", AnimatorControllerParameterType.Float);
-            ac.AddParameter("Talk", AnimatorControllerParameterType.Bool);
-            AnimatorStateMachine sm = ac.layers[0].stateMachine;
-            AnimatorState idle = sm.AddState("Idle", new Vector3(250, 0));
-            idle.motion = SheetClip(RuthSheet, "Ruth_Idle", 2, true, 1f,
-                "Stand_05", "Stand_06", "Stand_05", "Stand_06", "Stand_05", "Stand_01", "Stand_01");
-            AnimatorState talk = sm.AddState("Talk", new Vector3(500, 0));
-            talk.motion = SheetClip(RuthSheet, "Ruth_Talk", 3, true, 1f, "Stand_00", "Stand_04");
-            sm.defaultState = idle;
-            Go(idle, talk, false).AddCondition(AnimatorConditionMode.If, 0f, "Talk");
-            Go(talk, idle, false).AddCondition(AnimatorConditionMode.IfNot, 0f, "Talk");
-            return ac;
-        }
-
-        /// <summary>Sheet NPC controllers by key, or null for placeholder NPCs.</summary>
-        private static RuntimeAnimatorController BuildNpcSheetController(string key, string controllerPath)
-        {
-            if (NpcSheet(key) == null)
-            {
-                return null;
-            }
-
-            return key == "Callahan" ? BuildCallahanController(controllerPath) : BuildRuthController(controllerPath);
-        }
-
-        private static string NpcIdleFrame(string key) => key == "Callahan" ? "Idle_01" : "Stand_05";
-
-        private static float NpcIdleScale(string key) =>
-            key == "Callahan" ? SheetScale(CallahanSheet, "Idle_01", "Walk_00") : 1f;
     }
 }
