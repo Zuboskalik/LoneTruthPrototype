@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using LoneTruth.Combat;
 using LoneTruth.Core;
@@ -44,6 +45,13 @@ namespace LoneTruth.UI
         private bool visible = true;
         private InventoryManager inventory;
         private WeaponController weapon;
+
+        // A small padlock over the revolver while the weapon can't be used here (outside a CombatZone).
+        private RectTransform weaponLock;
+        private CanvasGroup weaponLockGroup;
+        private bool lockShown = true;
+        private Coroutine lockRoutine;
+        private static readonly Vector2 LockOffset = new Vector2(30f, 30f); // top-right corner of the slot
 
         private void Start()
         {
@@ -93,6 +101,7 @@ namespace LoneTruth.UI
             barRoot.SetActive(true);
             IReadOnlyList<InventorySlot> slots = inventory.Slots;
             int v = 0;
+            int weaponView = -1;
             string selectedName = "";
             for (int i = 0; i < slots.Count && v < views.Count; i++)
             {
@@ -110,6 +119,7 @@ namespace LoneTruth.UI
                 bool isWeapon = weapon != null && slot.item == weapon.WeaponItem;
                 if (isWeapon)
                 {
+                    weaponView = v - 1;
                     view.Count.text = weapon.LoadedAmmo.ToString();
                 }
                 else
@@ -139,14 +149,113 @@ namespace LoneTruth.UI
                 if (view.Root.activeSelf) shown++;
             }
 
+            UpdateWeaponLock(weaponView);
             nameText.text = selectedName;
-            hintText.text = weapon != null && weapon.IsEquipped
+            hintText.text = weapon != null && weapon.IsEquipped && CombatZone.WeaponsAllowed
                 ? Loc.T(Hint) + "   ·   " + Loc.T(AimHint)
                 : Loc.T(Hint);
             // Money sits right after the last item and appears once Holt has some.
             moneyText.gameObject.SetActive(StoryState.Money > 0);
             moneyText.text = "$ " + StoryState.Money;
             moneyText.rectTransform.anchoredPosition = new Vector2(shown * slotWidth + 12f, -6f);
+        }
+
+        /// <summary>
+        /// Keeps the padlock on the revolver's slot. When the weapon becomes usable the lock drifts
+        /// up and dissolves; when that ends it fades back in.
+        /// </summary>
+        private void UpdateWeaponLock(int weaponView)
+        {
+            if (weaponLock == null)
+            {
+                return;
+            }
+
+            bool hasWeapon = weaponView >= 0;
+            weaponLock.gameObject.SetActive(hasWeapon);
+            if (!hasWeapon)
+            {
+                return;
+            }
+
+            weaponLock.SetParent(views[weaponView].Root.transform, false);
+            bool locked = !CombatZone.WeaponsAllowed;
+            if (locked == lockShown)
+            {
+                return;
+            }
+
+            lockShown = locked;
+            if (lockRoutine != null)
+            {
+                StopCoroutine(lockRoutine);
+            }
+
+            lockRoutine = StartCoroutine(locked ? LockAppear() : LockFlyAway());
+        }
+
+        private IEnumerator LockFlyAway()
+        {
+            float start = weaponLockGroup.alpha;
+            for (float t = 0f; t < 1f; t += Time.unscaledDeltaTime / 1.1f)
+            {
+                float k = Mathf.SmoothStep(0f, 1f, t);
+                weaponLock.anchoredPosition = LockOffset + new Vector2(6f * k, 46f * k);
+                weaponLock.localScale = Vector3.one * (1f + 0.25f * k);
+                weaponLockGroup.alpha = start * (1f - k);
+                yield return null;
+            }
+
+            weaponLockGroup.alpha = 0f;
+            lockRoutine = null;
+        }
+
+        private IEnumerator LockAppear()
+        {
+            weaponLock.anchoredPosition = LockOffset;
+            weaponLock.localScale = Vector3.one;
+            float start = weaponLockGroup.alpha;
+            for (float t = 0f; t < 1f; t += Time.unscaledDeltaTime / 0.5f)
+            {
+                weaponLockGroup.alpha = Mathf.Lerp(start, 1f, t);
+                yield return null;
+            }
+
+            weaponLockGroup.alpha = 1f;
+            lockRoutine = null;
+        }
+
+        private void BuildWeaponLock()
+        {
+            var go = new GameObject("WeaponLock", typeof(RectTransform), typeof(CanvasGroup));
+            go.transform.SetParent(barRoot.transform, false);
+            weaponLock = (RectTransform)go.transform;
+            weaponLockGroup = go.GetComponent<CanvasGroup>();
+            weaponLockGroup.blocksRaycasts = false;
+            weaponLockGroup.interactable = false;
+            GameUI.Place(weaponLock, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), LockOffset, new Vector2(22f, 26f));
+
+            // A schematic padlock: shackle (three bars) over a body with a keyhole.
+            var ink = new Color(equippedColor.r, equippedColor.g, equippedColor.b, 0.9f);
+            LockPart(new Vector2(-6f, 4f), new Vector2(3f, 9f), ink);
+            LockPart(new Vector2(6f, 4f), new Vector2(3f, 9f), ink);
+            LockPart(new Vector2(0f, 9f), new Vector2(15f, 3f), ink);
+            LockPart(new Vector2(0f, -6f), new Vector2(18f, 13f), ink);
+            LockPart(new Vector2(0f, -6f), new Vector2(3f, 6f), new Color(0.08f, 0.08f, 0.09f, 0.9f));
+            weaponLockGroup.alpha = CombatZone.WeaponsAllowed ? 0f : 1f;
+            lockShown = !CombatZone.WeaponsAllowed;
+            go.SetActive(false);
+        }
+
+        private void LockPart(Vector2 pos, Vector2 size, Color color)
+        {
+            var part = new GameObject("LockPart", typeof(RectTransform), typeof(Image));
+            part.transform.SetParent(weaponLock, false);
+            var img = part.GetComponent<Image>();
+            img.color = color;
+            img.raycastTarget = false;
+            GameUI.Place(img.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), pos, size);
+            part.AddComponent<Shadow>().effectColor = new Color(0f, 0f, 0f, 0.8f);
         }
 
         private void Build()
@@ -169,6 +278,8 @@ namespace LoneTruth.UI
             {
                 views.Add(MakeSlot(ui, i));
             }
+
+            BuildWeaponLock();
         }
 
         private SlotView MakeSlot(GameUI ui, int index)

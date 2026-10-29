@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8474992756747491157}
   - component: {fileID: 592060141824934427}
   - component: {fileID: 8930043038230599939}
+  - component: {fileID: 4704666942311218870}
   - component: {fileID: 9059350700735958113}
   - component: {fileID: 2512965295448712660}
   m_Layer: 0
@@ -47,12 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d9795ad0c2eb84f9826356038b92bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.UI.GameUI
-  panelColor: {r: 0.04, g: 0.045, b: 0.055, a: 0.88}
   speakerColor: {r: 0.78, g: 0.57, b: 0.18, a: 1}
   textColor: {r: 0.93, g: 0.9, b: 0.85, a: 1}
   mutedColor: {r: 0.64, g: 0.62, b: 0.56, a: 1}
-  charactersPerSecond: 55
-  cardHintDelay: 4.5
+  cardHintDelay: 1
 --- !u!114 &8930043038230599939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +70,29 @@ MonoBehaviour:
   bracketColor: {r: 0.25, g: 0.85, b: 0.42, a: 1}
   countColor: {r: 0.93, g: 0.88, b: 0.7, a: 1}
   equippedColor: {r: 0.86, g: 0.84, b: 0.78, a: 1}
+--- !u!114 &4704666942311218870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225904634818208902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0ff62417648af49b638986cd835856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.UI.DialogueUI
+  portraits: {fileID: 11400000, guid: 4066cecddd4c47a42b67eeeea8feb7ed, type: 2}
+  panelColor: {r: 0.04, g: 0.045, b: 0.055, a: 0.9}
+  speakerColor: {r: 0.78, g: 0.57, b: 0.18, a: 1}
+  textColor: {r: 0.93, g: 0.9, b: 0.85, a: 1}
+  mutedColor: {r: 0.55, g: 0.53, b: 0.49, a: 1}
+  clueColor: {r: 0.8, g: 0.9, b: 1, a: 1}
+  hopeColor: {r: 0.96, g: 0.66, b: 0.2, a: 1}
+  despairColor: {r: 0.62, g: 0.32, b: 0.78, a: 1}
+  truthColor: {r: 0.86, g: 0.94, b: 1, a: 1}
+  charactersPerSecond: 55
+  shardRevealSeconds: 0.9
 --- !u!114 &9059350700735958113
 MonoBehaviour:
   m_ObjectHideFlags: 0

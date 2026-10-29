@@ -34,7 +34,8 @@ namespace LoneTruth.Story
         LoadScene,       // boolValue = fade back in after loading
         Shard,           // key = Hope / Despair / Truth, amount
         Keystone,        // key = key truth id (+1 Truth, once)
-        QuestOutcome     // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
+        QuestOutcome,    // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
+        Dialogue         // dialogue: a conversation with answers (DialogueSO), waits until it ends
     }
 
     [Serializable]
@@ -55,6 +56,7 @@ namespace LoneTruth.Story
         public int amount = 1;
         public string scene;
         public string spawnId;
+        public LoneTruth.Dialogue.DialogueSO dialogue;
     }
 
     /// <summary>
@@ -70,6 +72,13 @@ namespace LoneTruth.Story
 
         public bool IsPlaying { get; private set; }
         public static bool AnyPlaying { get; private set; }
+
+        // No domain reload on entering Play mode: a cutscene cut off by stopping the game must not stay "playing".
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            AnyPlaying = false;
+        }
 
         public bool IsDone => !string.IsNullOrEmpty(doneFlag) && StoryState.Has(doneFlag);
 
@@ -183,6 +192,10 @@ namespace LoneTruth.Story
 
                 case CutsceneStepType.Card:
                     if (ui != null) yield return ui.ShowCard(s.text, s.duration);
+                    break;
+
+                case CutsceneStepType.Dialogue:
+                    if (s.dialogue != null) yield return LoneTruth.Dialogue.DialogueRunner.Run(s.dialogue);
                     break;
 
                 case CutsceneStepType.Line:

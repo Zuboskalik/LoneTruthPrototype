@@ -7,29 +7,23 @@ using UnityEngine.UI;
 namespace LoneTruth.UI
 {
     /// <summary>
-    /// Screen-space game UI that survives scene loads: dialogue box, full-screen text card,
-    /// toasts and the current objective. Built from code in Awake so the prefab stays a single
-    /// component; the inventory bar (InventoryBarUI) lives on the same object.
+    /// Screen-space game UI that survives scene loads: full-screen text card, toasts and the
+    /// current objective. Built from code in Awake so the prefab stays a single component; the
+    /// dialogue panel (DialogueUI), inventory bar, watch and notebook live on the same object.
     /// </summary>
     public class GameUI : MonoBehaviour
     {
         public static GameUI Instance { get; private set; }
 
         [Header("Look")]
-        [SerializeField] private Color panelColor = new Color(0.04f, 0.045f, 0.055f, 0.88f);
         [SerializeField] private Color speakerColor = new Color(0.78f, 0.57f, 0.18f);
         [SerializeField] private Color textColor = new Color(0.93f, 0.9f, 0.85f);
         [SerializeField] private Color mutedColor = new Color(0.64f, 0.62f, 0.56f);
-        [SerializeField] private float charactersPerSecond = 55f;
         [Tooltip("Seconds a card that waits for input stays up before the \"press E\" hint appears.")]
-        [SerializeField] private float cardHintDelay = 4.5f;
+        [SerializeField] private float cardHintDelay = 1f;
 
         private Font font;
         private Canvas canvas;
-        private GameObject dialoguePanel;
-        private Text speakerText;
-        private Text lineText;
-        private Text continueHint;
         private GameObject cardPanel;
         private Text cardText;
         private Text cardHint;
@@ -38,8 +32,6 @@ namespace LoneTruth.UI
         private Coroutine toastRoutine;
 
         // Untranslated text currently on screen, so a language switch can re-render it.
-        private string rawSpeaker;
-        private string rawLine;
         private string rawCard;
         private string rawToast;
         private string rawObjective;
@@ -86,6 +78,14 @@ namespace LoneTruth.UI
         /// <summary>Debug / automated tests: dialogue and cards advance on their own.</summary>
         public static bool AutoAdvance;
 
+        // The project enters Play mode without a domain reload, so statics survive between runs:
+        // a test that switched AutoAdvance on must not leave the next session skipping dialogue.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            AutoAdvance = false;
+        }
+
         public static bool AdvancePressed()
         {
             if (AutoAdvance)
@@ -103,29 +103,14 @@ namespace LoneTruth.UI
             Instance != null && Instance.languageRoot != null && Instance.languageRoot.gameObject.activeInHierarchy &&
             RectTransformUtility.RectangleContainsScreenPoint(Instance.languageRoot, Input.mousePosition, null);
 
-        /// <summary>One line of dialogue. Waits for the player; a press during the reveal completes it.</summary>
+        /// <summary>One line of dialogue in the dialogue panel. Waits for the player.</summary>
         public IEnumerator ShowLine(string speaker, string text)
         {
-            dialoguePanel.SetActive(true);
-            rawSpeaker = speaker;
-            rawLine = text;
-            RenderSpeaker();
-            speakerText.gameObject.SetActive(!string.IsNullOrEmpty(speaker));
-            // Holt's inner voice (speaker "") is set in italics, like a voice-over.
-            lineText.fontStyle = string.IsNullOrEmpty(speaker) ? FontStyle.Italic : FontStyle.Normal;
-            continueHint.gameObject.SetActive(false);
-
-            yield return Reveal(lineText);
-            continueHint.gameObject.SetActive(true);
-            yield return null;
-            while (!AdvancePressed())
+            DialogueUI dialogue = GetComponent<DialogueUI>();
+            if (dialogue != null)
             {
-                yield return null;
+                yield return dialogue.ShowLine(speaker, text);
             }
-
-            dialoguePanel.SetActive(false);
-            rawLine = null;
-            yield return null;
         }
 
         private const string CardHintText = "Нажмите E, чтобы продолжить";
@@ -208,44 +193,8 @@ namespace LoneTruth.UI
 
         // ---------------------------------------------------------------- internals
 
-        private IEnumerator Reveal(Text target)
-        {
-            target.text = "";
-            float shown = 0f;
-            yield return null;
-            // Re-read the translation every frame: the language may be switched mid-line.
-            while (shown < Loc.T(rawLine).Length)
-            {
-                if (AdvancePressed())
-                {
-                    break;
-                }
-
-                string text = Loc.T(rawLine);
-                shown += Time.unscaledDeltaTime * charactersPerSecond;
-                target.text = text.Substring(0, Mathf.Min(text.Length, Mathf.FloorToInt(shown)));
-                yield return null;
-            }
-
-            target.text = Loc.T(rawLine);
-        }
-
-        private void RenderSpeaker()
-        {
-            speakerText.text = string.IsNullOrEmpty(rawSpeaker) ? "" : Loc.T(rawSpeaker).ToUpperInvariant();
-        }
-
         private void Relocalize()
         {
-            if (dialoguePanel.activeSelf && rawLine != null)
-            {
-                RenderSpeaker();
-                if (continueHint.gameObject.activeSelf)
-                {
-                    lineText.text = Loc.T(rawLine);
-                }
-            }
-
             if (cardPanel.activeSelf && rawCard != null)
             {
                 cardText.text = Loc.T(rawCard);
@@ -390,21 +339,6 @@ namespace LoneTruth.UI
             toastText = MakeText("Toast", transform, 28, textColor, TextAnchor.MiddleCenter);
             Place(toastText.rectTransform, new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -110), new Vector2(1400, 48));
             toastText.gameObject.SetActive(false);
-
-            // Dialogue box, bottom, above the inventory bar.
-            dialoguePanel = new GameObject("Dialogue", typeof(RectTransform), typeof(Image));
-            dialoguePanel.transform.SetParent(transform, false);
-            dialoguePanel.GetComponent<Image>().color = panelColor;
-            Place((RectTransform)dialoguePanel.transform, new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 200), new Vector2(1400, 190));
-            speakerText = MakeText("Speaker", dialoguePanel.transform, 24, speakerColor, TextAnchor.UpperLeft);
-            speakerText.fontStyle = FontStyle.Bold;
-            Place(speakerText.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(36, -22), new Vector2(800, 34));
-            lineText = MakeText("Line", dialoguePanel.transform, 30, textColor, TextAnchor.UpperLeft);
-            Place(lineText.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(36, -62), new Vector2(1328, 110));
-            continueHint = MakeText("Continue", dialoguePanel.transform, 20, mutedColor, TextAnchor.LowerRight);
-            continueHint.text = "[E]";
-            Place(continueHint.rectTransform, new Vector2(1, 0), new Vector2(1, 0), new Vector2(-28, 16), new Vector2(200, 30));
-            dialoguePanel.SetActive(false);
 
             // Full-screen card on its own canvas, above the ScreenFader (sorting order 100).
             cardPanel = new GameObject("Card", typeof(RectTransform), typeof(Canvas), typeof(Image));

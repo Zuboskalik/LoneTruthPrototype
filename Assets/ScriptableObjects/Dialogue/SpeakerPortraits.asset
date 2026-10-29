@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e3c9022ec373b44b79e2c51919821f, type: 3}
+  m_Name: SpeakerPortraits
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Dialogue.SpeakerPortraitsSO
+  entries:
+  - speaker: "\u0425\u043E\u043B\u0442"
+    portrait: {fileID: 309286352, guid: a430d48e549263b4999897556af35d1b, type: 3}
+  - speaker: "\u041A\u044D\u043B\u043B\u0430\u0445\u0430\u043D"
+    portrait: {fileID: 855296891, guid: d427912fd4a061c40ae52cac8796dcff, type: 3}
+  - speaker: "\u0420\u0443\u0444\u044C"
+    portrait: {fileID: 885002548, guid: 9367516e95135174395af0980c835309, type: 3}
+  - speaker: "\u041F\u0440\u043E\u0432\u043E\u0434\u043D\u0438\u043A"
+    portrait: {fileID: -1714815588, guid: a5affe7f3b11aed478b0ac0e35588ddd, type: 3}
+  - speaker: "\u041A\u043E\u0440\u043D\u0435\u043B\u0438\u0443\u0441 \u0423\u0438\u0442\u043B\u043E\u043A"
+    portrait: {fileID: 21300000, guid: 4ba40a01c28b45c44850765dcd5303ef, type: 3}
+  - speaker: "\u0428\u0435\u0440\u0438\u0444 \u0414\u043E\u043B\u0430\u043D"
+    portrait: {fileID: 21300000, guid: 81769905e675f4147a644b74e029224e, type: 3}
+  - speaker: "\u041E\u0442\u0435\u0446 \u041C\u044D\u0442\u044C\u044E"
+    portrait: {fileID: 21300000, guid: baf264d05b0a88b44950d1bd2cb44816, type: 3}
+  - speaker: "\u0410\u0433\u043D\u0435\u0441 \u0411\u0438\u0440\u043D"
+    portrait: {fileID: 21300000, guid: bc36d2b76963522438ac0a344bb93943, type: 3}
+  - speaker: "\u0414\u0436\u0435\u0441\u0441\u0438 \u041A\u043E\u0443\u043B"
+    portrait: {fileID: 21300000, guid: 0aa9031edb6e75548bd58f231d7a76d2, type: 3}

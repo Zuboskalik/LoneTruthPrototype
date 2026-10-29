@@ -30,6 +30,12 @@ namespace LoneTruth.UI
 
         public static bool IsOpen { get; private set; }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            IsOpen = false;
+        }
+
         private GameUI ui;
         private GameObject root;
         private Text chapterText;

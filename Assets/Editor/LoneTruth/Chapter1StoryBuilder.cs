@@ -32,7 +32,7 @@ namespace LoneTruth.EditorTools
 
         private class Items
         {
-            public ItemSO Revolver, Ammo, Letter, RoomKey, CompanyPass;
+            public ItemSO Revolver, Ammo, Letter, RoomKey, CompanyPass, Bandage, LowerLevelsMap;
         }
 
         private static ItemSO Item(string file, string id, string name, ItemType type, int maxStack, string icon, string description, string documentText = "")
@@ -59,7 +59,7 @@ namespace LoneTruth.EditorTools
 
         private static Items BuildItems()
         {
-            return new Items
+            var items = new Items
             {
                 Revolver = Item("Weapon_Revolver38", "weapon_revolver_38", "Револьвер .38", ItemType.Weapon, 1, "ICO_Revolver38",
                     "Служебный .38, шесть патронов в барабане. G — достать / убрать."),
@@ -70,8 +70,19 @@ namespace LoneTruth.EditorTools
                 RoomKey = Item("Key_SaloonRoom3", "key_saloon_room_3", "Ключ от номера 3", ItemType.Key, 1, "ICO_RoomKey",
                     "Ключ Руфи от номера наверху. Выберите и примените (G) у двери."),
                 CompanyPass = Item("Key_CompanyPass", "key_company_pass", "Пропуск компании", ItemType.Key, 1, "ICO_CompanyPass",
-                    "Пропуск «Уитлок Майнинг» за подписью Корнелиуса Уитлока.")
+                    "Пропуск «Уитлок Майнинг» за подписью Корнелиуса Уитлока."),
+                // Design doc 3.4: +30 health; also what Holt can give Jesse (quest 1.2, Hope).
+                Bandage = Item("Consumable_Bandage", "bandage", "Бинт", ItemType.Consumable, 5, "ICO_Bandage",
+                    "Перевязка: +30 здоровья. G — применить."),
+                LowerLevelsMap = Item("Doc_LowerLevelsMap", "doc_lower_levels_map", "Карта нижних горизонтов", ItemType.Document, 1, "ICO_LowerLevelsMap",
+                    "Карта, которую нарисовал Джесси Коул. G — посмотреть.",
+                    "Карта нижних горизонтов шахты «Святая Варвара», нарисованная рукой Джесси Коула.\n\nГоризонты 1–3, вентиляционные ходы, старые выработки. Один проход отмечен крестом.")
             };
+
+            var bandage = new SerializedObject(items.Bandage);
+            bandage.FindProperty("healAmount").intValue = 30;
+            bandage.ApplyModifiedPropertiesWithoutUndo();
+            return items;
         }
 
         // ------------------------------------------------------------------ placeholder art
@@ -137,6 +148,19 @@ namespace LoneTruth.EditorTools
                 p.Rect(88, 46, 8, 14, brass);
                 p.Rect(76, 50, 8, 10, brass);
                 p.Rect(38, 20, 52, 18, PlaceholderPainter.C("#8A6A3E")); // wooden tag "3"
+            });
+            Icon("ICO_Bandage", p =>
+            {
+                p.Ellipse(64, 64, 38, 30, PlaceholderPainter.C("#D8D2C4"));
+                p.Ellipse(64, 64, 14, 11, PlaceholderPainter.C("#A89F8E"));
+                p.Rect(90, 40, 22, 26, PlaceholderPainter.C("#D8D2C4"));        // the loose end
+            });
+            Icon("ICO_LowerLevelsMap", p =>
+            {
+                p.Rect(18, 26, 92, 76, PlaceholderPainter.C("#C9BC9A"));
+                for (int i = 0; i < 3; i++) p.Rect(28, 40 + i * 20, 70, 3, PlaceholderPainter.C("#5A4E3A"));
+                p.Rect(60, 36, 3, 56, PlaceholderPainter.C("#5A4E3A"));
+                p.Rect(80, 72, 10, 3, PlaceholderPainter.C("#8A2E2A")); p.Rect(83, 69, 3, 10, PlaceholderPainter.C("#8A2E2A")); // the cross
             });
             Icon("ICO_CompanyPass", p =>
             {
@@ -370,6 +394,7 @@ namespace LoneTruth.EditorTools
         private static CutsceneStep Face(GameObject actor, float x) => new CutsceneStep { type = CutsceneStepType.FaceActor, actor = actor.transform, x = x };
         private static CutsceneStep Active(GameObject target, bool on) => new CutsceneStep { type = CutsceneStepType.SetActive, target = target, boolValue = on };
         private static CutsceneStep Flag(string key) => new CutsceneStep { type = CutsceneStepType.SetFlag, key = key, boolValue = true };
+        private static CutsceneStep Unflag(string key) => new CutsceneStep { type = CutsceneStepType.SetFlag, key = key, boolValue = false };
         private static CutsceneStep Give(ItemSO item, int amount, bool announce) => new CutsceneStep { type = CutsceneStepType.GiveItem, item = item, amount = amount, boolValue = announce };
         private static CutsceneStep Money(int amount) => new CutsceneStep { type = CutsceneStepType.GiveMoney, amount = amount, boolValue = true };
         private static CutsceneStep Goal(string text) => new CutsceneStep { type = CutsceneStepType.Objective, text = text };
@@ -557,6 +582,7 @@ namespace LoneTruth.EditorTools
                 Give(items.Revolver, 1, false),
                 Give(items.Ammo, 6, false),
                 Give(items.Letter, 1, false),
+                Give(items.Bandage, 1, false),
                 Goal("Найти встречающего на перроне."),
                 Note("A / D — идти   ·   E — взаимодействовать   ·   Q — выбрать предмет   ·   G — применить   ·   Tab — блокнот", 7f));
             StartTrigger(prologue, null, F(StoryFlags.PrologueDone));
@@ -650,12 +676,21 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-01", 3.5f, play);
             Spawn("from_1-03", 10f, play);
             Spawn("from_1-05", 20f, play);
+            Spawn("from_1-08", 28f, play);
+            Spawn("from_1-14", 36f, play);
+            Spawn("from_1-09", 52f, play);
 
-            // Not-yet-built locations keep their closed stubs after the free investigation starts.
-            Stub(p, "1-02_to_1-08", "1-08", "Контора шерифа", "Заперто.", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
-            Stub(p, "1-02_to_1-14", "1-14", "Переулок", "Проход перегорожен калиткой.", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
+            // Day-1 places open with the free investigation; until then (the night of arrival, the
+            // morning before Whitlock) they stay closed stubs.
+            GameObject sheriffDoor = SceneDoor(p, "1-02_to_1-08", "SheriffOffice", "from_1-02", "Контора шерифа", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
+            GameObject sheriffStub = Stub(p, "1-02_to_1-08_closed", "1-08", "Контора шерифа", "Заперто.", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
+            GameObject alleyDoor = SceneDoor(p, "1-02_to_1-14", "Alley", "from_1-02", "Переулок", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
+            GameObject alleyStub = Stub(p, "1-02_to_1-14_closed", "1-14", "Переулок", "Проход перегорожен калиткой.", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
+            GameObject chapelDoor = SceneDoor(p, "1-02_to_1-09", "ChapelNave", "from_1-02", "Часовня Святой Варвары", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
+            GameObject chapelStub = Stub(p, "1-02_to_1-09_closed", "1-09", "Часовня", "Двери часовни закрыты.", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
+
+            // Not-yet-built locations keep their closed stubs.
             Stub(p, "1-02_to_1-18", "1-18", "Ворота лесопилки", "Ворота на цепи.", $"{PropDir}/DOOR_SawmillGate_Closed.png", 45f, play);
-            Stub(p, "1-02_to_1-09", "1-09", "Часовня", "Двери часовни закрыты.", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
             Stub(p, "1-02_to_1-21", "1-21", "Дорога к шахте", "Ворота на замке.", $"{PropDir}/DOOR_MineGate_Closed.png", 58f, play);
 
             Transform day = Group("State_Day");
@@ -675,6 +710,8 @@ namespace LoneTruth.EditorTools
             Gate("DayPasserby", story, F(StoryFlags.TimeDay), null, miner, woman);
             Gate("OfficeOpenByDay", story, F(StoryFlags.TimeDay), null, officeDoor);
             Gate("OfficeClosedAtNight", story, null, F(StoryFlags.TimeDay), officeStub);
+            Gate("Day1PlacesOpen", story, F(StoryFlags.FreeInvestigationDay1), null, sheriffDoor, alleyDoor, chapelDoor);
+            Gate("Day1PlacesClosed", story, null, F(StoryFlags.FreeInvestigationDay1), sheriffStub, alleyStub, chapelStub);
             Gate("CallahanEscort", story, F(StoryFlags.EscortToSaloon), F(StoryFlags.EscortDone), escortCallahan);
 
             // 2 (cont.). Callahan walks Holt to the saloon.
@@ -813,7 +850,31 @@ namespace LoneTruth.EditorTools
                 Wait(0.3f),
                 FadeIn(1.4f),
                 Goal("Явиться в контору компании (Главная улица, каменный дом)."));
-            Talk(bed, "Лечь спать", "", "Спать ещё рано.").AddBranch(sleep, F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
+            // Sleep is the only switch between day and night (maps: «сон: смена дня и ночи»). Day 1
+            // ends when the player decides; the one beat the plot needs first is the sheriff's report.
+            // Side quests started today keep their day steps open tomorrow, so resting early never locks anything.
+            CutsceneSequence goToOffice = Sequence("Bed_Day1_GoToOffice", story, "",
+                Inner("Утро. Сначала — контора компании: Уитлок ждёт."));
+            CutsceneSequence tooEarly = Sequence("Bed_Day1_TooEarly", story, "",
+                Inner("Рано отдыхать. Сначала — шериф: у него должен быть отчёт об обвале."));
+            CutsceneSequence confirmEnd = Sequence("Bed_Day1_Confirm", story, "",
+                Inner("Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до завтра."),
+                Flag(StoryFlags.Day1EndConfirm),
+                Note("Чтобы закончить день, лягте ещё раз (E у кровати).", 5f));
+            CutsceneSequence endDay = Sequence("Bed_Day1_End", story, "",
+                Inner("На сегодня хватит. До темноты — пара часов сна."),
+                FadeOut(1.4f),
+                Card("(Продолжение следует)", 0f),
+                Unflag(StoryFlags.Day1EndConfirm),
+                FadeIn(1.2f));
+            CutsceneInteractable bedTalk = Talk(bed, "Лечь спать", "", "Спать ещё рано.");
+            bedTalk.AddBranch(sleep, F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
+            bedTalk.AddBranch(goToOffice, F(StoryFlags.Day1Morning), F(StoryFlags.OfficeMeeting));
+            bedTalk.AddBranch(tooEarly, F(StoryFlags.FreeInvestigationDay1), F(StoryFlags.SheriffReport));
+            bedTalk.AddBranch(endDay, F(StoryFlags.SheriffReport, StoryFlags.Day1EndConfirm), null);
+            bedTalk.AddBranch(confirmEnd, F(StoryFlags.SheriffReport), null);
+            // The confirmation only counts during one visit to the room.
+            new GameObject("ClearDayEndConfirm").AddComponent<ClearFlagsOnSceneStart>().Configure(StoryFlags.Day1EndConfirm);
 
             CutsceneSequence reread = Sequence("Letter_Reread", story, "",
                 Anim("ReadLetter"),

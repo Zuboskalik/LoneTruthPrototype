@@ -113,5 +113,19 @@ namespace LoneTruth.Core
         public const string RuthRumorBarn = "ruth_rumor_barn";
         public const string ClueTelegrams = "clue_unsent_telegrams";
         public const string CluePortrait = "clue_portrait";
+
+        // Day 1, free investigation.
+        public const string SheriffReport = "sheriff_report";          // Dolan handed over the report (the day's one required beat)
+        public const string ClueCollapseReport = "clue_collapse_report";
+        public const string ClueNamePlaques = "clue_name_plaques";
+        public const string ClueThomasLetters = "clue_thomas_letters";
+        public const string ClueThomasOldLetter = "clue_thomas_old_letter";
+        public const string Quest11Started = "q1_1_started";             // Agnes showed the letters
+        public const string Quest12FoundJesse = "q1_2_found_jesse";      // first contact in the shed
+        public const string Quest13Started = "q1_3_started";             // Father Matthew asked about the bell
+        public const string Day1EndConfirm = "day1_end_confirm";         // the bed asked once; the next rest ends the day
+
+        /// <summary>Runtime state, not story: the revolver is drawn (people react to it).</summary>
+        public const string WeaponDrawn = "weapon_drawn";
     }
 }

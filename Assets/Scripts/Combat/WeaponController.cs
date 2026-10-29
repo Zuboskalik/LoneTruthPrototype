@@ -165,6 +165,7 @@ namespace LoneTruth.Combat
         public void ToggleEquip()
         {
             isEquipped = !isEquipped;
+            StoryState.Set(StoryFlags.WeaponDrawn, isEquipped);
             if (!isEquipped)
             {
                 SetAiming(false);
