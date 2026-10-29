@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8474992756747491157}
   - component: {fileID: 592060141824934427}
   - component: {fileID: 8930043038230599939}
+  - component: {fileID: 9059350700735958113}
+  - component: {fileID: 2512965295448712660}
   m_Layer: 0
   m_Name: P_GameUI
   m_TagString: Untagged
@@ -69,3 +71,42 @@ MonoBehaviour:
   bracketColor: {r: 0.25, g: 0.85, b: 0.42, a: 1}
   countColor: {r: 0.93, g: 0.88, b: 0.7, a: 1}
   equippedColor: {r: 0.86, g: 0.84, b: 0.78, a: 1}
+--- !u!114 &9059350700735958113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225904634818208902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6f1f61c8e91eb46bb6d54e594036a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.UI.PocketWatchUI
+  size: 150
+  rimColor: {r: 0.45, g: 0.36, b: 0.22, a: 1}
+  faceColor: {r: 0.13, g: 0.125, b: 0.12, a: 1}
+  inkColor: {r: 0.86, g: 0.81, b: 0.69, a: 1}
+  hopeColor: {r: 0.96, g: 0.66, b: 0.2, a: 0.85}
+  despairColor: {r: 0.45, g: 0.17, b: 0.55, a: 0.9}
+  truthColor: {r: 0.86, g: 0.94, b: 1, a: 0.85}
+  notebookNoteSeconds: 4
+--- !u!114 &2512965295448712660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225904634818208902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7847b5772de819b4ea5cfa91fd226343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.UI.NotebookUI
+  chapter: {fileID: 11400000, guid: a259115d49469834ca5398f51c3bb30c, type: 2}
+  toggleKey: 9
+  paperColor: {r: 0.84, g: 0.8, b: 0.7, a: 1}
+  inkColor: {r: 0.16, g: 0.14, b: 0.12, a: 1}
+  fadedInkColor: {r: 0.16, g: 0.14, b: 0.12, a: 0.62}
+  accentColor: {r: 0.55, g: 0.2, b: 0.12, a: 1}
+  visibleRows: 14

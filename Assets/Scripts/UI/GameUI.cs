@@ -198,6 +198,12 @@ namespace LoneTruth.UI
             {
                 bar.SetVisible(visible);
             }
+
+            PocketWatchUI watch = GetComponent<PocketWatchUI>();
+            if (watch != null)
+            {
+                watch.SetVisible(visible);
+            }
         }
 
         // ---------------------------------------------------------------- internals

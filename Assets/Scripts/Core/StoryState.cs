@@ -49,6 +49,17 @@ namespace LoneTruth.Core
             return ints.TryGetValue(key, out int v) ? v : 0;
         }
 
+        public static void SetInt(string key, int value)
+        {
+            if (GetInt(key) == value && ints.ContainsKey(key))
+            {
+                return;
+            }
+
+            ints[key] = value;
+            Changed?.Invoke();
+        }
+
         public static void AddInt(string key, int amount)
         {
             ints[key] = GetInt(key) + amount;

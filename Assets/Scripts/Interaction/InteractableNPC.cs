@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using LoneTruth.Core;
 using LoneTruth.UI;
 using UnityEngine;
@@ -12,6 +14,8 @@ namespace LoneTruth.Interaction
         [SerializeField] private string interactionPrompt = "Talk";
         [SerializeField] private string dialogueLine = "Take the key from the table.";
         [SerializeField] private float dialogueDisplayDuration = 3f;
+        [Tooltip("Lines that replace the default once their story flag is set; the last matching one wins.")]
+        [SerializeField] private List<FlagLine> flagLines = new List<FlagLine>();
 
         [Header("Floating Text UI")]
         [SerializeField] private Vector3 textOffset = new Vector3(0f, 2f, 0f);
@@ -22,6 +26,13 @@ namespace LoneTruth.Interaction
         [Header("Key Spawn")]
         [SerializeField] private GameObject keyItemPrefab;
         [SerializeField] private Transform tableSpawnPoint;
+
+        [Serializable]
+        private class FlagLine
+        {
+            public string flag;
+            public string line;
+        }
 
         private Canvas dialogueCanvas;
         private Text dialogueText;
@@ -37,8 +48,31 @@ namespace LoneTruth.Interaction
         public void Interact(GameObject interactor)
         {
             PlayReaction();
-            ShowDialogue(dialogueLine);
+            ShowDialogue(CurrentLine);
             SpawnKeyOnTable();
+        }
+
+        /// <summary>The line for the current story state (e.g. the clerk after the meeting with Whitlock).</summary>
+        private string CurrentLine
+        {
+            get
+            {
+                string line = dialogueLine;
+                foreach (FlagLine l in flagLines)
+                {
+                    if (StoryState.Has(l.flag))
+                    {
+                        line = l.line;
+                    }
+                }
+
+                return line;
+            }
+        }
+
+        public void AddFlagLine(string flag, string line)
+        {
+            flagLines.Add(new FlagLine { flag = flag, line = line });
         }
 
         public string GetInteractionPrompt()

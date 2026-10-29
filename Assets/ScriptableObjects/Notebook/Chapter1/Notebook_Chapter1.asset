@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5d129193e09f240aec3d6b9fe1b6ab, type: 3}
+  m_Name: Notebook_Chapter1
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Investigation.ChapterNotebookSO
+  chapterTitle: "\u0413\u043B\u0430\u0432\u0430 1 \xB7 \u0425\u043E\u043B\u043B\u043E\u0443-\u0420\u043E\u043A"
+  clues:
+  - {fileID: 11400000, guid: 50989771032c11a458a5440e12d3ff0a, type: 2}
+  - {fileID: 11400000, guid: a370ca31697a6de4fb6e1094ac37b2aa, type: 2}
+  - {fileID: 11400000, guid: b1eb70c833f1dba4aabc345dc458f0f5, type: 2}
+  - {fileID: 11400000, guid: 508b19b078ccac14fa9536c21b8c64d5, type: 2}
+  - {fileID: 11400000, guid: 698a85f67bbaa434f893ce9fc2219a45, type: 2}
+  - {fileID: 11400000, guid: 40b01ca2be74b2541ae81dcce1973912, type: 2}
+  - {fileID: 11400000, guid: 16ea440bcd4c6e64cab7757ea0a0ba3e, type: 2}
+  people:
+  - {fileID: 11400000, guid: 34ccde5ff09803f45801662a1de8e291, type: 2}
+  - {fileID: 11400000, guid: d659fbf6c8580f1478e9c64ff3085cde, type: 2}
+  - {fileID: 11400000, guid: 600f04f9aae8ac1438c2ec96eff05b2e, type: 2}
+  - {fileID: 11400000, guid: 4cfce9e2c0cc9a14ba880de6eb511017, type: 2}
+  quests:
+  - {fileID: 11400000, guid: 934727bf81e18f448a3a706b2ceb037f, type: 2}
+  - {fileID: 11400000, guid: f4babf13af71565479af2278f055beda, type: 2}
+  - {fileID: 11400000, guid: 807dd36178a5006409b03c9edf89a5b8, type: 2}
+  - {fileID: 11400000, guid: 220a034b97f6d3242873e29141a6201b, type: 2}
+  - {fileID: 11400000, guid: 9e870379973076741b4722c421e8eba1, type: 2}
+  - {fileID: 11400000, guid: 5fe06bb96feebe6438b2464c3184462d, type: 2}
+  deductions:
+  - {fileID: 11400000, guid: c80a03103cd3f744db968d03fd3cd2a4, type: 2}
+  map:
+  - id: 1-01
+    title: "\u0421\u0442\u0430\u043D\u0446\u0438\u044F"
+    scene: Station
+    position: {x: 0.06, y: 0.88}
+    linkedTo: 1-02
+  - id: 1-02
+    title: "\u0413\u043B\u0430\u0432\u043D\u0430\u044F \u0443\u043B\u0438\u0446\u0430"
+    scene: MainStreet
+    position: {x: 0.3, y: 0.62}
+    linkedTo: 
+  - id: 1-03
+    title: "\u0421\u0430\u043B\u0443\u043D \xAB\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F \u043B\u0430\u043C\u043F\u0430\xBB"
+    scene: Saloon
+    position: {x: 0.12, y: 0.36}
+    linkedTo: 1-02
+  - id: 1-04
+    title: "\u041D\u043E\u043C\u0435\u0440 \u0425\u043E\u043B\u0442\u0430"
+    scene: HoltRoom
+    position: {x: 0.12, y: 0.1}
+    linkedTo: 1-03
+  - id: 1-05
+    title: "\u041A\u043E\u043D\u0442\u043E\u0440\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438"
+    scene: CompanyOffice
+    position: {x: 0.34, y: 0.3}
+    linkedTo: 1-02
+  - id: 1-06
+    title: "\u0410\u0440\u0445\u0438\u0432"
+    scene: 
+    position: {x: 0.34, y: 0.06}
+    linkedTo: 1-05
+  - id: 1-08
+    title: "\u041A\u043E\u043D\u0442\u043E\u0440\u0430 \u0448\u0435\u0440\u0438\u0444\u0430"
+    scene: 
+    position: {x: 0.54, y: 0.36}
+    linkedTo: 1-02
+  - id: 1-09
+    title: "\u0427\u0430\u0441\u043E\u0432\u043D\u044F \u0421\u0432\u044F\u0442\u043E\u0439 \u0412\u0430\u0440\u0432\u0430\u0440\u044B"
+    scene: 
+    position: {x: 0.52, y: 0.88}
+    linkedTo: 1-02
+  - id: 1-10
+    title: "\u041A\u043B\u0430\u0434\u0431\u0438\u0449\u0435"
+    scene: 
+    position: {x: 0.76, y: 0.88}
+    linkedTo: 1-09
+  - id: 1-14
+    title: "\u041F\u0435\u0440\u0435\u0443\u043B\u043E\u043A \u0438 \u0434\u043E\u043C \u0410\u0433\u043D\u0435\u0441"
+    scene: 
+    position: {x: 0.74, y: 0.36}
+    linkedTo: 1-02
+  - id: 1-15
+    title: "\u041E\u043A\u0440\u0430\u0438\u043D\u0430 \u0438 \u0432\u0435\u043D\u0442\u0438\u043B\u044F\u0446\u0438\u043E\u043D\u043D\u0430\u044F \u0441\u043A\u0432\u0430\u0436\u0438\u043D\u0430"
+    scene: 
+    position: {x: 0.9, y: 0.12}
+    linkedTo: 1-14
+  - id: 1-18
+    title: "\u041B\u0435\u0441\u043E\u043F\u0438\u043B\u043A\u0430 \u0438 \u0441\u043A\u043B\u0430\u0434 \u0432\u0437\u0440\u044B\u0432\u0447\u0430\u0442\u043A\u0438"
+    scene: 
+    position: {x: 0.72, y: 0.62}
+    linkedTo: 1-02
+  - id: 1-21
+    title: "\u0412\u043E\u0440\u043E\u0442\u0430 \u0448\u0430\u0445\u0442\u044B"
+    scene: 
+    position: {x: 0.93, y: 0.62}
+    linkedTo: 1-18

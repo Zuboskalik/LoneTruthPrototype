@@ -7,7 +7,8 @@ namespace LoneTruth.Core
     {
         Exploration,
         Dialogue,
-        Cutscene
+        Cutscene,
+        Notebook   // the notebook is open; gameplay input is paused
     }
 
     public class GameMaster : MonoBehaviour

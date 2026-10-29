@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LoneTruth.Core;
 using LoneTruth.Interaction;
 using LoneTruth.Inventory;
+using LoneTruth.Investigation;
 using LoneTruth.Player;
 using LoneTruth.UI;
 using UnityEngine;
@@ -30,7 +31,10 @@ namespace LoneTruth.Story
         Objective,
         Toast,
         PlayerAnimation, // animator trigger on the player (key)
-        LoadScene        // boolValue = fade back in after loading
+        LoadScene,       // boolValue = fade back in after loading
+        Shard,           // key = Hope / Despair / Truth, amount
+        Keystone,        // key = key truth id (+1 Truth, once)
+        QuestOutcome     // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
     }
 
     [Serializable]
@@ -228,6 +232,19 @@ namespace LoneTruth.Story
 
                 case CutsceneStepType.Objective:
                     if (ui != null) ui.SetObjective(s.text);
+                    break;
+
+                case CutsceneStepType.Shard:
+                    if (Enum.TryParse(s.key, out ShardType shard)) ShardManager.AddShard(shard, Mathf.Max(1, s.amount));
+                    else Debug.LogWarning($"[{name}] Unknown shard type '{s.key}'.");
+                    break;
+
+                case CutsceneStepType.Keystone:
+                    ShardManager.AddKeystone(s.key);
+                    break;
+
+                case CutsceneStepType.QuestOutcome:
+                    Notebook.CompleteQuest(s.key, s.text);
                     break;
 
                 case CutsceneStepType.Toast:

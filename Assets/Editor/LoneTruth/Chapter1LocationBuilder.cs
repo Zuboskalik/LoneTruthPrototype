@@ -37,6 +37,11 @@ namespace LoneTruth.EditorTools
         private const string StationScene = SceneDir + "/Station.unity";
         private const string StreetScene = SceneDir + "/MainStreet.unity";
         private const int Ppu = 100;
+        // Sprite sorting orders. Transparent sprites with the same order are sorted by distance to
+        // their bounds centre, which flips as the camera pans, so layers that must stay behind get
+        // their own lower order: background < facades < props, doors and characters (0).
+        private const int BackgroundOrder = -10;
+        private const int FacadeOrder = -5;
         private const int RainOrder = 10;
         private const int ForegroundOrder = 20;
 
@@ -56,6 +61,7 @@ namespace LoneTruth.EditorTools
             ConfigureImports();
             ImportCharacterSheets();
             Items items = BuildItems();
+            BuildNotebook();
             Dictionary<string, RuntimeAnimatorController> controllers = BuildAnimation();
             Prefabs prefabs = BuildPrefabs(controllers, items);
             Material[] mats = BuildMaterials();
@@ -77,7 +83,7 @@ namespace LoneTruth.EditorTools
 
         private static void EnsureFolders()
         {
-            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", EnvDir + "/Interiors", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir, IconDir, ItemDir })
+            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", EnvDir + "/Interiors", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir, IconDir, ItemDir, NotebookDir })
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), dir));
             }
@@ -1021,6 +1027,9 @@ namespace LoneTruth.EditorTools
             var ui = new GameObject("P_GameUI");
             ui.AddComponent<LoneTruth.UI.GameUI>();
             ui.AddComponent<LoneTruth.UI.InventoryBarUI>();
+            ui.AddComponent<LoneTruth.UI.PocketWatchUI>();
+            var notebook = ui.AddComponent<LoneTruth.UI.NotebookUI>();
+            SetField(notebook, "chapter", AssetDatabase.LoadAssetAtPath<LoneTruth.Investigation.ChapterNotebookSO>(NotebookPath));
             prefabs.GameUI = SavePrefab(ui, "P_GameUI");
 
             // Persistent systems
@@ -1196,6 +1205,13 @@ namespace LoneTruth.EditorTools
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = S(spritePath);
             sr.color = tint ?? Color.white;
+            if (order == 0 && parent != null)
+            {
+                // Facades sit just behind the notice board and doors; keep them behind at any camera position.
+                if (parent.name.StartsWith("--- Background")) order = BackgroundOrder;
+                else if (parent.name.StartsWith("--- Facades")) order = FacadeOrder;
+            }
+
             sr.sortingOrder = order;
             return go;
         }

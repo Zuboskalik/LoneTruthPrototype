@@ -558,14 +558,14 @@ namespace LoneTruth.EditorTools
                 Give(items.Ammo, 6, false),
                 Give(items.Letter, 1, false),
                 Goal("Найти встречающего на перроне."),
-                Note("A / D — идти   ·   E — взаимодействовать   ·   Q — выбрать предмет   ·   G — применить", 7f));
+                Note("A / D — идти   ·   E — взаимодействовать   ·   Q — выбрать предмет   ·   G — применить   ·   Tab — блокнот", 7f));
             StartTrigger(prologue, null, F(StoryFlags.PrologueDone));
 
             // Clue on the platform (optional): unsent telegrams.
             CutsceneSequence clue = Sequence("Clue_Telegrams", story, StoryFlags.ClueTelegrams,
                 Inner("Телеграммы родным шахтёров. Отправить не успели — или не дали."),
                 Inner("Стопка толстая. Компания держит их у себя."),
-                Note("Улика: неотправленные телеграммы"));
+                Note("Улика в блокноте: неотправленные телеграммы"));
             Talk(telegrams, "Осмотреть", "", "Неотправленные телеграммы родных шахтёров.").AddBranch(clue, null, null);
 
             // 2. Meeting on the platform
@@ -862,7 +862,8 @@ namespace LoneTruth.EditorTools
             Stub(p, "1-05_to_1-06", "1-06", "Архив", "Дверь в подвал заперта на висячий замок.", $"{PropDir}/DOOR_Cellar_Closed.png", 7f, play);
             Stub(p, "1-05_to_1-07", "1-07", "Задний двор", "Задняя дверь заперта.", $"{PropDir}/DOOR_BackDoor_Closed.png", 21f, play);
 
-            Npc(p, ac, "NPC_Clerk_x4", "Clerk", new Vector3(4f, 0f, 0f), play, "Поговорить", "Мистер Уитлок вас ждёт. Проходите.", 1.9f);
+            GameObject clerk = Npc(p, ac, "NPC_Clerk_x4", "Clerk", new Vector3(4f, 0f, 0f), play, "Поговорить", "Мистер Уитлок вас ждёт. Проходите.", 1.9f);
+            clerk.GetComponent<InteractableNPC>().AddFlagLine(StoryFlags.OfficeMeeting, "Мистер Уитлок вас больше не задерживает. Всего доброго, мистер Холт.");
             GameObject cornelius = Npc(p, ac, "NPC_Cornelius_x14", "Cornelius", new Vector3(14f, 0f, 0f), play, "Поговорить", "", 2.3f);
             Talk(cornelius, "Поговорить", "Корнелиус Уитлок", "Отчёт, мистер Холт. Чем скорее, тем лучше.");
             GameObject portrait = InspectSpot("Clue_Portrait_x17", new Vector3(17f, 0f, 0f), play);
@@ -890,7 +891,7 @@ namespace LoneTruth.EditorTools
             CutsceneSequence portraitClue = Sequence("Clue_Portrait", story, StoryFlags.CluePortrait,
                 Inner("Иезекииль Уитлок, основатель. Рама без единой пылинки."),
                 Inner("А под ней свежие цветы. Кто-то ухаживает за мёртвым так, будто он ещё здесь."),
-                Note("Улика: портрет Иезекииля (свежие цветы)"));
+                Note("Улика в блокноте: портрет Иезекииля (свежие цветы)"));
             Talk(portrait, "Осмотреть", "", "Портрет Иезекииля Уитлока. Под рамой свежие цветы.").AddBranch(portraitClue, null, null);
 
             AddBounds(22f, Group("--- Collision & Bounds"));
