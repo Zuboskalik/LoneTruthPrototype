@@ -26,6 +26,8 @@ namespace LoneTruth.Dialogue
     /// </summary>
     public static class DialogueRunner
     {
+        public const int MaxChoices = 4;
+
         public static bool IsRunning { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -67,6 +69,14 @@ namespace LoneTruth.Dialogue
                     }
                 }
 
+                // The panel holds 2–4 answers (design doc 3.2).
+                if (offered.Count > MaxChoices)
+                {
+                    Debug.LogWarning($"[{dialogue.name}] Node '{node.id}' offers {offered.Count} answers; only {MaxChoices} are shown.");
+                    offered.RemoveRange(MaxChoices, offered.Count - MaxChoices);
+                    views.RemoveRange(MaxChoices, views.Count - MaxChoices);
+                }
+
                 LoneTruth.Story.CutsceneActor.SetTalking(node.speaker, true);
                 if (offered.Count == 0)
                 {
@@ -81,6 +91,12 @@ namespace LoneTruth.Dialogue
                 LoneTruth.Story.CutsceneActor.SetTalking(node.speaker, false);
                 DialogueSO.Choice chosen = offered[Mathf.Clamp(picked, 0, offered.Count - 1)];
                 Apply(chosen);
+                if (chosen.openShop != null && ShopUI.Instance != null)
+                {
+                    ui.Hide();
+                    yield return ShopUI.Instance.Open(chosen.openShop);
+                }
+
                 node = dialogue.Find(chosen.next);
             }
 

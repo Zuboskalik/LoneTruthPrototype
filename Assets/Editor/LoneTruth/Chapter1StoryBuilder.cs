@@ -32,7 +32,7 @@ namespace LoneTruth.EditorTools
 
         private class Items
         {
-            public ItemSO Revolver, Ammo, Letter, RoomKey, CompanyPass, Bandage, LowerLevelsMap;
+            public ItemSO Revolver, Ammo, Letter, RoomKey, CompanyPass, Bandage, Whiskey, LowerLevelsMap;
         }
 
         private static ItemSO Item(string file, string id, string name, ItemType type, int maxStack, string icon, string description, string documentText = "")
@@ -74,6 +74,9 @@ namespace LoneTruth.EditorTools
                 // Design doc 3.4: +30 health; also what Holt can give Jesse (quest 1.2, Hope).
                 Bandage = Item("Consumable_Bandage", "bandage", "Бинт", ItemType.Consumable, 5, "ICO_Bandage",
                     "Перевязка: +30 здоровья. G — применить."),
+                // Design doc 3.4: +50 health at once (the aim spread is not modelled yet).
+                Whiskey = Item("Consumable_Whiskey", "whiskey", "Фляга виски", ItemType.Consumable, 2, "ICO_Whiskey",
+                    "Глоток: +50 здоровья. G — выпить."),
                 LowerLevelsMap = Item("Doc_LowerLevelsMap", "doc_lower_levels_map", "Карта нижних горизонтов", ItemType.Document, 1, "ICO_LowerLevelsMap",
                     "Карта, которую нарисовал Джесси Коул. G — посмотреть.",
                     "Карта нижних горизонтов шахты «Святая Варвара», нарисованная рукой Джесси Коула.\n\nГоризонты 1–3, вентиляционные ходы, старые выработки. Один проход отмечен крестом.")
@@ -82,6 +85,9 @@ namespace LoneTruth.EditorTools
             var bandage = new SerializedObject(items.Bandage);
             bandage.FindProperty("healAmount").intValue = 30;
             bandage.ApplyModifiedPropertiesWithoutUndo();
+            var whiskey = new SerializedObject(items.Whiskey);
+            whiskey.FindProperty("healAmount").intValue = 50;
+            whiskey.ApplyModifiedPropertiesWithoutUndo();
             return items;
         }
 
@@ -154,6 +160,12 @@ namespace LoneTruth.EditorTools
                 p.Ellipse(64, 64, 38, 30, PlaceholderPainter.C("#D8D2C4"));
                 p.Ellipse(64, 64, 14, 11, PlaceholderPainter.C("#A89F8E"));
                 p.Rect(90, 40, 22, 26, PlaceholderPainter.C("#D8D2C4"));        // the loose end
+            });
+            Icon("ICO_Whiskey", p =>
+            {
+                p.Rect(38, 20, 52, 72, PlaceholderPainter.C("#8A8F95"));       // flask
+                p.Rect(56, 92, 16, 16, PlaceholderPainter.C("#6A6D74"));       // neck and cap
+                p.Rect(46, 40, 36, 30, PlaceholderPainter.C("#6B4A2E"));       // leather wrap
             });
             Icon("ICO_LowerLevelsMap", p =>
             {
@@ -582,7 +594,6 @@ namespace LoneTruth.EditorTools
                 Give(items.Revolver, 1, false),
                 Give(items.Ammo, 6, false),
                 Give(items.Letter, 1, false),
-                Give(items.Bandage, 1, false),
                 Goal("Найти встречающего на перроне."),
                 Note("A / D — идти   ·   E — взаимодействовать   ·   Q — выбрать предмет   ·   G — применить   ·   Tab — блокнот", 7f));
             StartTrigger(prologue, null, F(StoryFlags.PrologueDone));
@@ -791,8 +802,6 @@ namespace LoneTruth.EditorTools
                 Note("Ключ — в инвентаре: выберите его (Q) и примените у двери (G).", 6f));
             StartTrigger(checkIn, F(StoryFlags.EscortDone), F(StoryFlags.SaloonCheckIn));
 
-            CutsceneSequence night = Sequence("Ruth_Night", story, "",
-                Line("Руфь", "Третий номер, наверху. Спокойной ночи, мистер Холт."));
             CutsceneSequence morning = Sequence("3a_RuthMorning", story, StoryFlags.RuthMorning,
                 Line("Руфь", "Утро, мистер Холт. Кофе холодный, новости ещё холоднее."),
                 Line("Руфь", "Кэллахан заходил на рассвете. Мистер Уитлок ждёт вас в конторе."));
@@ -804,7 +813,8 @@ namespace LoneTruth.EditorTools
             CutsceneInteractable ruthTalk = Talk(ruth, "Поговорить", "Руфь", "Кофе холодный, мистер Холт. Новости — ещё холоднее.");
             ruthTalk.AddBranch(rumor, F(StoryFlags.FreeInvestigationDay1), null);
             ruthTalk.AddBranch(morning, F(StoryFlags.Day1Morning), F(StoryFlags.OfficeMeeting));
-            ruthTalk.AddBranch(night, F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
+            // Ruth trades (design doc: «Магазин, подсказки»): patrons, bandages, whiskey.
+            ruthTalk.AddBranch(Sequence("Ruth_Talk", story, "", Talking(RuthDialogue(items))), F(StoryFlags.SaloonCheckIn), null);
 
             AddBounds(24f, Group("--- Collision & Bounds"));
             EditorSceneManager.SaveScene(scene, SaloonScene);
@@ -921,7 +931,8 @@ namespace LoneTruth.EditorTools
             SceneDoor(p, "1-05_to_1-02", "MainStreet", "from_1-05", "Выйти на улицу", $"{PropDir}/DOOR_Interior.png", 1f, play);
             Spawn("from_1-02", 2.5f, play);
             Stub(p, "1-05_to_1-06", "1-06", "Архив", "Дверь в подвал заперта на висячий замок.", $"{PropDir}/DOOR_Cellar_Closed.png", 7f, play);
-            Stub(p, "1-05_to_1-07", "1-07", "Задний двор", "Задняя дверь заперта.", $"{PropDir}/DOOR_BackDoor_Closed.png", 21f, play);
+            SceneDoor(p, "1-05_to_1-07", "OfficeBackYard", "from_1-05", "Задний двор", $"{PropDir}/DOOR_BackDoor_Closed.png", 21f, play);
+            Spawn("from_1-07", 20.2f, play);
 
             GameObject clerk = Npc(p, ac, "NPC_Clerk_x4", "Clerk", new Vector3(4f, 0f, 0f), play, "Поговорить", "Мистер Уитлок вас ждёт. Проходите.", 1.9f);
             clerk.GetComponent<InteractableNPC>().AddFlagLine(StoryFlags.OfficeMeeting, "Мистер Уитлок вас больше не задерживает. Всего доброго, мистер Холт.");

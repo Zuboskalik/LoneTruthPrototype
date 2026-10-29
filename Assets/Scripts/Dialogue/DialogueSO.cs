@@ -61,6 +61,8 @@ namespace LoneTruth.Dialogue
             public ItemSO takeItem;
             public int takeAmount = 1;
             public int money;
+            [Tooltip("Opens this trader's goods before going on to the next node.")]
+            public LoneTruth.Shop.ShopSO openShop;
 
             [Tooltip("Node to go to; empty ends the conversation.")]
             public string next;

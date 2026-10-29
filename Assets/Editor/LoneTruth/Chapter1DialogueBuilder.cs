@@ -16,6 +16,7 @@ namespace LoneTruth.EditorTools
     {
         private const string DialogueDir = "Assets/ScriptableObjects/Dialogue/Chapter1";
         private const string PortraitsPath = "Assets/ScriptableObjects/Dialogue/SpeakerPortraits.asset";
+        private const string ShopDir = "Assets/ScriptableObjects/Shops";
 
         private static DialogueSO.Node DNode(string id, string speaker, string text, string next = "", params DialogueSO.Choice[] choices)
         {
@@ -82,8 +83,15 @@ namespace LoneTruth.EditorTools
             despair.giveItem = items.LowerLevelsMap;
             despair.setFlags = new[] { "jesse_left_alone" };
 
+            // Truth needs both the .45 casing and a look at the wound (design doc 8.4).
+            var wound = DChoice("Дай взгляну на рану.", "wound");
+            wound.forbiddenFlags = new[] { "jesse_wound_examined" };
+            wound.hideWhenLocked = true;
+
             var truth = DChoice("Тебя не камнем задело. Кто стрелял?", "truth");
             truth.presentClue = "clue_shell_45";
+            truth.requiredFlags = new[] { "jesse_wound_examined" };
+            truth.hideWhenLocked = true;
             truth.questId = "1_2";
             truth.outcomeId = "truth";
             truth.giveItem = items.LowerLevelsMap;
@@ -91,12 +99,59 @@ namespace LoneTruth.EditorTools
 
             return DialogueAsset("Jesse_Deal", "ask",
                 DNode("ask", "Джесси Коул", "Ну что, мистер? Бинт и виски?", "",
-                    hope, despair, truth, DChoice("Пока ничего. Я вернусь.")),
+                    hope, despair, wound, truth, DChoice("Пока ничего. Я вернусь.")),
+                new DialogueSO.Node
+                {
+                    id = "wound", speaker = "", next = "ask", setFlags = new[] { "jesse_wound_examined" },
+                    text = "Края ровные, внутри засел металл. Это не камень — это пуля."
+                },
                 DNode("hope", "Джесси Коул", "Спасибо, мистер. Карту завтра принесёт Лиам."),
                 DNode("despair", "Джесси Коул", "Держи. …Будь ты проклят, сыщик.", "despair_inner"),
                 DNode("despair_inner", "", "Карта у меня. А Джесси останется здесь один."),
                 DNode("truth", "Джесси Коул", "Пуля. За час до обвала люди компании закладывали заряды — Грейди с ними. Я видел. А Кэллахан стрелял мне вслед.", "truth_end"),
                 DNode("truth_end", "Джесси Коул", "Я всё напишу, мистер. И карту отдам."));
+        }
+
+        // ------------------------------------------------------------------ 1-03 Ruth (trade)
+
+        private static LoneTruth.Shop.ShopSO RuthShop(Items items)
+        {
+            string path = $"{ShopDir}/Shop_Ruth.asset";
+            var shop = AssetDatabase.LoadAssetAtPath<LoneTruth.Shop.ShopSO>(path);
+            if (shop == null)
+            {
+                shop = ScriptableObject.CreateInstance<LoneTruth.Shop.ShopSO>();
+                AssetDatabase.CreateAsset(shop, path);
+            }
+
+            // Goods from the maps (1-03): rounds, bandages, whiskey. The flare and the crowbar ($15)
+            // join when the Hollows and the air-shaft grate exist. Prices other than the crowbar's
+            // are not in the design doc.
+            shop.Configure("ruth", "«Последняя лампа» — лавка Руфи", new List<LoneTruth.Shop.ShopSO.Entry>
+            {
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Ammo, amount = 6, price = 6 },
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Bandage, amount = 1, price = 8 },
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Whiskey, amount = 1, price = 10 }
+            });
+            EditorUtility.SetDirty(shop);
+            return shop;
+        }
+
+        private static DialogueSO RuthDialogue(Items items)
+        {
+            LoneTruth.Shop.ShopSO shop = RuthShop(items);
+            DialogueSO.Choice Trade(string next)
+            {
+                var c = DChoice("Покажи, что продаёшь.", next);
+                c.openShop = shop;
+                return c;
+            }
+
+            return DialogueAsset("Ruth_Talk", "ask",
+                DNode("ask", "Руфь", "Чего вам, мистер Холт?", "",
+                    Trade("again"), DChoice("Ничего. Бывай.")),
+                DNode("again", "Руфь", "Что-нибудь ещё?", "",
+                    Trade("again"), DChoice("Нет. Спасибо, Руфь.")));
         }
 
         // ------------------------------------------------------------------ portraits

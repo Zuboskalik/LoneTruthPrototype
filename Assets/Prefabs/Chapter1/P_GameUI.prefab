@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8474992756747491157}
   - component: {fileID: 592060141824934427}
   - component: {fileID: 8930043038230599939}
+  - component: {fileID: 4845715957574946848}
   - component: {fileID: 4704666942311218870}
   - component: {fileID: 9059350700735958113}
   - component: {fileID: 2512965295448712660}
@@ -70,6 +71,23 @@ MonoBehaviour:
   bracketColor: {r: 0.25, g: 0.85, b: 0.42, a: 1}
   countColor: {r: 0.93, g: 0.88, b: 0.7, a: 1}
   equippedColor: {r: 0.86, g: 0.84, b: 0.78, a: 1}
+--- !u!114 &4845715957574946848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225904634818208902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91973221bdd48f84ca626e9a8f9062c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.UI.ShopUI
+  panelColor: {r: 0.04, g: 0.045, b: 0.055, a: 0.94}
+  titleColor: {r: 0.78, g: 0.57, b: 0.18, a: 1}
+  textColor: {r: 0.93, g: 0.9, b: 0.85, a: 1}
+  mutedColor: {r: 0.55, g: 0.53, b: 0.49, a: 1}
+  maxRows: 6
 --- !u!114 &4704666942311218870
 MonoBehaviour:
   m_ObjectHideFlags: 0

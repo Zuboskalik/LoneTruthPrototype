@@ -59,6 +59,7 @@ namespace LoneTruth.EditorTools
             DrawPlaceholders();
             DrawStoryPlaceholders();
             DrawDay1Placeholders();
+            DrawBackYardPlaceholders();
             ConfigureImports();
             ImportCharacterSheets();
             Items items = BuildItems();
@@ -76,19 +77,20 @@ namespace LoneTruth.EditorTools
             BuildRoom(prefabs, controllers, interior, profile, items);
             BuildOffice(prefabs, controllers, interior, profile, items);
             BuildDay1Scenes(prefabs, controllers, profile, items);
+            BuildBackYard(prefabs, controllers, profile, items);
 
             AddToBuildSettings(StationScene, StreetScene, SaloonScene, RoomScene, OfficeScene,
-                SheriffScene, ChapelScene, AlleyScene, AgnesScene, ShedScene);
+                SheriffScene, ChapelScene, AlleyScene, AgnesScene, ShedScene, BackYardScene);
             AssetDatabase.SaveAssets();
             return "Built 1-01 Station, 1-02 Main Street, 1-03 Saloon, 1-04 Holt's room, 1-05 Company office, " +
-                   "1-08 Sheriff, 1-09 Chapel nave, 1-14 Alley, 1-15 Agnes's house, 1-16 Shed";
+                   "1-07 Office back yard, 1-08 Sheriff, 1-09 Chapel nave, 1-14 Alley, 1-15 Agnes's house, 1-16 Shed";
         }
 
         // ------------------------------------------------------------------ folders
 
         private static void EnsureFolders()
         {
-            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", EnvDir + "/Interiors", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir, IconDir, ItemDir, NotebookDir, AlleyEnvDir, DialogueDir })
+            foreach (string dir in new[] { CharDir, EnvDir + "/Station", EnvDir + "/MainStreet", EnvDir + "/Shared", EnvDir + "/Interiors", PropDir, FxDir, MatDir, AnimDir, PrefabDir, SceneDir, IconDir, ItemDir, NotebookDir, AlleyEnvDir, DialogueDir, ShopDir, BackYardEnvDir })
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), dir));
             }
@@ -1033,6 +1035,7 @@ namespace LoneTruth.EditorTools
             var ui = new GameObject("P_GameUI");
             ui.AddComponent<LoneTruth.UI.GameUI>();
             ui.AddComponent<LoneTruth.UI.InventoryBarUI>();
+            ui.AddComponent<LoneTruth.UI.ShopUI>();
             ui.AddComponent<LoneTruth.UI.DialogueUI>().SetPortraits(AssetDatabase.LoadAssetAtPath<LoneTruth.Dialogue.SpeakerPortraitsSO>(PortraitsPath));
             ui.AddComponent<LoneTruth.UI.PocketWatchUI>();
             var notebook = ui.AddComponent<LoneTruth.UI.NotebookUI>();
