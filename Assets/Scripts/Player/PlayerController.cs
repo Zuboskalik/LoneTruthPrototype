@@ -76,9 +76,26 @@ namespace LoneTruth.Player
         /// <summary>Horizontal input used while a cutscene owns the player (-1..1, 0 = stand).</summary>
         public float ScriptedInput { get; set; }
 
+        // No walking while a story owns the game or the screen is black (scene loads, cards).
         private static bool InputAllowed =>
-            LoneTruth.Core.GameMaster.Instance == null ||
-            LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration);
+            (LoneTruth.Core.GameMaster.Instance == null ||
+             LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration)) &&
+            (LoneTruth.Core.ScreenFader.Instance == null || LoneTruth.Core.ScreenFader.Instance.Alpha < 0.5f);
+
+        /// <summary>Turns Holt to look toward the given x (e.g. the character he talks to).</summary>
+        public void FaceTowards(float x)
+        {
+            float dx = x - transform.position.x;
+            if (isDodging || Mathf.Abs(dx) < 0.05f)
+            {
+                return;
+            }
+
+            if (dx > 0f != facingRight)
+            {
+                Flip();
+            }
+        }
 
         public void PlayAnimationTrigger(string trigger)
         {

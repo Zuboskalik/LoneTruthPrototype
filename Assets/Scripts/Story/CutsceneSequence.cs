@@ -148,6 +148,9 @@ namespace LoneTruth.Story
             }
         }
 
+        /// <summary>Takes the controls before the sequence starts (scene-start cutscenes wait a frame).</summary>
+        public static void LockInput(bool on) => SetCutsceneMode(on);
+
         private static void SetCutsceneMode(bool on)
         {
             if (GameMaster.Instance != null)
@@ -199,6 +202,7 @@ namespace LoneTruth.Story
                     break;
 
                 case CutsceneStepType.Line:
+                    CutsceneActor.TurnPlayerTo(s.speaker);
                     CutsceneActor.SetTalking(s.speaker, true);
                     if (ui != null) yield return ui.ShowLine(s.speaker, s.text);
                     CutsceneActor.SetTalking(s.speaker, false);
@@ -349,6 +353,13 @@ namespace LoneTruth.Story
         {
             if (Mathf.Abs(dx) < 0.01f)
             {
+                return;
+            }
+
+            PlayerController pc = actor.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.FaceTowards(actor.position.x + dx);
                 return;
             }
 

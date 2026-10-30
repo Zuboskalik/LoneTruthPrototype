@@ -77,6 +77,7 @@ namespace LoneTruth.Dialogue
                     views.RemoveRange(MaxChoices, views.Count - MaxChoices);
                 }
 
+                LoneTruth.Story.CutsceneActor.TurnPlayerTo(node.speaker);
                 LoneTruth.Story.CutsceneActor.SetTalking(node.speaker, true);
                 if (offered.Count == 0)
                 {

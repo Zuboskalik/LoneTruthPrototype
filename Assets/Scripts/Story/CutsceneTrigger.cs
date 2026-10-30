@@ -40,11 +40,22 @@ namespace LoneTruth.Story
                 yield break;
             }
 
-            // Let SpawnPoints place the player first.
+            // Let SpawnPoints place the player first — but take the controls right away, or the
+            // (often long) first frame lets Holt walk off before the opening card.
+            bool willPlay = CanPlay;
+            if (willPlay)
+            {
+                CutsceneSequence.LockInput(true);
+            }
+
             yield return null;
             if (CanPlay)
             {
                 sequence.Play();
+            }
+            else if (willPlay && !CutsceneSequence.AnyPlaying)
+            {
+                CutsceneSequence.LockInput(false);
             }
         }
 

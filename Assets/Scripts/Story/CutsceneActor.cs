@@ -38,6 +38,42 @@ namespace LoneTruth.Story
             }
         }
 
+        /// <summary>Turns Holt toward the character who speaks, if that character is in the scene.</summary>
+        public static void TurnPlayerTo(string speakerName)
+        {
+            GameObject player = LoneTruth.Player.PersistentPlayer.Current;
+            if (string.IsNullOrEmpty(speakerName) || player == null)
+            {
+                return;
+            }
+
+            // Holt's own line: he speaks to the nearest character (within a few metres).
+            bool holtSpeaks = speakerName == HoltSpeaker;
+            CutsceneActor target = null;
+            float best = holtSpeaks ? 4f : float.MaxValue;
+            foreach (CutsceneActor actor in Active)
+            {
+                if (actor.transform.IsChildOf(player.transform) || !holtSpeaks && actor.speaker != speakerName)
+                {
+                    continue;
+                }
+
+                float distance = Mathf.Abs(actor.transform.position.x - player.transform.position.x);
+                if (distance < best)
+                {
+                    best = distance;
+                    target = actor;
+                }
+            }
+
+            if (target != null)
+            {
+                player.GetComponent<LoneTruth.Player.PlayerController>().FaceTowards(target.transform.position.x);
+            }
+        }
+
+        private const string HoltSpeaker = "Холт";
+
         private void Awake()
         {
             animator = GetComponentInChildren<Animator>();
