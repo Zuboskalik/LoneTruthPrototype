@@ -412,6 +412,7 @@ namespace LoneTruth.EditorTools
         private static CutsceneStep Goal(string text) => new CutsceneStep { type = CutsceneStepType.Objective, text = text };
         private static CutsceneStep Note(string text, float seconds = 3.5f) => new CutsceneStep { type = CutsceneStepType.Toast, text = text, duration = seconds };
         private static CutsceneStep Anim(string trigger) => new CutsceneStep { type = CutsceneStepType.PlayerAnimation, key = trigger };
+        private static CutsceneStep ActorAnim(GameObject actor, string trigger) => new CutsceneStep { type = CutsceneStepType.ActorAnimation, actor = actor.transform, key = trigger };
         private static CutsceneStep Load(string scene, string spawn, bool fadeIn = true) => new CutsceneStep { type = CutsceneStepType.LoadScene, scene = scene, spawnId = spawn, boolValue = fadeIn };
 
         private static CutsceneSequence Sequence(string name, Transform parent, string doneFlag, params CutsceneStep[] steps)

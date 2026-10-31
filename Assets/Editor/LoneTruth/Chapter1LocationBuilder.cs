@@ -1271,8 +1271,8 @@ namespace LoneTruth.EditorTools
             CharacterSheet sheet = NpcSheet(key);
             if (sheet != null)
             {
-                sprite.GetComponent<SpriteRenderer>().sprite = SheetFrame(sheet, NpcIdleFrame(key));
-                sprite.localScale = Vector3.one * NpcIdleScale(key);
+                sprite.GetComponent<SpriteRenderer>().sprite = SheetFrame(sheet, NpcFirstFrame(key));
+                sprite.localScale = Vector3.one * NpcFirstScale(key);
                 sprite.GetComponent<SpriteRenderer>().flipX = NpcFacesLeft(key);
             }
             else

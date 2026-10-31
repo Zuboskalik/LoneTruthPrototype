@@ -55,7 +55,12 @@ namespace LoneTruth.EditorTools
                 DNode("aim", "Джесси Коул", "Стой! Ещё шаг — и выстрелю.", "",
                     DChoice("Спокойно. Я не от компании. Меня позвала Агнес Бирн.", "agnes"),
                     DChoice("Ладно, ладно. Ухожу.")),
-                DNode("agnes", "Джесси Коул", "Агнес?.. Жена Томаса.", "name"),
+                // Naming Agnes lowers the shotgun (FlagAnimatorBool on Jesse).
+                new DialogueSO.Node
+                {
+                    id = "agnes", speaker = "Джесси Коул", text = "Агнес?.. Жена Томаса.", next = "name",
+                    setFlags = new[] { StoryFlags.JesseCalm }
+                },
                 DNode("name", "Джесси Коул", "Джесси Коул. Я выбрался оттуда до обвала. А потом меня зацепило.", "deal"),
                 new DialogueSO.Node
                 {
@@ -179,10 +184,10 @@ namespace LoneTruth.EditorTools
                 new SpeakerPortraitsSO.Entry { speaker = "Руфь", portrait = Sheet("Ruth", "Ruth") },
                 new SpeakerPortraitsSO.Entry { speaker = "Проводник", portrait = Sheet("Conductor", "Conductor") },
                 new SpeakerPortraitsSO.Entry { speaker = "Корнелиус Уитлок", portrait = Placeholder("Cornelius") },
-                new SpeakerPortraitsSO.Entry { speaker = "Шериф Долан", portrait = Placeholder("Dolan") },
-                new SpeakerPortraitsSO.Entry { speaker = "Отец Мэтью", portrait = Placeholder("Matthew") },
+                new SpeakerPortraitsSO.Entry { speaker = "Шериф Долан", portrait = Sheet("Dolan", "Dolan") },
+                new SpeakerPortraitsSO.Entry { speaker = "Отец Мэтью", portrait = Sheet("Matthew", "Matthew") },
                 new SpeakerPortraitsSO.Entry { speaker = "Агнес Бирн", portrait = Placeholder("Agnes") },
-                new SpeakerPortraitsSO.Entry { speaker = "Джесси Коул", portrait = Placeholder("Jesse") }
+                new SpeakerPortraitsSO.Entry { speaker = "Джесси Коул", portrait = Sheet("Jesse", "Jesse") }
             });
             EditorUtility.SetDirty(asset);
             return asset;

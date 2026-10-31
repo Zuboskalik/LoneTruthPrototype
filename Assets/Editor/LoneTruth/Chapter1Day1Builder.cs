@@ -314,6 +314,7 @@ namespace LoneTruth.EditorTools
                 WalkTo(4.6f),
                 Line("Шериф Долан", "Чикагский сыщик. Компания предупреждала, что вы зайдёте."),
                 Line("Холт", "Мне нужен отчёт об обвале."),
+                ActorAnim(dolan, "React"), // gets up and hands it over
                 Line("Шериф Долан", "Отчёт… Вот. Подписан, заверен. Несчастный случай, двадцать три человека."),
                 Flag(StoryFlags.ClueCollapseReport),
                 Note("Улика в блокноте: отчёт шерифа об обвале"),
@@ -509,8 +510,10 @@ namespace LoneTruth.EditorTools
             Transform play = Group("--- Gameplay");
             SceneDoor(p, "1-16_to_1-14", "Alley", "from_1-16", "Выйти в переулок", $"{PropDir}/DOOR_Shed.png", 1f, play);
             Spawn("from_1-14", 2.5f, play);
-            GameObject jesse = Npc(p, ac, "NPC_Jesse_x9", "Jesse", new Vector3(9f, 0f, 0f), play, "Поговорить", "", 1.2f);
+            GameObject jesse = Npc(p, ac, "NPC_Jesse_x9", "Jesse", new Vector3(9f, 0f, 0f), play, "Поговорить", "", 0.4f); // sits against the hay
             FaceDoor(jesse);
+            // He keeps the shotgun on Holt until Holt names Agnes, and again while the revolver is out.
+            jesse.AddComponent<FlagAnimatorBool>().Configure("Calm", F(StoryFlags.JesseCalm), F(StoryFlags.WeaponDrawn), "Idle");
 
             Transform story = Group("--- Story");
             // Side quest 1.2 «Раненый в сарае» (design doc 8.4). Jesse aims until the revolver is put
@@ -531,6 +534,10 @@ namespace LoneTruth.EditorTools
             talk.AddBranch(afterVestry, F("jesse_in_vestry"), null);
             talk.AddBranch(afterMap, F("jesse_left_alone"), null);
             talk.AddBranch(deal, F(StoryFlags.Quest12FoundJesse), null);
+
+            // Jesse thinks the company sent someone: he speaks first, as soon as Holt comes in.
+            StartTrigger(contact, null, F(StoryFlags.Quest12FoundJesse, StoryFlags.WeaponDrawn));
+            StartTrigger(gunDrawn, F(StoryFlags.WeaponDrawn), F(StoryFlags.Quest12FoundJesse));
 
             EditorSceneManager.SaveScene(scene, ShedScene);
         }

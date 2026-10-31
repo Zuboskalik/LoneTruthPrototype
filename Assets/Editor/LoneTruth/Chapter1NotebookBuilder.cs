@@ -84,7 +84,7 @@ namespace LoneTruth.EditorTools
             var ruth = NotebookAsset<PersonSO>("Person_Ruth");
             ruth.Configure("Руфь Маккензи", StoryFlags.SaloonCheckIn, "Хозяйка салуна «Последняя лампа»",
                 "Сдала мне третий номер: компания платит. Знает всё, что говорят в городе.",
-                NpcSheet("Ruth") != null ? SheetFrame(RuthSheet, "Stand_05") : null);
+                NpcSheet("Ruth") != null ? SheetFrame(RuthSheet, "Stand_03") : null);
             ruth.AddNote(StoryFlags.RuthRumorBarn, "Говорит, собаки третью ночь лают на сарай за конюшней.");
 
             agnes.AddNote(StoryFlags.Quest11Started, "Показала семь писем Томаса. Они появляются на её подоконнике каждую ночь, и она ни разу не видела, кто их приносит.");
@@ -92,17 +92,17 @@ namespace LoneTruth.EditorTools
             var dolan = NotebookAsset<PersonSO>("Person_Dolan");
             dolan.Configure("Шериф Долан", StoryFlags.SheriffReport, "Шериф Холлоу-Рока",
                 "Пьющий, оплывший, почти не встаёт из-за стола. Отдал мне отчёт об обвале и проговорился: «Взрывали в 4:17. Взрывали, я сказал? Обрушилось».",
-                S($"{CharDir}/CH_Dolan_Ref.png"));
+                NpcSheet("Dolan") != null ? SheetFrame(DolanSheet, "Sit_00") : S($"{CharDir}/CH_Dolan_Ref.png"));
 
             var matthew = NotebookAsset<PersonSO>("Person_Matthew");
             matthew.Configure("Отец Мэтью", StoryFlags.Quest13Started, "Священник часовни Святой Варвары",
                 "Просит выяснить, кто звонит в колокол в 4:17, хотя колокольня заперта. Чего-то боится.",
-                S($"{CharDir}/CH_Matthew_Ref.png"));
+                NpcSheet("Matthew") != null ? SheetFrame(MatthewSheet, "Rosary_00") : S($"{CharDir}/CH_Matthew_Ref.png"));
 
             var jesse = NotebookAsset<PersonSO>("Person_Jesse");
             jesse.Configure("Джесси Коул", StoryFlags.Quest12FoundJesse, "Молодой шахтёр",
                 "Прячется в сарае за конюшней, ранен в бок. Выбрался из шахты до обвала. Хочет бинт, виски и тайно уехать из города — взамен отдаст карту нижних горизонтов.",
-                S($"{CharDir}/CH_Jesse_Ref.png"));
+                NpcSheet("Jesse") != null ? SheetFrame(JesseSheet, "Sit_02") : S($"{CharDir}/CH_Jesse_Ref.png"));
 
             var cornelius = NotebookAsset<PersonSO>("Person_Cornelius");
             cornelius.Configure("Корнелиус Уитлок", StoryFlags.OfficeMeeting, "Директор «Уитлок Майнинг», внук основателя",

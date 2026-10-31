@@ -1,0 +1,687 @@
+fileFormatVersion: 2
+guid: 32e756ebf8f1570429782ca5cfd7e915
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2127038121425478309
+    second: "\u0414\u044C\u044E\u043A \u041A\u044D\u043B\u043B\u0430\u0445\u0430\u043D_walk_0"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 108.5
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: CallahanWalk_R0_00
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 494
+        width: 82
+        height: 208
+      alignment: 9
+      pivot: {x: 0.60003924, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58f550fc6ae1d8d4bb9335304702e6cc
+      internalID: -1628158220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_01
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 494
+        width: 69
+        height: 211
+      alignment: 9
+      pivot: {x: 0.6092295, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fd71437d3592be428ea5dfd77fd7bfa
+      internalID: -108964368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_02
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 494
+        width: 71
+        height: 212
+      alignment: 9
+      pivot: {x: 0.6029556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e953feba7fe4f804691db6f9f52047f3
+      internalID: 1033354480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_03
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 494
+        width: 97
+        height: 211
+      alignment: 9
+      pivot: {x: 0.48725373, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50a0da902d0b19f47b3719ab88e10f45
+      internalID: 596834376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_04
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 494
+        width: 103
+        height: 208
+      alignment: 9
+      pivot: {x: 0.51774937, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2f3758b134978c4383c4b02eae4ff06
+      internalID: 1348154863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_05
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 494
+        width: 99
+        height: 208
+      alignment: 9
+      pivot: {x: 0.6134773, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dfa167fcadc13d47aaf86de567edf14
+      internalID: 1018207792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_06
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 494
+        width: 74
+        height: 211
+      alignment: 9
+      pivot: {x: 0.6546293, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce89ce371dd5436419a2df3a83b28941
+      internalID: -2122893248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R0_07
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 494
+        width: 80
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5694229, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62e7c60d4dbe1f1419fb571a47e5b339
+      internalID: 1686903539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_00
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 256
+        width: 103
+        height: 207
+      alignment: 9
+      pivot: {x: 0.49442196, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a17bc6566460a045b26b84e734872f0
+      internalID: -1054503163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_01
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 256
+        width: 94
+        height: 207
+      alignment: 9
+      pivot: {x: 0.6296648, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65e518ebaff323340b13f856c5e37545
+      internalID: -163207480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_02
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 256
+        width: 80
+        height: 209
+      alignment: 9
+      pivot: {x: 0.68662757, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deeff7700e3d51c4a88f93a8304dfc5a
+      internalID: 342798160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_03
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 256
+        width: 81
+        height: 210
+      alignment: 9
+      pivot: {x: 0.62519026, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ac19a1f5b9ba9f4c887f480e7761035
+      internalID: 1324638739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_04
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 256
+        width: 104
+        height: 207
+      alignment: 9
+      pivot: {x: 0.51735103, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1163f067a38db6f479ec303202726d88
+      internalID: 2044315164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_05
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 256
+        width: 99
+        height: 206
+      alignment: 9
+      pivot: {x: 0.6210549, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0c1fe78376f781458ffd539c5c520d6
+      internalID: -151211672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_06
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 256
+        width: 94
+        height: 208
+      alignment: 9
+      pivot: {x: 0.6704991, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 077712f1f9b2a54469c4fa8bbfa00eb0
+      internalID: 1076332170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R1_07
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 256
+        width: 90
+        height: 210
+      alignment: 9
+      pivot: {x: 0.6806139, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6953b267ddf05bb4a9d15c75256166c0
+      internalID: -1936560245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_00
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 17
+        width: 105
+        height: 208
+      alignment: 9
+      pivot: {x: 0.5523004, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 138c2164a282bdc4ea5daf1014ede2a9
+      internalID: 960874688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_01
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 17
+        width: 110
+        height: 206
+      alignment: 9
+      pivot: {x: 0.5188581, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 303e960f7aa5bbd4cbafd8f0806b306a
+      internalID: 281372804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_02
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 17
+        width: 101
+        height: 206
+      alignment: 9
+      pivot: {x: 0.62619895, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89e237d9b15466d4f950735f4e5a645a
+      internalID: -1904796516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_03
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 17
+        width: 78
+        height: 208
+      alignment: 9
+      pivot: {x: 0.6706363, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ade511ff8db4e524495d9053ae8f4dad
+      internalID: -1126935500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_04
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 17
+        width: 77
+        height: 209
+      alignment: 9
+      pivot: {x: 0.66625583, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2af9cc6feb8e7344886e3957c9503e4c
+      internalID: 918277264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_05
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 17
+        width: 87
+        height: 209
+      alignment: 9
+      pivot: {x: 0.61449635, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 263ede985d23e744b85c337476960368
+      internalID: 1574733615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_06
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 17
+        width: 107
+        height: 206
+      alignment: 9
+      pivot: {x: 0.5445614, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdaf8e4365728f148bd9cd580c68ca21
+      internalID: 1839279077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CallahanWalk_R2_07
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 17
+        width: 106
+        height: 204
+      alignment: 9
+      pivot: {x: 0.58626455, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29511e0280714784c938a9ba2bc75830
+      internalID: 195877532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 581a8dfcb15f16347b92015deee2c772
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      CallahanWalk_R0_00: -1628158220
+      CallahanWalk_R0_01: -108964368
+      CallahanWalk_R0_02: 1033354480
+      CallahanWalk_R0_03: 596834376
+      CallahanWalk_R0_04: 1348154863
+      CallahanWalk_R0_05: 1018207792
+      CallahanWalk_R0_06: -2122893248
+      CallahanWalk_R0_07: 1686903539
+      CallahanWalk_R1_00: -1054503163
+      CallahanWalk_R1_01: -163207480
+      CallahanWalk_R1_02: 342798160
+      CallahanWalk_R1_03: 1324638739
+      CallahanWalk_R1_04: 2044315164
+      CallahanWalk_R1_05: -151211672
+      CallahanWalk_R1_06: 1076332170
+      CallahanWalk_R1_07: -1936560245
+      CallahanWalk_R2_00: 960874688
+      CallahanWalk_R2_01: 281372804
+      CallahanWalk_R2_02: -1904796516
+      CallahanWalk_R2_03: -1126935500
+      CallahanWalk_R2_04: 918277264
+      CallahanWalk_R2_05: 1574733615
+      CallahanWalk_R2_06: 1839279077
+      CallahanWalk_R2_07: 195877532
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

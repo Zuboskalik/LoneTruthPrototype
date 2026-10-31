@@ -41,7 +41,128 @@ namespace LoneTruth.EditorTools
             public float Ppu;
             public SheetRow[] Rows;
 
+            // Packed sheets: Path is "{Source}_animation.png", cut from the full Source sheet by
+            // Pack (one packed row per entry); the source can be deleted once it is cut.
+            public string Source;
+            public PackRow[] Pack;
+            public int[] SplitRows; // source lines (px from the top) that separate rows drawn touching
+
             public bool Exists => File.Exists(Path);
+        }
+
+        /// <summary>One row of a packed sheet: frames picked from the source, as (row, frame) pairs.</summary>
+        private sealed class PackRow
+        {
+            public readonly string Name;
+            public readonly bool AnchorOnHead;
+            public readonly (int Band, int Frame)[] Frames;
+
+            public PackRow(string name, bool anchorOnHead, params (int, int)[] frames)
+            {
+                Name = name;
+                AnchorOnHead = anchorOnHead;
+                Frames = frames;
+            }
+        }
+
+        /// <summary>A sheet cut from a full source sheet into "{source}_animation.png".</summary>
+        private static CharacterSheet PackedSheet(string source, string prefix, float ppu, int[] splitRows, params PackRow[] pack)
+        {
+            return new CharacterSheet
+            {
+                Path = source.Substring(0, source.Length - ".png".Length) + "_animation.png",
+                Source = source,
+                Prefix = prefix,
+                Ppu = ppu,
+                Pack = pack,
+                SplitRows = splitRows,
+                Rows = pack.Select((row, i) => new SheetRow(i, row.Name, row.AnchorOnHead)).ToArray()
+            };
+        }
+
+        /// <summary>
+        /// Cuts the frames a packed sheet uses out of its source into the compact animation sheet:
+        /// one row per animation, frames left to right, feet on the row's ground line. Runs while the
+        /// source exists; an unchanged result leaves the existing file (and its slices) alone.
+        /// </summary>
+        private static void PackSheet(CharacterSheet sheet)
+        {
+            if (sheet.Pack == null || !File.Exists(sheet.Source))
+            {
+                return;
+            }
+
+            var source = new CharacterSheet
+            {
+                Path = sheet.Source,
+                Prefix = "Src",
+                SplitRows = sheet.SplitRows,
+                Rows = sheet.Pack.SelectMany(r => r.Frames).Select(f => f.Band).Distinct()
+                    .Select(b => new SheetRow(b, "B" + b, false)).ToArray()
+            };
+            Dictionary<string, Rect> found = SliceSheet(source).ToDictionary(r => r.name, r => r.rect);
+
+            var tex = new Texture2D(2, 2);
+            tex.LoadImage(File.ReadAllBytes(sheet.Source));
+            int sourceWidth = tex.width;
+            Color32[] src = tex.GetPixels32();
+            Object.DestroyImmediate(tex);
+
+            var rows = new List<List<RectInt>>();
+            foreach (PackRow row in sheet.Pack)
+            {
+                var frames = new List<RectInt>();
+                foreach ((int band, int frame) in row.Frames)
+                {
+                    if (!found.TryGetValue($"Src_B{band}_{frame:00}", out Rect r))
+                    {
+                        Debug.LogError($"[Sheets] {sheet.Source} has no frame {frame} in row {band}; {sheet.Path} was not made.");
+                        return;
+                    }
+
+                    frames.Add(new RectInt((int)r.x, (int)r.y, (int)r.width, (int)r.height));
+                }
+
+                rows.Add(frames);
+            }
+
+            // Wide transparent gaps keep the rows and figures apart for the slicer.
+            const int gap = 40;
+            int width = rows.Max(row => row.Sum(r => r.width + gap)) + gap;
+            int height = rows.Sum(row => row.Max(r => r.height) + gap) + gap;
+            var px = new Color32[width * height];
+            int top = height - gap;
+            foreach (List<RectInt> row in rows)
+            {
+                int ground = top - row.Max(r => r.height);
+                int x = gap;
+                foreach (RectInt r in row)
+                {
+                    for (int y = 0; y < r.height; y++)
+                    {
+                        System.Array.Copy(src, (r.y + y) * sourceWidth + r.x, px, (ground + y) * width + x, r.width);
+                    }
+
+                    x += r.width + gap;
+                }
+
+                top = ground - gap;
+            }
+
+            var packed = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            packed.SetPixels32(px);
+            byte[] png = packed.EncodeToPNG();
+            Object.DestroyImmediate(packed);
+            if (File.Exists(sheet.Path) && File.ReadAllBytes(sheet.Path).SequenceEqual(png))
+            {
+                return;
+            }
+
+            // A changed layout needs fresh slices: drop the old asset with its sprites.
+            AssetDatabase.DeleteAsset(sheet.Path);
+            File.WriteAllBytes(sheet.Path, png);
+            AssetDatabase.ImportAsset(sheet.Path);
+            Debug.Log($"[Sheets] Cut {rows.Sum(r => r.Count)} frames from {sheet.Source} into {sheet.Path} ({width}×{height}).");
         }
 
         private static void ImportSheet(CharacterSheet sheet)
@@ -109,7 +230,8 @@ namespace LoneTruth.EditorTools
             int w = tex.width, h = tex.height;
             Color32[] px = tex.GetPixels32();
             Object.DestroyImmediate(tex);
-            bool Opaque(int x, int y) => px[y * w + x].a > 40;
+            var splits = new HashSet<int>((sheet.SplitRows ?? new int[0]).Select(fromTop => h - 1 - fromTop));
+            bool Opaque(int x, int y) => px[y * w + x].a > 40 && !splits.Contains(y);
 
             // Row bands, top of the image first (texture y grows upward).
             var bands = new List<(int Lo, int Hi)>();

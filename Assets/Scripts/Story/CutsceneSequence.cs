@@ -35,7 +35,8 @@ namespace LoneTruth.Story
         Shard,           // key = Hope / Despair / Truth, amount
         Keystone,        // key = key truth id (+1 Truth, once)
         QuestOutcome,    // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
-        Dialogue         // dialogue: a conversation with answers (DialogueSO), waits until it ends
+        Dialogue,        // dialogue: a conversation with answers (DialogueSO), waits until it ends
+        ActorAnimation   // animator trigger on an NPC (actor, key), e.g. the sheriff handing over the report
     }
 
     [Serializable]
@@ -272,6 +273,10 @@ namespace LoneTruth.Story
                     PlayerController pc = Player();
                     if (pc != null) pc.PlayAnimationTrigger(s.key);
                     break;
+
+                case CutsceneStepType.ActorAnimation:
+                    if (s.actor != null) SetTrigger(s.actor.GetComponentInChildren<Animator>(), s.key);
+                    break;
             }
         }
 
@@ -367,6 +372,23 @@ namespace LoneTruth.Story
             if (sr != null)
             {
                 sr.flipX = dx < 0f; // character art faces right
+            }
+        }
+
+        private static void SetTrigger(Animator animator, string trigger)
+        {
+            if (animator == null || animator.runtimeAnimatorController == null)
+            {
+                return;
+            }
+
+            foreach (AnimatorControllerParameter p in animator.parameters)
+            {
+                if (p.name == trigger && p.type == AnimatorControllerParameterType.Trigger)
+                {
+                    animator.SetTrigger(trigger);
+                    return;
+                }
             }
         }
 

@@ -1,0 +1,503 @@
+fileFormatVersion: 2
+guid: 34208dad73e9cb14eb4ae10fd036cdee
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 633825774180997301
+    second: StationConductor_walk_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 119
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ConductorWalk_R0_00
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 253
+        width: 81
+        height: 209
+      alignment: 9
+      pivot: {x: 0.59355265, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77304f94f0300fb4dac3345827e98301
+      internalID: 246154423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_01
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 253
+        width: 69
+        height: 212
+      alignment: 9
+      pivot: {x: 0.595436, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d797aba9f1eecf64590aea811eb096be
+      internalID: 232514750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_02
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 253
+        width: 74
+        height: 213
+      alignment: 9
+      pivot: {x: 0.543643, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89a9ea82e1c873a4a8fc3f1270515a78
+      internalID: 827018131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_03
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 253
+        width: 98
+        height: 212
+      alignment: 9
+      pivot: {x: 0.43490165, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d731c80b86accf48afb08d76129917f
+      internalID: -1443998121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_04
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 253
+        width: 108
+        height: 209
+      alignment: 9
+      pivot: {x: 0.5450524, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77cae717a3a5c014f8328bdfb99e4ee4
+      internalID: 777924561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_05
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 253
+        width: 100
+        height: 210
+      alignment: 9
+      pivot: {x: 0.63586366, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bc4ac7af8fc02d43b002d98b6db7e5f
+      internalID: -1858074758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_06
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 253
+        width: 68
+        height: 214
+      alignment: 9
+      pivot: {x: 0.58316666, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edbbc029f41821c4eac3eff20bef1d4f
+      internalID: -226621777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R0_07
+      rect:
+        serializedVersion: 2
+        x: 973
+        y: 253
+        width: 80
+        height: 213
+      alignment: 9
+      pivot: {x: 0.5259514, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b6d5f89d01bbaf42bd77f04a211bb41
+      internalID: -1214163444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_00
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 14
+        width: 92
+        height: 209
+      alignment: 9
+      pivot: {x: 0.46252027, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edab75cc098158247a8d50322517fc9e
+      internalID: -282855945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_01
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 14
+        width: 91
+        height: 209
+      alignment: 9
+      pivot: {x: 0.5989687, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a5b67983e5af834c857ea03df247f23
+      internalID: 153822135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_02
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 14
+        width: 64
+        height: 212
+      alignment: 9
+      pivot: {x: 0.6099515, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e03c9abf9fc43834d8b17e2e9fbc7909
+      internalID: -177661617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_03
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 14
+        width: 70
+        height: 213
+      alignment: 9
+      pivot: {x: 0.51848406, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3969dc7b1cb4e043a24181f6cec2e61
+      internalID: -388235101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_04
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 14
+        width: 101
+        height: 210
+      alignment: 9
+      pivot: {x: 0.4606124, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a93e27e16426102409d2ebd217e26dee
+      internalID: 1592039029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_05
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 14
+        width: 101
+        height: 209
+      alignment: 9
+      pivot: {x: 0.60119873, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bae5fdf001b36f4ca7b2b93cdcd5a83
+      internalID: 1404246389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_06
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 14
+        width: 81
+        height: 211
+      alignment: 9
+      pivot: {x: 0.6644513, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ea48550248c15b429402a7c28bebcd7
+      internalID: -298782626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConductorWalk_R1_07
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 14
+        width: 75
+        height: 213
+      alignment: 9
+      pivot: {x: 0.5560555, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbed7d9e7f9f05c4e9b5b7c752007d1f
+      internalID: -506384057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 47a5dc0585e58854686aa06a0132d8b6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ConductorWalk_R0_00: 246154423
+      ConductorWalk_R0_01: 232514750
+      ConductorWalk_R0_02: 827018131
+      ConductorWalk_R0_03: -1443998121
+      ConductorWalk_R0_04: 777924561
+      ConductorWalk_R0_05: -1858074758
+      ConductorWalk_R0_06: -226621777
+      ConductorWalk_R0_07: -1214163444
+      ConductorWalk_R1_00: -282855945
+      ConductorWalk_R1_01: 153822135
+      ConductorWalk_R1_02: -177661617
+      ConductorWalk_R1_03: -388235101
+      ConductorWalk_R1_04: 1592039029
+      ConductorWalk_R1_05: 1404246389
+      ConductorWalk_R1_06: -298782626
+      ConductorWalk_R1_07: -506384057
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

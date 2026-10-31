@@ -127,5 +127,6 @@ namespace LoneTruth.Core
 
         /// <summary>Runtime state, not story: the revolver is drawn (people react to it).</summary>
         public const string WeaponDrawn = "weapon_drawn";
+        public const string JesseCalm = "jesse_calm";                    // Jesse lowered the rifle: Holt named Agnes
     }
 }
