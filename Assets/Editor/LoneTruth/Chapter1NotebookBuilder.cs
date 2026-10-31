@@ -73,7 +73,8 @@ namespace LoneTruth.EditorTools
             // ---------------------------------------------------------------- people
             var agnes = NotebookAsset<PersonSO>("Person_Agnes");
             agnes.Configure("Агнес Бирн", "", "Вдова шахтёра Томаса Бирна",
-                "Написала мне в Чикаго: «Томас жив. Он пишет мне по ночам. В последнем письме он назвал ваше имя».", null);
+                "Написала мне в Чикаго: «Томас жив. Он пишет мне по ночам. В последнем письме он назвал ваше имя».",
+                NpcSheet("Agnes") != null ? SheetFrame(AgnesSheet, "Letters_00") : null);
 
             var callahan = NotebookAsset<PersonSO>("Person_Callahan");
             callahan.Configure("Дьюк Кэллахан", StoryFlags.MetCallahan, "Начальник охраны «Уитлок Майнинг»",
@@ -107,7 +108,7 @@ namespace LoneTruth.EditorTools
             var cornelius = NotebookAsset<PersonSO>("Person_Cornelius");
             cornelius.Configure("Корнелиус Уитлок", StoryFlags.OfficeMeeting, "Директор «Уитлок Майнинг», внук основателя",
                 "Нанял меня подтвердить гибель 23 человек и вину профсоюзных саботажников — ради страховки. Хочет, чтобы я уехал как можно скорее.",
-                S($"{CharDir}/CH_Cornelius_Ref.png"));
+                NpcSheet("Cornelius") != null ? SheetFrame(CorneliusSheet, "Stand_00") : S($"{CharDir}/CH_Cornelius_Ref.png"));
             cornelius.AddNote(StoryFlags.CluePortrait, "Нервничает и всё время смотрит на портрет деда у меня за спиной.");
 
             // ---------------------------------------------------------------- quests

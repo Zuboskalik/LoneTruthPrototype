@@ -46,7 +46,10 @@ namespace LoneTruth.EditorTools
             public NpcClip React;
             public NpcClip Wary;          // on guard until the animator bool Calm is set (FlagAnimatorBool)
             public NpcClip WaryEnd;       // played once from Wary to Idle
-            public bool SameScale;        // all frames are drawn at one scale (no row scaling)
+            public bool SameScale;        // all frames are drawn at one scale (no row scaling), except RowScale
+            // Rows drawn smaller than the reference (by head size: posture changes the full height),
+            // e.g. { ["Talk"] = 1.08f }: the row's frames are scaled up by that much.
+            public Dictionary<string, float> RowScale;
             public bool FaceLeft;         // the art faces right; mirror it to face the NPC on the left
 
             /// <summary>The clip the character shows first.</summary>
@@ -142,6 +145,32 @@ namespace LoneTruth.EditorTools
             new PackRow("Idle", false, (0, 1)),
             new PackRow("Talk", false, (1, 0), (1, 2), (1, 5), (1, 6)));
 
+        // Cornelius Whitlock (1-05, at his desk): Stand 00 / 02 standing, 01 hands on the lapels;
+        // Wipe 00–03 out with the handkerchief and over the forehead; Glasses 00–01 fixing the
+        // pince-nez; Talk 00–03 explaining with nervous hands.
+        private static readonly CharacterSheet CorneliusSheet = PackedSheet("Assets/Sprites/Generated/Корнелиус Уитлок.png", "Cornelius",
+            194f, null, // standing: ~334 px for 1.72 m
+            new PackRow("Stand", false, (0, 0), (0, 1), (0, 3)),
+            new PackRow("Wipe", false, (1, 2), (1, 3), (1, 4), (1, 6)),
+            new PackRow("Glasses", false, (3, 6), (3, 7)),
+            new PackRow("Talk", false, (2, 1), (2, 3), (2, 4), (2, 5)));
+
+        // The clerk at the reception counter (1-05) stands: Stand 00–01, 02 hands clasped, 03 fixing
+        // his glasses; Talk 00–01 gestures; Greet 00 a raised hand. The sitting rows are not used.
+        private static readonly CharacterSheet ClerkSheet = PackedSheet("Assets/Sprites/Generated/Клерк.png", "Clerk",
+            195f, null, // ~339 px for 1.74 m
+            new PackRow("Stand", false, (0, 0), (0, 1), (0, 6), (0, 5)),
+            new PackRow("Talk", false, (0, 2), (0, 3)),
+            new PackRow("Greet", false, (0, 4)));
+
+        // Agnes Byrne (1-15): Letters 00–05 clutching the letters; Talk 00–03 talking with them in
+        // her hand; Show 00–04 holding the bundle out to Holt.
+        private static readonly CharacterSheet AgnesSheet = PackedSheet("Assets/Sprites/Generated/Агнес Бирн.png", "Agnes",
+            208f, null, // ~339 px for 1.63 m
+            new PackRow("Letters", false, (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
+            new PackRow("Talk", false, (1, 0), (1, 1), (1, 2), (1, 5)),
+            new PackRow("Show", false, (2, 0), (2, 1), (2, 2), (2, 3), (2, 4)));
+
         private static readonly Dictionary<string, NpcSpec> NpcSpecs = new Dictionary<string, NpcSpec>
         {
             ["Callahan"] = new NpcSpec
@@ -171,6 +200,7 @@ namespace LoneTruth.EditorTools
             ["Matthew"] = new NpcSpec
             {
                 Sheet = MatthewSheet, Reference = "Rosary_00", PlaceholderKey = "Matthew", SameScale = true,
+                RowScale = new Dictionary<string, float> { ["Talk"] = 1.08f },
                 Idle = new NpcClip(2, "Rosary_00", "Rosary_01", "Rosary_02", "Rosary_03", "Rosary_04", "Rosary_05"),
                 Talk = new NpcClip(2.5f, "Talk_00", "Talk_01", "Talk_02", "Talk_01", "Talk_04")
             },
@@ -220,6 +250,32 @@ namespace LoneTruth.EditorTools
                 Sheet = ConductorSheet, Reference = "Talk_00", PlaceholderKey = "Conductor", WalkSheet = ConductorWalkSheet,
                 Idle = new NpcClip(1, "Idle_00"),
                 Talk = new NpcClip(2.5f, "Talk_01", "Talk_02", "Talk_03", "Talk_02")
+            },
+            // Nervous: tugs at his lapels, fixes the pince-nez, wipes his forehead with a handkerchief.
+            ["Cornelius"] = new NpcSpec
+            {
+                Sheet = CorneliusSheet, Reference = "Stand_00", PlaceholderKey = "Cornelius", SameScale = true, FaceLeft = true,
+                RowScale = new Dictionary<string, float> { ["Wipe"] = 1.06f, ["Glasses"] = 1.08f, ["Talk"] = 1.1f },
+                Idle = new NpcClip(2, "Stand_00", "Stand_00", "Stand_00", "Stand_01", "Stand_01", "Stand_00", "Stand_02",
+                    "Glasses_00", "Glasses_01", "Stand_00", "Stand_00", "Wipe_00", "Wipe_01", "Wipe_02", "Wipe_01", "Wipe_03"),
+                Talk = new NpcClip(2.5f, "Talk_00", "Talk_01", "Talk_02", "Talk_03")
+            },
+            // Stands behind the counter, now and then fixing his glasses; raises a hand in greeting.
+            ["Clerk"] = new NpcSpec
+            {
+                Sheet = ClerkSheet, Reference = "Stand_00", PlaceholderKey = "Clerk", SameScale = true, FaceLeft = true,
+                Idle = new NpcClip(1.5f, "Stand_00", "Stand_00", "Stand_02", "Stand_02", "Stand_01", "Stand_03", "Stand_00"),
+                Talk = new NpcClip(2.5f, "Talk_00", "Talk_01"),
+                React = new NpcClip(1.5f, "Greet_00", "Greet_00", "Greet_00")
+            },
+            // Clutches the letters; talks with them in her hand; holds the bundle out to Holt.
+            ["Agnes"] = new NpcSpec
+            {
+                Sheet = AgnesSheet, Reference = "Letters_00", PlaceholderKey = "Agnes", SameScale = true,
+                RowScale = new Dictionary<string, float> { ["Talk"] = 1.08f, ["Show"] = 1.1f },
+                Idle = new NpcClip(1.5f, "Letters_00", "Letters_01", "Letters_02", "Letters_03", "Letters_04", "Letters_05"),
+                Talk = new NpcClip(2.5f, "Talk_00", "Talk_01", "Talk_02", "Talk_03"),
+                React = new NpcClip(3, "Show_00", "Show_01", "Show_02", "Show_03", "Show_04", "Show_04", "Show_04", "Show_04", "Show_04")
             }
         };
 
@@ -248,7 +304,17 @@ namespace LoneTruth.EditorTools
             return spec == null ? 1f : NpcClipScale(spec, spec.First);
         }
 
-        private static float NpcClipScale(NpcSpec spec, NpcClip clip)
+        /// <summary>The scale of the clip's first frame.</summary>
+        private static float NpcClipScale(NpcSpec spec, NpcClip clip) => NpcFrameScale(spec, clip, clip.Frames[0]);
+
+        /// <summary>A frame's scale: its row's RowScale, else the clip's scale.</summary>
+        private static float NpcFrameScale(NpcSpec spec, NpcClip clip, string frame)
+        {
+            string row = frame.Substring(0, frame.LastIndexOf('_'));
+            return spec.RowScale != null && spec.RowScale.TryGetValue(row, out float rowScale) ? rowScale : NpcBaseScale(spec, clip);
+        }
+
+        private static float NpcBaseScale(NpcSpec spec, NpcClip clip)
         {
             if (spec.SameScale)
             {
@@ -304,7 +370,7 @@ namespace LoneTruth.EditorTools
             AnimatorState State(string name, Vector3 pos, NpcClip clip, bool loop)
             {
                 AnimatorState st = sm.AddState(name, pos);
-                st.motion = SheetClip(spec.Sheet, $"{key}_{name}", clip.Fps, loop, NpcClipScale(spec, clip), clip.Frames);
+                st.motion = SheetClip(spec.Sheet, $"{key}_{name}", clip.Fps, loop, frame => NpcFrameScale(spec, clip, frame), clip.Frames);
                 return st;
             }
 

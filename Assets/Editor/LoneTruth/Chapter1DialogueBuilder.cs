@@ -226,11 +226,11 @@ namespace LoneTruth.EditorTools
                 new SpeakerPortraitsSO.Entry { speaker = "Кэллахан", portrait = Sheet("Callahan", "Callahan") },
                 new SpeakerPortraitsSO.Entry { speaker = "Руфь", portrait = Sheet("Ruth", "Ruth") },
                 new SpeakerPortraitsSO.Entry { speaker = "Проводник", portrait = Sheet("Conductor", "Conductor") },
-                new SpeakerPortraitsSO.Entry { speaker = "Корнелиус Уитлок", portrait = Placeholder("Cornelius") },
-                new SpeakerPortraitsSO.Entry { speaker = "Секретарь", portrait = Placeholder("Clerk") },
+                new SpeakerPortraitsSO.Entry { speaker = "Корнелиус Уитлок", portrait = Sheet("Cornelius", "Cornelius") },
+                new SpeakerPortraitsSO.Entry { speaker = "Секретарь", portrait = Sheet("Clerk", "Clerk") },
                 new SpeakerPortraitsSO.Entry { speaker = "Шериф Долан", portrait = Sheet("Dolan", "Dolan") },
                 new SpeakerPortraitsSO.Entry { speaker = "Отец Мэтью", portrait = Sheet("Matthew", "Matthew") },
-                new SpeakerPortraitsSO.Entry { speaker = "Агнес Бирн", portrait = Placeholder("Agnes") },
+                new SpeakerPortraitsSO.Entry { speaker = "Агнес Бирн", portrait = Sheet("Agnes", "Agnes") },
                 new SpeakerPortraitsSO.Entry { speaker = "Джесси Коул", portrait = Sheet("Jesse", "Jesse") }
             });
             EditorUtility.SetDirty(asset);

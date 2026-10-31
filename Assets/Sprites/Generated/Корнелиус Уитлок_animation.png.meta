@@ -1,0 +1,434 @@
+fileFormatVersion: 2
+guid: ec685dce819e44d45a86d7aa9abee908
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -457528914380123358
+    second: "\u041A\u043E\u0440\u043D\u0435\u043B\u0438\u0443\u0441 \u0423\u0438\u0442\u043B\u043E\u043A_animation_0"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 194
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cornelius_Stand_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 1066
+        width: 158
+        height: 337
+      alignment: 9
+      pivot: {x: 0.4044304, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365c46e42fcc77c40b437888e14909e7
+      internalID: 1642771027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Stand_01
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 1066
+        width: 160
+        height: 337
+      alignment: 9
+      pivot: {x: 0.41011962, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a401d3348e44b45809721db94b8bb8
+      internalID: -1612464766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Stand_02
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 1066
+        width: 165
+        height: 337
+      alignment: 9
+      pivot: {x: 0.3852687, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9b4189db7dfba342b3fca7902e0e4d9
+      internalID: 258872165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Wipe_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 717
+        width: 160
+        height: 309
+      alignment: 9
+      pivot: {x: 0.3227602, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd038760fadf64d4a895f3eccc449b1c
+      internalID: -21919550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Wipe_01
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 717
+        width: 182
+        height: 309
+      alignment: 9
+      pivot: {x: 0.3079834, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 469db622a1cd81c4699a80861cbf1ba7
+      internalID: 358359649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Wipe_02
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 717
+        width: 180
+        height: 309
+      alignment: 9
+      pivot: {x: 0.29739955, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e4fa7b27067dea4bb3f5f3f5f1b4744
+      internalID: 236394736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Wipe_03
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 717
+        width: 151
+        height: 308
+      alignment: 9
+      pivot: {x: 0.30697492, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0aa2246703425cd49a8c9a25f64b3571
+      internalID: -1316385334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Glasses_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 378
+        width: 168
+        height: 299
+      alignment: 9
+      pivot: {x: 0.2701033, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbe873f9d53a66c4dbd30db49a2d013f
+      internalID: 734860681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Glasses_01
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 378
+        width: 169
+        height: 299
+      alignment: 9
+      pivot: {x: 0.26025608, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b386ecc1ce1cf8c45884ccc68bd35f94
+      internalID: -618201998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Talk_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 40
+        width: 204
+        height: 297
+      alignment: 9
+      pivot: {x: 0.21080936, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a2bed03151ea124fa9f8d32867a797d
+      internalID: 405635575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Talk_01
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 40
+        width: 197
+        height: 296
+      alignment: 9
+      pivot: {x: 0.21087925, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82137c455d624cd4ba9163e06905d683
+      internalID: 83962236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Talk_02
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 40
+        width: 198
+        height: 295
+      alignment: 9
+      pivot: {x: 0.20744154, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bf44546bd5043f46a494b53a56cf726
+      internalID: -1024941862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cornelius_Talk_03
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 40
+        width: 193
+        height: 295
+      alignment: 9
+      pivot: {x: 0.24756175, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffc3a8d34ed1c714990846deee864d40
+      internalID: 1514338532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2c091dd51cc072b4daaa5e6c68c8a293
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cornelius_Glasses_00: 734860681
+      Cornelius_Glasses_01: -618201998
+      Cornelius_Stand_00: 1642771027
+      Cornelius_Stand_01: -1612464766
+      Cornelius_Stand_02: 258872165
+      Cornelius_Talk_00: 405635575
+      Cornelius_Talk_01: 83962236
+      Cornelius_Talk_02: -1024941862
+      Cornelius_Talk_03: 1514338532
+      Cornelius_Wipe_00: -21919550
+      Cornelius_Wipe_01: 358359649
+      Cornelius_Wipe_02: 236394736
+      Cornelius_Wipe_03: -1316385334
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

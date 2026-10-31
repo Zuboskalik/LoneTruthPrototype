@@ -957,6 +957,7 @@ namespace LoneTruth.EditorTools
 
             // 3. Morning: the company office.
             CutsceneSequence meeting = Sequence("3b_OfficeMeeting", story, StoryFlags.OfficeMeeting,
+                ActorAnim(clerk, "React"), // raises a hand in greeting
                 Line("Секретарь", "Доброе утро, мистер Холт. Мистер Уитлок вас ждёт — проходите, прошу."),
                 WalkTo(11.6f),
                 Line("Корнелиус Уитлок", "Мистер Холт. Корнелиус Уитлок. Рад, что вы добрались."),

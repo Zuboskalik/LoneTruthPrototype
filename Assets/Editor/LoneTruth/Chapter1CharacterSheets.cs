@@ -347,7 +347,11 @@ namespace LoneTruth.EditorTools
         }
 
         /// <summary>Builds a clip from sheet frames, e.g. SheetClip(HoltSheet, "Holt_Walk", 4, true, 1f, "Walk_01", "Walk_06").</summary>
-        private static AnimationClip SheetClip(CharacterSheet sheet, string clipName, float fps, bool loop, float scale, params string[] frames)
+        private static AnimationClip SheetClip(CharacterSheet sheet, string clipName, float fps, bool loop, float scale, params string[] frames) =>
+            SheetClip(sheet, clipName, fps, loop, _ => scale, frames);
+
+        /// <summary>The same with a scale per frame (frames from rows drawn at different sizes).</summary>
+        private static AnimationClip SheetClip(CharacterSheet sheet, string clipName, float fps, bool loop, System.Func<string, float> scaleOf, params string[] frames)
         {
             string path = $"{AnimDir}/{clipName}.anim";
             var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
@@ -376,11 +380,22 @@ namespace LoneTruth.EditorTools
             AnimationUtility.SetObjectReferenceCurve(clip, EditorCurveBinding.PPtrCurve("", typeof(SpriteRenderer), "m_Sprite"), keys);
 
             // Every sheet clip writes the scale, so a scaled row never leaks into the next state.
-            float length = frames.Length / fps;
+            // Stepped keys, one per frame, plus one at the end so the last frame keeps its scale.
+            var scaleCurve = new AnimationCurve();
+            for (int i = 0; i <= frames.Length; i++)
+            {
+                scaleCurve.AddKey(new Keyframe(i / fps, scaleOf(frames[Mathf.Min(i, frames.Length - 1)])));
+            }
+
+            for (int i = 0; i < scaleCurve.length; i++)
+            {
+                AnimationUtility.SetKeyLeftTangentMode(scaleCurve, i, AnimationUtility.TangentMode.Constant);
+                AnimationUtility.SetKeyRightTangentMode(scaleCurve, i, AnimationUtility.TangentMode.Constant);
+            }
+
             foreach (string axis in new[] { "x", "y", "z" })
             {
-                AnimationUtility.SetEditorCurve(clip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalScale." + axis),
-                    AnimationCurve.Constant(0f, length, scale));
+                AnimationUtility.SetEditorCurve(clip, EditorCurveBinding.FloatCurve("", typeof(Transform), "m_LocalScale." + axis), scaleCurve);
             }
 
             var settings = AnimationUtility.GetAnimationClipSettings(clip);
