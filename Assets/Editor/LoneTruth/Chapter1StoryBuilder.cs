@@ -414,6 +414,8 @@ namespace LoneTruth.EditorTools
         private static CutsceneStep Anim(string trigger) => new CutsceneStep { type = CutsceneStepType.PlayerAnimation, key = trigger };
         private static CutsceneStep ActorAnim(GameObject actor, string trigger) => new CutsceneStep { type = CutsceneStepType.ActorAnimation, actor = actor.transform, key = trigger };
         private static CutsceneStep Load(string scene, string spawn, bool fadeIn = true) => new CutsceneStep { type = CutsceneStepType.LoadScene, scene = scene, spawnId = spawn, boolValue = fadeIn };
+        /// <summary>Loads the scene only if the flag is set (an answer chose to leave); the flag is cleared.</summary>
+        private static CutsceneStep LoadIf(string flag, string scene, string spawn) => new CutsceneStep { type = CutsceneStepType.LoadScene, key = flag, scene = scene, spawnId = spawn, boolValue = true };
 
         private static CutsceneSequence Sequence(string name, Transform parent, string doneFlag, params CutsceneStep[] steps)
         {
@@ -428,6 +430,11 @@ namespace LoneTruth.EditorTools
         private static void StartTrigger(CutsceneSequence seq, string[] required, string[] forbidden)
         {
             seq.gameObject.AddComponent<CutsceneTrigger>().Configure(seq, CutsceneTriggerMode.OnSceneStart, required, forbidden);
+        }
+
+        private static void FlagTrigger(CutsceneSequence seq, string[] required, string[] forbidden)
+        {
+            seq.gameObject.AddComponent<CutsceneTrigger>().Configure(seq, CutsceneTriggerMode.OnFlagsChanged, required, forbidden);
         }
 
         private static void AreaTrigger(CutsceneSequence seq, float x, float width, string[] required, string[] forbidden)
@@ -725,7 +732,8 @@ namespace LoneTruth.EditorTools
             Gate("OfficeClosedAtNight", story, null, F(StoryFlags.TimeDay), officeStub);
             Gate("Day1PlacesOpen", story, F(StoryFlags.FreeInvestigationDay1), null, sheriffDoor, alleyDoor, chapelDoor);
             Gate("Day1PlacesClosed", story, null, F(StoryFlags.FreeInvestigationDay1), sheriffStub, alleyStub, chapelStub);
-            Gate("CallahanEscort", story, F(StoryFlags.EscortToSaloon), F(StoryFlags.EscortDone), escortCallahan);
+            // Hidden only after the check-in, so he walks off the screen instead of vanishing mid-street.
+            Gate("CallahanEscort", story, F(StoryFlags.EscortToSaloon), F(StoryFlags.SaloonCheckIn), escortCallahan);
 
             // 2 (cont.). Callahan walks Holt to the saloon.
             CutsceneSequence escort = Sequence("2b_EscortToSaloon", story, StoryFlags.EscortDone,
@@ -734,7 +742,7 @@ namespace LoneTruth.EditorTools
                 Face(escortCallahan, 9f),
                 Line("Кэллахан", "«Последняя лампа». Хозяйку зовут Руфь, она в курсе."),
                 Line("Кэллахан", "Утром — в контору компании, каменный дом через дорогу. Мистер Уитлок не любит ждать."),
-                Move(escortCallahan, 27f, 1.6f, false),
+                Move(escortCallahan, 45f, 1.6f, false),
                 Wait(1.2f),
                 Goal("Войти в салун «Последняя лампа»."));
             StartTrigger(escort, F(StoryFlags.EscortToSaloon), F(StoryFlags.EscortDone));
@@ -800,6 +808,8 @@ namespace LoneTruth.EditorTools
                 Give(items.RoomKey, 1, true),
                 Line("Руфь", "Ночью по улице не ходите. И если зазвонит колокол — окна не открывайте."),
                 Inner("Тёплое место. Здесь что-то знают — и молчат."),
+                // Ruth's trade is not obvious otherwise (the shop opens from a talk with her).
+                Line("Руфь", "Понадобятся патроны, бинты или виски — подходите к стойке. Я за ней и днём, и ночью."),
                 Goal("Подняться в номер 3 (лестница справа)."),
                 Note("Ключ — в инвентаре: выберите его (Q) и примените у двери (G).", 6f));
             StartTrigger(checkIn, F(StoryFlags.EscortDone), F(StoryFlags.SaloonCheckIn));
@@ -938,6 +948,7 @@ namespace LoneTruth.EditorTools
 
             GameObject clerk = Npc(p, ac, "NPC_Clerk_x4", "Clerk", new Vector3(4f, 0f, 0f), play, "Поговорить", "Мистер Уитлок вас ждёт. Проходите.", 1.9f);
             clerk.GetComponent<InteractableNPC>().AddFlagLine(StoryFlags.OfficeMeeting, "Мистер Уитлок вас больше не задерживает. Всего доброго, мистер Холт.");
+            clerk.AddComponent<CutsceneActor>().Configure("Секретарь"); // Holt turns to him for the greeting
             GameObject cornelius = Npc(p, ac, "NPC_Cornelius_x14", "Cornelius", new Vector3(14f, 0f, 0f), play, "Поговорить", "", 2.3f);
             Talk(cornelius, "Поговорить", "Корнелиус Уитлок", "Отчёт, мистер Холт. Чем скорее, тем лучше.");
             GameObject portrait = InspectSpot("Clue_Portrait_x17", new Vector3(17f, 0f, 0f), play);
@@ -946,6 +957,7 @@ namespace LoneTruth.EditorTools
 
             // 3. Morning: the company office.
             CutsceneSequence meeting = Sequence("3b_OfficeMeeting", story, StoryFlags.OfficeMeeting,
+                Line("Секретарь", "Доброе утро, мистер Холт. Мистер Уитлок вас ждёт — проходите, прошу."),
                 WalkTo(11.6f),
                 Line("Корнелиус Уитлок", "Мистер Холт. Корнелиус Уитлок. Рад, что вы добрались."),
                 Line("Корнелиус Уитлок", "Задача простая: подтвердить гибель двадцати трёх человек и вину профсоюзных саботажников."),

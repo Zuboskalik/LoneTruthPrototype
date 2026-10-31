@@ -519,10 +519,24 @@ namespace LoneTruth.EditorTools
             // Side quest 1.2 «Раненый в сарае» (design doc 8.4). Jesse aims until the revolver is put
             // away («NPC реагируют настороженно»); then the first contact and the deal are dialogues
             // with answers. With the revolver drawn he always cuts the talk short.
+            // «I'm leaving» takes Holt back to the alley; putting the revolver away after the warning
+            // goes straight on to the same choice.
+            const string gunWarned = "jesse_gun_warned";
             CutsceneSequence gunDrawn = Sequence("Q1_2_GunDrawn", story, "",
                 Line("Джесси Коул", "Стой! Убери ствол, мистер, — или я пальну."),
-                Inner("Он на взводе. Револьвер лучше убрать (выберите его и нажмите G)."));
-            CutsceneSequence contact = Sequence("Q1_2_FirstContact", story, "", Talking(JesseContactDialogue()));
+                Inner("Он на взводе. Револьвер лучше убрать (выберите его и нажмите G)."),
+                Flag(gunWarned));
+            CutsceneSequence contact = Sequence("Q1_2_FirstContact", story, "",
+                Unflag(gunWarned),
+                Talking(JesseContactDialogue()),
+                LoadIf(JesseLeaveFlag, "Alley", "from_1-16"),
+                Talking(JesseDealAfterContact(items)));
+            CutsceneSequence holstered = Sequence("Q1_2_Holstered", story, "",
+                Unflag(gunWarned),
+                Talking(JesseHolsteredDialogue()),
+                LoadIf(JesseLeaveFlag, "Alley", "from_1-16"),
+                Talking(JesseDealAfterContact(items)));
+            FlagTrigger(holstered, F(gunWarned), F(StoryFlags.WeaponDrawn, StoryFlags.Quest12FoundJesse, StoryFlags.JesseCalm));
             CutsceneSequence deal = Sequence("Q1_2_Deal", story, "", Talking(JesseDealDialogue(items)));
             CutsceneSequence afterVestry = Sequence("Q1_2_AfterVestry", story, "",
                 Line("Джесси Коул", "Ночью отец Мэтью меня заберёт. Спасибо, мистер."));
@@ -531,6 +545,9 @@ namespace LoneTruth.EditorTools
             CutsceneInteractable talk = Talk(jesse, "Поговорить", "Джесси Коул", "Бинт и виски, мистер. И ни слова людям Кэллахана.");
             talk.AddBranch(gunDrawn, F(StoryFlags.WeaponDrawn), null);
             talk.AddBranch(contact, null, F(StoryFlags.Quest12FoundJesse));
+            // Truth closed the quest without helping him: a bandage can still be given (+1 Hope).
+            talk.AddBranch(Sequence("Q1_2_AfterTruth", story, "", Talking(JesseAfterTruthDialogue(items))),
+                F("quest_1_2_truth"), F(JesseBandagedFlag));
             talk.AddBranch(afterVestry, F("jesse_in_vestry"), null);
             talk.AddBranch(afterMap, F("jesse_left_alone"), null);
             talk.AddBranch(deal, F(StoryFlags.Quest12FoundJesse), null);

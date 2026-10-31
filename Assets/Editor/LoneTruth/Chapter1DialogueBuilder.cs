@@ -48,13 +48,25 @@ namespace LoneTruth.EditorTools
 
         // ------------------------------------------------------------------ 1-16 Jesse (quest 1.2)
 
+        /// <summary>Set by «I'm leaving»: the sequence then takes Holt back to the alley.</summary>
+        private const string JesseLeaveFlag = "jesse_leave";
+
         /// <summary>First contact: Jesse aims; Holt names Agnes — or backs off.</summary>
-        private static DialogueSO JesseContactDialogue()
+        private static DialogueSO JesseContactDialogue() =>
+            JesseContact("Jesse_FirstContact", "Стой! Ещё шаг — и выстрелю.");
+
+        /// <summary>The same choice once Holt has put the revolver away at Jesse's demand.</summary>
+        private static DialogueSO JesseHolsteredDialogue() =>
+            JesseContact("Jesse_Holstered", "Вот так. Медленно… А теперь говори: кто ты такой и чего тебе надо?");
+
+        private static DialogueSO JesseContact(string asset, string opening)
         {
-            return DialogueAsset("Jesse_FirstContact", "aim",
-                DNode("aim", "Джесси Коул", "Стой! Ещё шаг — и выстрелю.", "",
+            var leave = DChoice("Ладно, ладно. Ухожу.");
+            leave.setFlags = new[] { JesseLeaveFlag };
+            return DialogueAsset(asset, "aim",
+                DNode("aim", "Джесси Коул", opening, "",
                     DChoice("Спокойно. Я не от компании. Меня позвала Агнес Бирн.", "agnes"),
-                    DChoice("Ладно, ладно. Ухожу.")),
+                    leave),
                 // Naming Agnes lowers the shotgun (FlagAnimatorBool on Jesse).
                 new DialogueSO.Node
                 {
@@ -72,9 +84,14 @@ namespace LoneTruth.EditorTools
         }
 
         /// <summary>The choice of quest 1.2 (design doc 8.4): Hope, Despair, or Truth with the .45 casing.</summary>
-        private static DialogueSO JesseDealDialogue(Items items)
+        private static DialogueSO JesseDealDialogue(Items items) => JesseDeal(items, "Jesse_Deal", "Ну что, мистер? Бинт и виски?");
+
+        /// <summary>The deal right after the first contact: the same answers, a different opening.</summary>
+        private static DialogueSO JesseDealAfterContact(Items items) => JesseDeal(items, "Jesse_DealFirst", "Так что скажешь, мистер?");
+
+        private static DialogueSO JesseDeal(Items items, string asset, string opening)
         {
-            var hope = DChoice("Держи мой бинт. Отец Мэтью спрячет тебя в ризнице.", "hope");
+            var hope = DChoice("Держи бинт. А отец Мэтью спрячет тебя в ризнице.", "hope");
             hope.requiredItem = items.Bandage;
             hope.lockedHint = "нужен бинт";
             hope.takeItem = items.Bandage;
@@ -102,9 +119,11 @@ namespace LoneTruth.EditorTools
             truth.giveItem = items.LowerLevelsMap;
             truth.setFlags = new[] { "jesse_in_vestry", "clue_jesse_testimony" };
 
-            return DialogueAsset("Jesse_Deal", "ask",
-                DNode("ask", "Джесси Коул", "Ну что, мистер? Бинт и виски?", "",
-                    hope, despair, wound, truth, DChoice("Пока ничего. Я вернусь.")),
+            return DialogueAsset(asset, "ask",
+                // The wound comes first and the shard-giving Despair answer last but one, so a hasty
+                // E examines the wound instead of taking the map.
+                DNode("ask", "Джесси Коул", opening, "",
+                    wound, hope, truth, despair, DChoice("Пока ничего. Я вернусь.")),
                 new DialogueSO.Node
                 {
                     id = "wound", speaker = "", next = "ask", setFlags = new[] { "jesse_wound_examined" },
@@ -115,6 +134,30 @@ namespace LoneTruth.EditorTools
                 DNode("despair_inner", "", "Карта у меня. А Джесси останется здесь один."),
                 DNode("truth", "Джесси Коул", "Пуля. За час до обвала люди компании закладывали заряды — Грейди с ними. Я видел. А Кэллахан стрелял мне вслед.", "truth_end"),
                 DNode("truth_end", "Джесси Коул", "Я всё напишу, мистер. И карту отдам."));
+        }
+
+        /// <summary>Set once Holt has given Jesse a bandage after the Truth outcome.</summary>
+        private const string JesseBandagedFlag = "jesse_bandaged";
+
+        /// <summary>
+        /// After the Truth outcome Holt has the map and the testimony but has not helped Jesse.
+        /// With a bandage on him he can still give it: +1 Hope (giving up his own resource), once.
+        /// </summary>
+        private static DialogueSO JesseAfterTruthDialogue(Items items)
+        {
+            var give = DChoice("Дать бинт: «Держи. Перевяжи рану, пока не загноилась».", "thanks");
+            give.requiredItem = items.Bandage;
+            give.hideWhenLocked = true;
+            give.takeItem = items.Bandage;
+            give.givesShard = true;
+            give.shard = ShardType.Hope;
+            give.shards = 1;
+            give.setFlags = new[] { JesseBandagedFlag };
+
+            return DialogueAsset("Jesse_AfterTruth", "ask",
+                DNode("ask", "Джесси Коул", "Карту ты получил, мистер. Чего ещё?", "",
+                    give, DChoice("Ничего. Держись.")),
+                DNode("thanks", "Джесси Коул", "Бинт?.. Спасибо, мистер. Я этого не забуду."));
         }
 
         // ------------------------------------------------------------------ 1-03 Ruth (trade)
@@ -184,6 +227,7 @@ namespace LoneTruth.EditorTools
                 new SpeakerPortraitsSO.Entry { speaker = "Руфь", portrait = Sheet("Ruth", "Ruth") },
                 new SpeakerPortraitsSO.Entry { speaker = "Проводник", portrait = Sheet("Conductor", "Conductor") },
                 new SpeakerPortraitsSO.Entry { speaker = "Корнелиус Уитлок", portrait = Placeholder("Cornelius") },
+                new SpeakerPortraitsSO.Entry { speaker = "Секретарь", portrait = Placeholder("Clerk") },
                 new SpeakerPortraitsSO.Entry { speaker = "Шериф Долан", portrait = Sheet("Dolan", "Dolan") },
                 new SpeakerPortraitsSO.Entry { speaker = "Отец Мэтью", portrait = Sheet("Matthew", "Matthew") },
                 new SpeakerPortraitsSO.Entry { speaker = "Агнес Бирн", portrait = Placeholder("Agnes") },

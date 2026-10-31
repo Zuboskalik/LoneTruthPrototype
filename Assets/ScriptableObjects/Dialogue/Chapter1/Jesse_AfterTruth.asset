@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98272fdce3b5f1f4c8910c66a85046c9, type: 3}
+  m_Name: Jesse_AfterTruth
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Dialogue.DialogueSO
+  startNode: ask
+  nodes:
+  - id: ask
+    speaker: "\u0414\u0436\u0435\u0441\u0441\u0438 \u041A\u043E\u0443\u043B"
+    text: "\u041A\u0430\u0440\u0442\u0443 \u0442\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B, \u043C\u0438\u0441\u0442\u0435\u0440. \u0427\u0435\u0433\u043E \u0435\u0449\u0451?"
+    next: 
+    setFlags: []
+    choices:
+    - text: "\u0414\u0430\u0442\u044C \u0431\u0438\u043D\u0442: \xAB\u0414\u0435\u0440\u0436\u0438. \u041F\u0435\u0440\u0435\u0432\u044F\u0436\u0438 \u0440\u0430\u043D\u0443, \u043F\u043E\u043A\u0430 \u043D\u0435 \u0437\u0430\u0433\u043D\u043E\u0438\u043B\u0430\u0441\u044C\xBB."
+      requiredFlags: []
+      forbiddenFlags: []
+      presentClue: 
+      requiredItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
+      requiredAmount: 1
+      hideWhenLocked: 1
+      lockedHint: 
+      questId: 
+      outcomeId: 
+      givesShard: 1
+      shard: 0
+      shards: 1
+      setFlags:
+      - jesse_bandaged
+      clearFlags: []
+      giveItem: {fileID: 0}
+      giveAmount: 1
+      takeItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
+      takeAmount: 1
+      money: 0
+      openShop: {fileID: 0}
+      next: thanks
+    - text: "\u041D\u0438\u0447\u0435\u0433\u043E. \u0414\u0435\u0440\u0436\u0438\u0441\u044C."
+      requiredFlags: []
+      forbiddenFlags: []
+      presentClue: 
+      requiredItem: {fileID: 0}
+      requiredAmount: 1
+      hideWhenLocked: 0
+      lockedHint: 
+      questId: 
+      outcomeId: 
+      givesShard: 0
+      shard: 0
+      shards: 1
+      setFlags: []
+      clearFlags: []
+      giveItem: {fileID: 0}
+      giveAmount: 1
+      takeItem: {fileID: 0}
+      takeAmount: 1
+      money: 0
+      openShop: {fileID: 0}
+      next: 
+  - id: thanks
+    speaker: "\u0414\u0436\u0435\u0441\u0441\u0438 \u041A\u043E\u0443\u043B"
+    text: "\u0411\u0438\u043D\u0442?.. \u0421\u043F\u0430\u0441\u0438\u0431\u043E, \u043C\u0438\u0441\u0442\u0435\u0440. \u042F \u044D\u0442\u043E\u0433\u043E \u043D\u0435 \u0437\u0430\u0431\u0443\u0434\u0443."
+    next: 
+    setFlags: []
+    choices: []

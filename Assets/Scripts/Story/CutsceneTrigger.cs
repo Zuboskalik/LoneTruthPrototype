@@ -8,12 +8,14 @@ namespace LoneTruth.Story
     public enum CutsceneTriggerMode
     {
         OnSceneStart,
-        OnEnterArea
+        OnEnterArea,
+        OnFlagsChanged   // when a flag change makes the flags match (e.g. Holt puts the revolver away)
     }
 
     /// <summary>
-    /// Starts a CutsceneSequence when the scene opens or when the player walks into this
-    /// object's trigger collider — only while the story flags match and the sequence is not done.
+    /// Starts a CutsceneSequence when the scene opens, when the player walks into this object's
+    /// trigger collider, or when the story flags come to match — only while the flags match and
+    /// the sequence is not done.
     /// </summary>
     public class CutsceneTrigger : MonoBehaviour
     {
@@ -56,6 +58,27 @@ namespace LoneTruth.Story
             else if (willPlay && !CutsceneSequence.AnyPlaying)
             {
                 CutsceneSequence.LockInput(false);
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (mode == CutsceneTriggerMode.OnFlagsChanged)
+            {
+                StoryState.Changed += OnFlagsChanged;
+            }
+        }
+
+        private void OnDisable()
+        {
+            StoryState.Changed -= OnFlagsChanged;
+        }
+
+        private void OnFlagsChanged()
+        {
+            if (CanPlay)
+            {
+                sequence.Play();
             }
         }
 

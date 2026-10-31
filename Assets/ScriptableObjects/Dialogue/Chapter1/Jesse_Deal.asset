@@ -20,53 +20,6 @@ MonoBehaviour:
     next: 
     setFlags: []
     choices:
-    - text: "\u0414\u0435\u0440\u0436\u0438 \u043C\u043E\u0439 \u0431\u0438\u043D\u0442. \u041E\u0442\u0435\u0446 \u041C\u044D\u0442\u044C\u044E \u0441\u043F\u0440\u044F\u0447\u0435\u0442 \u0442\u0435\u0431\u044F \u0432 \u0440\u0438\u0437\u043D\u0438\u0446\u0435."
-      requiredFlags: []
-      forbiddenFlags: []
-      presentClue: 
-      requiredItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
-      requiredAmount: 1
-      hideWhenLocked: 0
-      lockedHint: "\u043D\u0443\u0436\u0435\u043D \u0431\u0438\u043D\u0442"
-      questId: 1_2
-      outcomeId: hope
-      givesShard: 0
-      shard: 0
-      shards: 1
-      setFlags:
-      - jesse_in_vestry
-      - map_via_liam
-      clearFlags: []
-      giveItem: {fileID: 0}
-      giveAmount: 1
-      takeItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
-      takeAmount: 1
-      money: 0
-      openShop: {fileID: 0}
-      next: hope
-    - text: "\u0414\u0430\u0432\u0430\u0439 \u043A\u0430\u0440\u0442\u0443. \u0414\u0430\u043B\u044C\u0448\u0435 \u0441\u0430\u043C."
-      requiredFlags: []
-      forbiddenFlags: []
-      presentClue: 
-      requiredItem: {fileID: 0}
-      requiredAmount: 1
-      hideWhenLocked: 0
-      lockedHint: 
-      questId: 1_2
-      outcomeId: despair
-      givesShard: 0
-      shard: 0
-      shards: 1
-      setFlags:
-      - jesse_left_alone
-      clearFlags: []
-      giveItem: {fileID: 11400000, guid: facea24e2631e6b4298841bcaa044eab, type: 2}
-      giveAmount: 1
-      takeItem: {fileID: 0}
-      takeAmount: 1
-      money: 0
-      openShop: {fileID: 0}
-      next: despair
     - text: "\u0414\u0430\u0439 \u0432\u0437\u0433\u043B\u044F\u043D\u0443 \u043D\u0430 \u0440\u0430\u043D\u0443."
       requiredFlags: []
       forbiddenFlags:
@@ -90,6 +43,30 @@ MonoBehaviour:
       money: 0
       openShop: {fileID: 0}
       next: wound
+    - text: "\u0414\u0435\u0440\u0436\u0438 \u0431\u0438\u043D\u0442. \u0410 \u043E\u0442\u0435\u0446 \u041C\u044D\u0442\u044C\u044E \u0441\u043F\u0440\u044F\u0447\u0435\u0442 \u0442\u0435\u0431\u044F \u0432 \u0440\u0438\u0437\u043D\u0438\u0446\u0435."
+      requiredFlags: []
+      forbiddenFlags: []
+      presentClue: 
+      requiredItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
+      requiredAmount: 1
+      hideWhenLocked: 0
+      lockedHint: "\u043D\u0443\u0436\u0435\u043D \u0431\u0438\u043D\u0442"
+      questId: 1_2
+      outcomeId: hope
+      givesShard: 0
+      shard: 0
+      shards: 1
+      setFlags:
+      - jesse_in_vestry
+      - map_via_liam
+      clearFlags: []
+      giveItem: {fileID: 0}
+      giveAmount: 1
+      takeItem: {fileID: 11400000, guid: 75dadd6c651539b4aa99083c1947bb58, type: 2}
+      takeAmount: 1
+      money: 0
+      openShop: {fileID: 0}
+      next: hope
     - text: "\u0422\u0435\u0431\u044F \u043D\u0435 \u043A\u0430\u043C\u043D\u0435\u043C \u0437\u0430\u0434\u0435\u043B\u043E. \u041A\u0442\u043E \u0441\u0442\u0440\u0435\u043B\u044F\u043B?"
       requiredFlags:
       - jesse_wound_examined
@@ -115,6 +92,29 @@ MonoBehaviour:
       money: 0
       openShop: {fileID: 0}
       next: truth
+    - text: "\u0414\u0430\u0432\u0430\u0439 \u043A\u0430\u0440\u0442\u0443. \u0414\u0430\u043B\u044C\u0448\u0435 \u0441\u0430\u043C."
+      requiredFlags: []
+      forbiddenFlags: []
+      presentClue: 
+      requiredItem: {fileID: 0}
+      requiredAmount: 1
+      hideWhenLocked: 0
+      lockedHint: 
+      questId: 1_2
+      outcomeId: despair
+      givesShard: 0
+      shard: 0
+      shards: 1
+      setFlags:
+      - jesse_left_alone
+      clearFlags: []
+      giveItem: {fileID: 11400000, guid: facea24e2631e6b4298841bcaa044eab, type: 2}
+      giveAmount: 1
+      takeItem: {fileID: 0}
+      takeAmount: 1
+      money: 0
+      openShop: {fileID: 0}
+      next: despair
     - text: "\u041F\u043E\u043A\u0430 \u043D\u0438\u0447\u0435\u0433\u043E. \u042F \u0432\u0435\u0440\u043D\u0443\u0441\u044C."
       requiredFlags: []
       forbiddenFlags: []

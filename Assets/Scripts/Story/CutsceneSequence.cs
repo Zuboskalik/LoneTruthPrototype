@@ -31,7 +31,7 @@ namespace LoneTruth.Story
         Objective,
         Toast,
         PlayerAnimation, // animator trigger on the player (key)
-        LoadScene,       // boolValue = fade back in after loading
+        LoadScene,       // boolValue = fade back in after loading; with key, only while that flag is set (it is cleared)
         Shard,           // key = Hope / Despair / Truth, amount
         Keystone,        // key = key truth id (+1 Truth, once)
         QuestOutcome,    // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
@@ -72,6 +72,8 @@ namespace LoneTruth.Story
         public List<CutsceneStep> steps = new List<CutsceneStep>();
 
         public bool IsPlaying { get; private set; }
+
+        private readonly Dictionary<Transform, Coroutine> actorMoves = new Dictionary<Transform, Coroutine>();
         public static bool AnyPlaying { get; private set; }
 
         // No domain reload on entering Play mode: a cutscene cut off by stopping the game must not stay "playing".
@@ -99,6 +101,18 @@ namespace LoneTruth.Story
 
             foreach (CutsceneStep step in steps)
             {
+                if (step.type == CutsceneStepType.LoadScene && !string.IsNullOrEmpty(step.key))
+                {
+                    // Conditional load: only when the flag is set (e.g. an answer «I'm leaving»);
+                    // the flag is used up.
+                    if (!StoryState.Has(step.key))
+                    {
+                        continue;
+                    }
+
+                    StoryState.Set(step.key, false);
+                }
+
                 if (step.type == CutsceneStepType.LoadScene)
                 {
                     // This object dies with the scene, so the load (and the fade back in) runs on
@@ -212,8 +226,17 @@ namespace LoneTruth.Story
                 case CutsceneStepType.MoveActor:
                     if (s.actor != null)
                     {
-                        if (s.wait) yield return MoveActor(s.actor, s.x, s.speed);
-                        else StartCoroutine(MoveActor(s.actor, s.x, s.speed));
+                        // A new move replaces the actor's unfinished one (lines skipped quickly):
+                        // two moves would pull against each other and the first, ending, would
+                        // stop the walk animation of the second.
+                        if (actorMoves.TryGetValue(s.actor, out Coroutine running) && running != null)
+                        {
+                            StopCoroutine(running);
+                        }
+
+                        Coroutine move = StartCoroutine(MoveActor(s.actor, s.x, s.speed));
+                        actorMoves[s.actor] = move;
+                        if (s.wait) yield return move;
                     }
 
                     break;
