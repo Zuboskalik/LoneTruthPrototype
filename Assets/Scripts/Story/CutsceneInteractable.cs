@@ -53,7 +53,10 @@ namespace LoneTruth.Story
 
             if (!string.IsNullOrEmpty(fallbackLine) && GameUI.Instance != null)
             {
-                GameUI.Instance.Toast(string.IsNullOrEmpty(fallbackSpeaker) ? fallbackLine : fallbackSpeaker + ": " + fallbackLine);
+                // Translate the parts: «speaker: line» as a whole is not a key in the tables.
+                GameUI.Instance.Toast(string.IsNullOrEmpty(fallbackSpeaker)
+                    ? fallbackLine
+                    : Loc.T(fallbackSpeaker) + ": " + Loc.T(fallbackLine));
             }
         }
 
