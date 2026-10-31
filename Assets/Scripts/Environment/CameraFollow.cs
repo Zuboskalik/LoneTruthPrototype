@@ -16,7 +16,12 @@ namespace LoneTruth.Environment
         [SerializeField] private float minX = -10f;
         [SerializeField] private float maxX = 10f;
 
+        // A jump of the target this far in one frame is a spawn or a teleport, not a walk.
+        private const float TeleportDistance = 3f;
+
         private Vector3 velocity = Vector3.zero;
+        private bool snapNext = true; // the first frame of the scene: start on the player
+        private float lastTargetX;
 
         public void SetTarget(Transform newTarget)
         {
@@ -41,6 +46,7 @@ namespace LoneTruth.Environment
                 }
 
                 target = player.transform;
+                snapNext = true;
             }
 
             float targetX = target.position.x;
@@ -52,7 +58,20 @@ namespace LoneTruth.Environment
 
             Vector3 desiredPosition = new Vector3(targetX, transform.position.y, transform.position.z);
 
-            transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime, maxSpeed);
+            // After a scene transition (or a teleport) the camera starts on the player instead of
+            // flying across the location to him.
+            if (snapNext || Mathf.Abs(target.position.x - lastTargetX) > TeleportDistance)
+            {
+                snapNext = false;
+                velocity = Vector3.zero;
+                transform.position = desiredPosition;
+            }
+            else
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime, maxSpeed);
+            }
+
+            lastTargetX = target.position.x;
         }
 
         private void OnDrawGizmosSelected()
