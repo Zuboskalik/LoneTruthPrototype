@@ -26,6 +26,36 @@ namespace LoneTruth.EditorTools
             }
         };
 
+        // Holt's walk to the right (ProtagonistSpritesheetWalkRight.png): 5 rows of 6 frames, read
+        // left to right, top to bottom. Holt is ~213 px tall there (301 px on the main sheet), so the
+        // PPU keeps him the same size in the world.
+        private static readonly CharacterSheet HoltWalkSheet = new CharacterSheet
+        {
+            Path = "Assets/Sprites/Generated/ProtagonistSpritesheetWalkRight.png",
+            Prefix = "HoltWalk",
+            Ppu = 114.6f,
+            Rows = new[]
+            {
+                new SheetRow(0, "R0", true), new SheetRow(1, "R1", true), new SheetRow(2, "R2", true),
+                new SheetRow(3, "R3", true), new SheetRow(4, "R4", true)
+            }
+        };
+
+        /// <summary>The walk cycle: every frame of the walk sheet except the first three (standing starts).</summary>
+        private static string[] HoltWalkFrames()
+        {
+            var frames = new System.Collections.Generic.List<string>();
+            for (int row = 0; row < 5; row++)
+            {
+                for (int i = row == 0 ? 3 : 0; i < 6; i++)
+                {
+                    frames.Add($"R{row}_{i:00}");
+                }
+            }
+
+            return frames.ToArray();
+        }
+
         // Revolver muzzle in the aim frames, relative to the feet pivot (metres, facing right).
         private static readonly Vector3 HoltSheetMuzzle = new Vector3(0.91f, 1.45f, 0f);
 
@@ -60,9 +90,11 @@ namespace LoneTruth.EditorTools
             }
 
             var idle = State("Idle", new Vector3(250, 0), HoltSheetClip("Holt_Idle", 1, true, idleScale, "Idle_00"));
-            // Walk: the 2nd, 3rd, 4th, 6th and 7th frames of the walk row.
-            var walk = State("Walk", new Vector3(250, 100), HoltSheetClip("Holt_Walk", 7, true, 1f,
-                "Walk_01", "Walk_02", "Walk_03", "Walk_05", "Walk_06"));
+            // Walk: the walk sheet when it is there, else the 2nd, 3rd, 4th, 6th and 7th frames of the walk row.
+            AnimationClip walkClip = HoltWalkSheet.Exists
+                ? SheetClip(HoltWalkSheet, "Holt_Walk", 8, true, 1f, HoltWalkFrames())
+                : HoltSheetClip("Holt_Walk", 7, true, 1f, "Walk_01", "Walk_02", "Walk_03", "Walk_05", "Walk_06");
+            var walk = State("Walk", new Vector3(250, 100), walkClip);
             // Interact: hand to the chin; ReadLetter: hand at the coat — closest gestures on the sheet.
             var interact = State("Interact", new Vector3(500, 0), HoltSheetClip("Holt_Interact", 5, false, idleScale,
                 "Idle_00", "Idle_03", "Idle_03", "Idle_00"));

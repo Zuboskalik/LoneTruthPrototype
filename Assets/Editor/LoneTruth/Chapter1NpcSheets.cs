@@ -144,12 +144,12 @@ namespace LoneTruth.EditorTools
                 Idle = new NpcClip(1.5f, "WomanA_00", "WomanA_01", "WomanA_02", "WomanA_01"),
                 React = new NpcClip(3, "WomanB_06", "WomanB_07", "WomanB_06", "WomanB_07")
             },
-            // Stands with his bag (the watch frame is left out); raises a hand, then shouts and
-            // points while talking; walks off with the bag (4th row, matching the idle frames).
+            // Stands still with his bag between lines; raises a hand, then shouts and points while
+            // talking; walks off with the bag (4th row, matching the idle frame).
             ["Conductor"] = new NpcSpec
             {
                 Sheet = ConductorSheet, Reference = "Talk_00", PlaceholderKey = "Conductor",
-                Idle = new NpcClip(1.5f, "Idle_01", "Idle_02", "Idle_03", "Idle_02"),
+                Idle = new NpcClip(1, "Idle_01"),
                 Talk = new NpcClip(2.5f, "Talk_02", "Talk_05", "Talk_06", "Talk_05"),
                 Walk = new NpcClip(8, "Walk_00", "Walk_01", "Walk_02", "Walk_03", "Walk_04", "Walk_05", "Walk_06", "Walk_07")
             }
@@ -179,7 +179,7 @@ namespace LoneTruth.EditorTools
 
         private static void ImportCharacterSheets()
         {
-            var sheets = new List<CharacterSheet> { HoltSheet };
+            var sheets = new List<CharacterSheet> { HoltSheet, HoltWalkSheet };
             foreach (NpcSpec spec in NpcSpecs.Values)
             {
                 if (!sheets.Contains(spec.Sheet))

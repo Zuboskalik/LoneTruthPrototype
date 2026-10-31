@@ -1,0 +1,825 @@
+fileFormatVersion: 2
+guid: fdedcdb251f3584489c941c4a66d9ec9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 387199628558516485
+    second: ProtagonistSpritesheetWalkRight_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 114.6
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HoltWalk_R0_00
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 964
+        width: 106
+        height: 214
+      alignment: 9
+      pivot: {x: 0.6408205, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fabb927e5bd662d45a773663ffdbd883
+      internalID: 1223303744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R0_01
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 964
+        width: 109
+        height: 213
+      alignment: 9
+      pivot: {x: 0.6769958, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73c2ef79c3e779445bc2369feef258f4
+      internalID: -1965112120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R0_02
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 964
+        width: 82
+        height: 212
+      alignment: 9
+      pivot: {x: 0.6021848, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92bd371d9f4ffcd47989a477672fad83
+      internalID: -941753575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R0_03
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 964
+        width: 75
+        height: 212
+      alignment: 9
+      pivot: {x: 0.54348147, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea9f38199d02bec4996d8fd2a2111d19
+      internalID: 846900280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R0_04
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 964
+        width: 79
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5426829, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c42aa241d5c8c8743b88b1e1af70e2e5
+      internalID: -1774483876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R0_05
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 964
+        width: 95
+        height: 206
+      alignment: 9
+      pivot: {x: 0.53757066, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 278753b621b6c9f46b0641ae8827cd26
+      internalID: 1475517310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_00
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 723
+        width: 96
+        height: 212
+      alignment: 9
+      pivot: {x: 0.6154998, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35ca500dfaad52142ac5c0a227f97d7f
+      internalID: 1834495648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_01
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 723
+        width: 87
+        height: 214
+      alignment: 9
+      pivot: {x: 0.63706213, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d578775d9779c4f4f859b723c77b4576
+      internalID: 329155711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_02
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 723
+        width: 101
+        height: 212
+      alignment: 9
+      pivot: {x: 0.46191466, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70c7a60479097de438b58cd81f25dc90
+      internalID: -1786324574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_03
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 723
+        width: 104
+        height: 210
+      alignment: 9
+      pivot: {x: 0.5445375, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2801d26aecfe78b46ace417a45cb7e02
+      internalID: -1067227602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_04
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 723
+        width: 102
+        height: 212
+      alignment: 9
+      pivot: {x: 0.6093846, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9172923a8ed3e9647b9889d622711711
+      internalID: 1607863364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R1_05
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 723
+        width: 93
+        height: 215
+      alignment: 9
+      pivot: {x: 0.59147793, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91c0d7fda96793f4eb5ba4625c96b18d
+      internalID: -427237300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_00
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 482
+        width: 118
+        height: 211
+      alignment: 9
+      pivot: {x: 0.569709, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3d6536245003934d9217861c867901c
+      internalID: -2038077982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_01
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 482
+        width: 117
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5912549, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1de19a3a1350e094493be2adc640f587
+      internalID: -384078620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_02
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 482
+        width: 87
+        height: 217
+      alignment: 9
+      pivot: {x: 0.59694487, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64f8b669ce667004aac7d5af0c827ab5
+      internalID: -964672304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_03
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 482
+        width: 105
+        height: 213
+      alignment: 9
+      pivot: {x: 0.4863351, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b4d120888db954e91f00681c7fcaf4
+      internalID: -2086263045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_04
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 482
+        width: 115
+        height: 210
+      alignment: 9
+      pivot: {x: 0.5151548, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c0230e9254042498103726fda7be97
+      internalID: -690265022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R2_05
+      rect:
+        serializedVersion: 2
+        x: 1340
+        y: 482
+        width: 94
+        height: 216
+      alignment: 9
+      pivot: {x: 0.7107505, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6ea60a204cddde47999ae7fbe0117ca
+      internalID: -1406420783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_00
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 242
+        width: 94
+        height: 215
+      alignment: 9
+      pivot: {x: 0.53696734, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93cf319a1104eb04e85fe36d1c55051f
+      internalID: 775912355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_01
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 242
+        width: 99
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5075566, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4dfa68c2cc86734d845cd8b9e66a4a3
+      internalID: 1953303721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_02
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 242
+        width: 83
+        height: 215
+      alignment: 9
+      pivot: {x: 0.56908447, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64ff906de3d52854ba716965ac737edf
+      internalID: -1761046059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_03
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 242
+        width: 94
+        height: 216
+      alignment: 9
+      pivot: {x: 0.5540258, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65d52f7466e1f6b499ec2b0869266191
+      internalID: -1444225445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_04
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 242
+        width: 116
+        height: 213
+      alignment: 9
+      pivot: {x: 0.49516138, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcde71ee1ab2e9f47b1d55cb7d2a2cfd
+      internalID: -1578459778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R3_05
+      rect:
+        serializedVersion: 2
+        x: 1330
+        y: 242
+        width: 109
+        height: 214
+      alignment: 9
+      pivot: {x: 0.7045529, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90d0a5dc4ef2e6c43aed697a88d0c116
+      internalID: 48700270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_00
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 2
+        width: 103
+        height: 217
+      alignment: 9
+      pivot: {x: 0.63001007, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0df7a49e63f3c6419ca22b00e81d3c1
+      internalID: 1573377762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_01
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 2
+        width: 120
+        height: 214
+      alignment: 9
+      pivot: {x: 0.6121127, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa9fac88230715b47ac1f68d67c2acda
+      internalID: -436369795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_02
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 2
+        width: 112
+        height: 214
+      alignment: 9
+      pivot: {x: 0.6452217, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 585f9d9dab3bb5e40affa638ad80614c
+      internalID: 816002121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_03
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 2
+        width: 91
+        height: 217
+      alignment: 9
+      pivot: {x: 0.5804705, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f74f2bf2fbe2914883bb2b185634ab3
+      internalID: 1189100252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_04
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 2
+        width: 104
+        height: 215
+      alignment: 9
+      pivot: {x: 0.4919152, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c30b745cbfbcb9d4d84f8a221702087b
+      internalID: 1262720191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoltWalk_R4_05
+      rect:
+        serializedVersion: 2
+        x: 1333
+        y: 2
+        width: 111
+        height: 214
+      alignment: 9
+      pivot: {x: 0.6654438, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c15222420f7915549848ed2ba1d23224
+      internalID: -1126707781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: c94189962da306d46b3748b56085cc1d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      HoltWalk_R0_00: 1223303744
+      HoltWalk_R0_01: -1965112120
+      HoltWalk_R0_02: -941753575
+      HoltWalk_R0_03: 846900280
+      HoltWalk_R0_04: -1774483876
+      HoltWalk_R0_05: 1475517310
+      HoltWalk_R1_00: 1834495648
+      HoltWalk_R1_01: 329155711
+      HoltWalk_R1_02: -1786324574
+      HoltWalk_R1_03: -1067227602
+      HoltWalk_R1_04: 1607863364
+      HoltWalk_R1_05: -427237300
+      HoltWalk_R2_00: -2038077982
+      HoltWalk_R2_01: -384078620
+      HoltWalk_R2_02: -964672304
+      HoltWalk_R2_03: -2086263045
+      HoltWalk_R2_04: -690265022
+      HoltWalk_R2_05: -1406420783
+      HoltWalk_R3_00: 775912355
+      HoltWalk_R3_01: 1953303721
+      HoltWalk_R3_02: -1761046059
+      HoltWalk_R3_03: -1444225445
+      HoltWalk_R3_04: -1578459778
+      HoltWalk_R3_05: 48700270
+      HoltWalk_R4_00: 1573377762
+      HoltWalk_R4_01: -436369795
+      HoltWalk_R4_02: 816002121
+      HoltWalk_R4_03: 1189100252
+      HoltWalk_R4_04: 1262720191
+      HoltWalk_R4_05: -1126707781
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

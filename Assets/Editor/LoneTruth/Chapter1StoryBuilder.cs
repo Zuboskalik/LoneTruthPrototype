@@ -572,7 +572,9 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-02", 27.5f, play);
 
             Transform story = Group("--- Story");
-            Gate("Conductor_PrologueOnly", story, null, F(StoryFlags.PrologueDone), conductor, train);
+            Gate("Conductor_PrologueOnly", story, null, F(StoryFlags.PrologueDone), conductor);
+            // The train stands at the platform through the first night; it is gone by Morning 1.
+            Gate("Train_UntilMorning1", story, null, F(StoryFlags.Day1Morning), train);
             Gate("Callahan_UntilMet", story, null, F(StoryFlags.MetCallahan), callahan);
 
             // 1. Prologue
@@ -590,7 +592,6 @@ namespace LoneTruth.EditorTools
                 Line("Проводник", "Ничего, мистер. Просто после темноты здесь лучше не задерживаться."),
                 Move(conductor, -1f, 1.8f, true),
                 Active(conductor, false),
-                Move(train, -18f, 2.2f, false),
                 Give(items.Revolver, 1, false),
                 Give(items.Ammo, 6, false),
                 Give(items.Letter, 1, false),
