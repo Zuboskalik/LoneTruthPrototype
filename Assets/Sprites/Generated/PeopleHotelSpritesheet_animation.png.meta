@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9367516e95135174395af0980c835309
+guid: f11543179b10e2a4b97731fae02d44b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7612027444592376645
-    second: "\u0420\u0443\u0444\u044C \u041C\u0430\u043A\u043A\u0435\u043D\u0437\u0438_0"
+      213: 6915999341493034646
+    second: PeopleHotelSpritesheet_animation_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 92
+  spritePixelsToUnits: 177
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,353 +115,243 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ruth_Stand_00
+      name: Hotel_ManB_00
       rect:
         serializedVersion: 2
-        x: 76
-        y: 174
-        width: 73
-        height: 158
+        x: 40
+        y: 1094
+        width: 137
+        height: 317
       alignment: 9
-      pivot: {x: 0.54093903, y: 0}
+      pivot: {x: 0.4287153, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb58addae00352e4d9c7ffb993fbe630
-      internalID: 653916386
+      spriteID: 024117d84e4d0ab4eb32632a9b7b2585
+      internalID: 832249339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_01
+      name: Hotel_ManB_01
       rect:
         serializedVersion: 2
-        x: 229
-        y: 174
-        width: 77
-        height: 158
+        x: 217
+        y: 1094
+        width: 131
+        height: 317
       alignment: 9
-      pivot: {x: 0.5111805, y: 0}
+      pivot: {x: 0.39384308, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 230ee14111263d2428f645ebe95a0b4a
-      internalID: -1942558937
+      spriteID: 159bb6968aaf1f249a6a182c374a5af2
+      internalID: 653525963
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_02
+      name: Hotel_ManB_02
       rect:
         serializedVersion: 2
-        x: 382
-        y: 174
-        width: 77
-        height: 158
+        x: 388
+        y: 1094
+        width: 155
+        height: 317
       alignment: 9
-      pivot: {x: 0.50599015, y: 0}
+      pivot: {x: 0.36435488, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62fc0b433352956469576805f70bbf10
-      internalID: 2008430492
+      spriteID: 7abc2f3ea0918b4438662c180cb0d1b4
+      internalID: 997364966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_03
+      name: Hotel_ManA_00
       rect:
         serializedVersion: 2
-        x: 542
-        y: 174
-        width: 64
-        height: 158
+        x: 40
+        y: 716
+        width: 197
+        height: 338
       alignment: 9
-      pivot: {x: 0.4778347, y: 0}
+      pivot: {x: 0.2937599, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afc035cc58472fe4aad690ac7f6c989e
-      internalID: 299054874
+      spriteID: 3fb1599082243464d8d33f681ff63319
+      internalID: 1355929879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_04
+      name: Hotel_ManA_01
       rect:
         serializedVersion: 2
-        x: 687
-        y: 174
-        width: 73
-        height: 158
+        x: 277
+        y: 716
+        width: 187
+        height: 338
       alignment: 9
-      pivot: {x: 0.5200087, y: 0}
+      pivot: {x: 0.3121829, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 769c4b4500f99c141b7dda3691d675db
-      internalID: 1249812207
+      spriteID: fda220f9b98476947aa53a5d1e07a3df
+      internalID: 342111138
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_05
+      name: Hotel_WomanA_00
       rect:
         serializedVersion: 2
-        x: 846
-        y: 174
-        width: 61
-        height: 158
+        x: 40
+        y: 379
+        width: 105
+        height: 297
       alignment: 9
-      pivot: {x: 0.48931986, y: 0}
+      pivot: {x: 0.48472226, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b5e23d86b49c79468c8a9fc8c640043
-      internalID: 885002548
+      spriteID: 27334f495c2dab44fb0fcb521d92c3f0
+      internalID: -391981283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_06
+      name: Hotel_WomanA_01
       rect:
         serializedVersion: 2
-        x: 996
-        y: 174
-        width: 61
-        height: 158
+        x: 185
+        y: 379
+        width: 113
+        height: 297
       alignment: 9
-      pivot: {x: 0.49490908, y: 0}
+      pivot: {x: 0.43627498, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d345c52e5ff60a4eae0d0e4f4369299
-      internalID: 1740351159
+      spriteID: 902fe0fdab3c9754d9da0d4a189375cf
+      internalID: 552786951
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Stand_07
+      name: Hotel_WomanA_02
       rect:
         serializedVersion: 2
-        x: 1147
-        y: 174
-        width: 62
-        height: 158
+        x: 338
+        y: 379
+        width: 114
+        height: 297
       alignment: 9
-      pivot: {x: 0.5057767, y: 0}
+      pivot: {x: 0.4392157, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b7dc8cc80418bd4183b000b89428cb2
-      internalID: -1886889147
+      spriteID: e7b9bbb6c02836a4a87b2c9f559bc011
+      internalID: -378533987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Walk_00
+      name: Hotel_WomanB_00
       rect:
         serializedVersion: 2
-        x: 77
-        y: 7
-        width: 80
-        height: 160
+        x: 40
+        y: 40
+        width: 106
+        height: 299
       alignment: 9
-      pivot: {x: 0.5812004, y: 0}
+      pivot: {x: 0.50439537, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 870f997541e9f8a40afd9acdbfc6a94d
-      internalID: -1364353289
+      spriteID: e7ed30b11330e374ab42028682e3d5d6
+      internalID: 20940725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Walk_01
+      name: Hotel_WomanB_01
       rect:
         serializedVersion: 2
-        x: 231
-        y: 7
-        width: 102
-        height: 160
+        x: 186
+        y: 40
+        width: 151
+        height: 298
       alignment: 9
-      pivot: {x: 0.47643593, y: 0}
+      pivot: {x: 0.34877107, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f781c376cfd27af49a88e26be7871974
-      internalID: 1880198812
+      spriteID: e4302be4dfbd466438c072277cd30d7c
+      internalID: -734596133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ruth_Walk_02
+      name: Hotel_WomanB_02
       rect:
         serializedVersion: 2
-        x: 385
-        y: 7
-        width: 88
-        height: 160
+        x: 377
+        y: 40
+        width: 132
+        height: 298
       alignment: 9
-      pivot: {x: 0.55238515, y: 0}
+      pivot: {x: 0.40127724, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d77c94023c65ca74287e97c9ed1da691
-      internalID: 1256618574
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ruth_Walk_03
-      rect:
-        serializedVersion: 2
-        x: 537
-        y: 7
-        width: 85
-        height: 160
-      alignment: 9
-      pivot: {x: 0.5670123, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e5575de2cd70c34184b09452f1e8c5d
-      internalID: -1577946616
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ruth_Walk_04
-      rect:
-        serializedVersion: 2
-        x: 690
-        y: 7
-        width: 87
-        height: 160
-      alignment: 9
-      pivot: {x: 0.55516106, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 670ecb3a8b0d90b49a22882c76061fe1
-      internalID: -1881025508
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ruth_Walk_05
-      rect:
-        serializedVersion: 2
-        x: 839
-        y: 7
-        width: 80
-        height: 160
-      alignment: 9
-      pivot: {x: 0.5908531, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fc521d3adc9e39345bbb3c1029624f4a
-      internalID: 671185397
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ruth_Walk_06
-      rect:
-        serializedVersion: 2
-        x: 985
-        y: 7
-        width: 83
-        height: 160
-      alignment: 9
-      pivot: {x: 0.59426624, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fc93b9aad2e9fe84783a49b7db7db441
-      internalID: -750188640
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ruth_Walk_07
-      rect:
-        serializedVersion: 2
-        x: 1139
-        y: 7
-        width: 79
-        height: 160
-      alignment: 9
-      pivot: {x: 0.5584779, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2fff4a64daab4f6499b6bdc597ecc685
-      internalID: -841795005
+      spriteID: c98788ac990abbf4780897a53529f2c0
+      internalID: -459231955
       vertices: []
       indices: 
       edges: []
@@ -470,7 +360,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a3b1f7aa27d30974c854381c324d89bd
+    spriteID: 06fdb4588854ed9478d4fce5efeedb29
     internalID: 0
     vertices: []
     indices: 
@@ -480,22 +370,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ruth_Stand_00: 653916386
-      Ruth_Stand_01: -1942558937
-      Ruth_Stand_02: 2008430492
-      Ruth_Stand_03: 299054874
-      Ruth_Stand_04: 1249812207
-      Ruth_Stand_05: 885002548
-      Ruth_Stand_06: 1740351159
-      Ruth_Stand_07: -1886889147
-      Ruth_Walk_00: -1364353289
-      Ruth_Walk_01: 1880198812
-      Ruth_Walk_02: 1256618574
-      Ruth_Walk_03: -1577946616
-      Ruth_Walk_04: -1881025508
-      Ruth_Walk_05: 671185397
-      Ruth_Walk_06: -750188640
-      Ruth_Walk_07: -841795005
+      Hotel_ManA_00: 1355929879
+      Hotel_ManA_01: 342111138
+      Hotel_ManB_00: 832249339
+      Hotel_ManB_01: 653525963
+      Hotel_ManB_02: 997364966
+      Hotel_WomanA_00: -391981283
+      Hotel_WomanA_01: 552786951
+      Hotel_WomanA_02: -378533987
+      Hotel_WomanB_00: 20940725
+      Hotel_WomanB_01: -734596133
+      Hotel_WomanB_02: -459231955
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

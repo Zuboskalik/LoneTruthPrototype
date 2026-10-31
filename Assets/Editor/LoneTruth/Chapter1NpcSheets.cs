@@ -91,31 +91,25 @@ namespace LoneTruth.EditorTools
             new PackRow("Aim", false, (1, 0), (1, 1), (1, 2), (1, 3)),
             new PackRow("Sit", false, (1, 6), (1, 7), (1, 5), (1, 4), (0, 2), (0, 3)));
 
-        // Saloon regulars: rows 1–2 the man on the left, rows 3–4 the woman on the right.
-        private static readonly CharacterSheet HotelPeopleSheet = new CharacterSheet
-        {
-            Path = "Assets/Sprites/Generated/PeopleHotelSpritesheet.png",
-            Prefix = "Hotel",
-            Ppu = 177f, // ~313 px for the 1.78 m man (2nd row), ~295 px for the 1.67 m woman
-            Rows = new[]
-            {
-                new SheetRow(0, "ManA", false), new SheetRow(1, "ManB", false),
-                new SheetRow(2, "WomanA", false), new SheetRow(3, "WomanB", false)
-            }
-        };
+        // Saloon regulars (source rows 1–2 the man on the left, rows 3–4 the woman on the right):
+        // ManB 00 size reference, 01–02 mug in the right hand; ManA 00–01 the shrug;
+        // WomanA 00–02 nursing her mug; WomanB 00 size reference, 01–02 hand on her chest.
+        private static readonly CharacterSheet HotelPeopleSheet = PackedSheet("Assets/Sprites/Generated/PeopleHotelSpritesheet.png", "Hotel",
+            177f, null, // ~313 px for the 1.78 m man (2nd row), ~295 px for the 1.67 m woman
+            new PackRow("ManB", false, (1, 0), (1, 1), (1, 2)),
+            new PackRow("ManA", false, (0, 5), (0, 6)),
+            new PackRow("WomanA", false, (2, 3), (2, 4), (2, 5)),
+            new PackRow("WomanB", false, (3, 0), (3, 6), (3, 7)));
 
-        // Main Street passers-by on day 1: rows 1–2 the man, rows 3–4 the woman.
-        private static readonly CharacterSheet StreetPeopleSheet = new CharacterSheet
-        {
-            Path = "Assets/Sprites/Generated/PeopleStreetSpritesheet.png",
-            Prefix = "Street",
-            Ppu = 177f,
-            Rows = new[]
-            {
-                new SheetRow(0, "ManA", false), new SheetRow(1, "ManB", false),
-                new SheetRow(2, "WomanA", false), new SheetRow(3, "WomanB", false)
-            }
-        };
+        // Main Street passers-by on day 1 (source rows 1–2 the man, rows 3–4 the woman):
+        // ManA 00–02 hands in pockets, 03–04 one hand out; ManB 00 size reference;
+        // WomanA 00–02 arms folded; WomanB 00 size reference, 01–02 hand on her chest.
+        private static readonly CharacterSheet StreetPeopleSheet = PackedSheet("Assets/Sprites/Generated/PeopleStreetSpritesheet.png", "Street",
+            177f, null,
+            new PackRow("ManA", false, (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
+            new PackRow("ManB", false, (1, 0)),
+            new PackRow("WomanA", false, (2, 0), (2, 1), (2, 2)),
+            new PackRow("WomanB", false, (3, 0), (3, 6), (3, 7)));
 
         // Walk sheets: rows of 8 frames walking right, played in order like Holt's walk.
         private const float WalkSheetFps = 8f;
@@ -141,18 +135,12 @@ namespace LoneTruth.EditorTools
         private static readonly CharacterSheet ConductorWalkSheet =
             WalkSheet("Assets/Sprites/Generated/StationConductor_walk.png", "ConductorWalk", 119f, 2);
 
-        // The conductor in the prologue: idle / talking gestures / walk without and with the bag.
-        private static readonly CharacterSheet ConductorSheet = new CharacterSheet
-        {
-            Path = "Assets/Sprites/Generated/StationConductor.png",
-            Prefix = "Conductor",
-            Ppu = 178f, // talk row: ~312 px for 1.75 m
-            Rows = new[]
-            {
-                new SheetRow(0, "Idle", false), new SheetRow(1, "Talk", false),
-                new SheetRow(2, "WalkNoBag", true), new SheetRow(3, "Walk", true)
-            }
-        };
+        // The conductor in the prologue: Idle 00 standing with his bag; Talk 00 size reference,
+        // 01 raised hand, 02–03 shouting and pointing. He walks from his own walk sheet.
+        private static readonly CharacterSheet ConductorSheet = PackedSheet("Assets/Sprites/Generated/StationConductor.png", "Conductor",
+            178f, null, // talk row: ~312 px for 1.75 m
+            new PackRow("Idle", false, (0, 1)),
+            new PackRow("Talk", false, (1, 0), (1, 2), (1, 5), (1, 6)));
 
         private static readonly Dictionary<string, NpcSpec> NpcSpecs = new Dictionary<string, NpcSpec>
         {
@@ -202,37 +190,36 @@ namespace LoneTruth.EditorTools
                 Sheet = HotelPeopleSheet, Reference = "ManB_00", PlaceholderKey = "PasserbyMiner",
                 // Mug in the right hand throughout (the frame with it in the left hand is left out).
                 Idle = new NpcClip(2, "ManB_01", "ManB_01", "ManB_01", "ManB_02", "ManB_02", "ManB_01"),
-                React = new NpcClip(3, "ManA_05", "ManA_06", "ManA_05", "ManA_06")
+                React = new NpcClip(3, "ManA_00", "ManA_01", "ManA_00", "ManA_01")
             },
             // Nurses her mug; answers with a hand on her chest.
             ["SaloonWoman"] = new NpcSpec
             {
                 Sheet = HotelPeopleSheet, Reference = "WomanB_00", PlaceholderKey = "PasserbyWoman", FaceLeft = true,
-                Idle = new NpcClip(2, "WomanA_03", "WomanA_03", "WomanA_03", "WomanA_04", "WomanA_05", "WomanA_04"),
-                React = new NpcClip(3, "WomanB_06", "WomanB_07", "WomanB_06", "WomanB_07")
+                Idle = new NpcClip(2, "WomanA_00", "WomanA_00", "WomanA_00", "WomanA_01", "WomanA_02", "WomanA_01"),
+                React = new NpcClip(3, "WomanB_01", "WomanB_02", "WomanB_01", "WomanB_02")
             },
             // Hands in pockets; answers with one hand out.
             ["PasserbyMiner"] = new NpcSpec
             {
                 Sheet = StreetPeopleSheet, Reference = "ManB_00", PlaceholderKey = "PasserbyMiner",
-                Idle = new NpcClip(1.5f, "ManA_01", "ManA_02", "ManA_01", "ManA_03"),
-                React = new NpcClip(3, "ManA_04", "ManA_05", "ManA_04", "ManA_05")
+                Idle = new NpcClip(1.5f, "ManA_00", "ManA_01", "ManA_00", "ManA_02"),
+                React = new NpcClip(3, "ManA_03", "ManA_04", "ManA_03", "ManA_04")
             },
             // Arms folded against the cold; answers with a hand on her chest.
             ["PasserbyWoman"] = new NpcSpec
             {
                 Sheet = StreetPeopleSheet, Reference = "WomanB_00", PlaceholderKey = "PasserbyWoman", FaceLeft = true,
                 Idle = new NpcClip(1.5f, "WomanA_00", "WomanA_01", "WomanA_02", "WomanA_01"),
-                React = new NpcClip(3, "WomanB_06", "WomanB_07", "WomanB_06", "WomanB_07")
+                React = new NpcClip(3, "WomanB_01", "WomanB_02", "WomanB_01", "WomanB_02")
             },
             // Stands still with his bag between lines; raises a hand, then shouts and points while
-            // talking; walks off with the bag (4th row, matching the idle frame).
+            // talking; walks off with the bag (his walk sheet).
             ["Conductor"] = new NpcSpec
             {
                 Sheet = ConductorSheet, Reference = "Talk_00", PlaceholderKey = "Conductor", WalkSheet = ConductorWalkSheet,
-                Idle = new NpcClip(1, "Idle_01"),
-                Talk = new NpcClip(2.5f, "Talk_02", "Talk_05", "Talk_06", "Talk_05"),
-                Walk = new NpcClip(8, "Walk_00", "Walk_01", "Walk_02", "Walk_03", "Walk_04", "Walk_05", "Walk_06", "Walk_07")
+                Idle = new NpcClip(1, "Idle_00"),
+                Talk = new NpcClip(2.5f, "Talk_01", "Talk_02", "Talk_03", "Talk_02")
             }
         };
 
@@ -341,7 +328,7 @@ namespace LoneTruth.EditorTools
                 Go(idle, wary, false).AddCondition(AnimatorConditionMode.IfNot, 0f, "Calm");
             }
 
-            if (spec.Walk.IsSet)
+            if (spec.Walk.IsSet || spec.WalkSheet != null && spec.WalkSheet.Exists)
             {
                 ac.AddParameter("Speed", AnimatorControllerParameterType.Float);
                 AnimatorState walk;
