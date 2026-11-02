@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using LoneTruth.Core;
+using LoneTruth.Combat;
 using LoneTruth.Investigation;
+using LoneTruth.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +13,8 @@ namespace LoneTruth.UI
     /// The father's pocket watch in the corner of the HUD (design doc, section 4). It stopped at
     /// 4:17; every shard Holt gains sets a coloured fragment into the cracked glass with a short
     /// chime, so the mosaic shows where the story leans. No numbers here — those are in the notebook.
-    /// Also shows a short "notebook updated" note above the watch.
+    /// Also shows a short "notebook updated" note above the watch. The case shows Holt's health:
+    /// lost health paints it red clockwise (a clean case is full health); hovering gives the numbers.
     /// </summary>
     [RequireComponent(typeof(GameUI))]
     public class PocketWatchUI : MonoBehaviour
@@ -32,6 +35,7 @@ namespace LoneTruth.UI
         [SerializeField] private Color despairColor = new Color(0.45f, 0.17f, 0.55f, 0.9f);
         [SerializeField] private Color truthColor = new Color(0.86f, 0.94f, 1f, 0.85f);
         [SerializeField] private float notebookNoteSeconds = 4f;
+        [SerializeField] private Color woundColor = new Color(0.85f, 0.08f, 0.06f, 0.75f);
 
         private static Sprite circle;
 
@@ -43,6 +47,9 @@ namespace LoneTruth.UI
         private AudioSource audioSource;
         private AudioClip chime;
         private bool visible = true;
+        private Image woundRing;
+        private Text healthText;
+        private Health health;
 
         private void Start()
         {
@@ -62,6 +69,44 @@ namespace LoneTruth.UI
             ShardManager.ShardGained -= OnShardGained;
             Notebook.Updated -= OnNotebookUpdated;
             Loc.Changed -= Relocalize;
+        }
+
+        private void Update()
+        {
+            if (woundRing == null || !root.gameObject.activeInHierarchy)
+            {
+                return;
+            }
+
+            if (health == null)
+            {
+                GameObject player = PersistentPlayer.Current;
+                health = player != null ? player.GetComponent<Health>() : null;
+                if (health == null)
+                {
+                    return;
+                }
+            }
+
+            woundRing.fillAmount = 1f - (float)health.CurrentHealth / health.MaxHealth;
+            bool hovered = RectTransformUtility.RectangleContainsScreenPoint(root, Input.mousePosition, null);
+            healthText.gameObject.SetActive(hovered);
+            if (hovered)
+            {
+                healthText.text = health.CurrentHealth + "/" + health.MaxHealth;
+            }
+        }
+
+        /// <summary>Loading a save: the mosaic has to show that save's shards, even fewer of them.</summary>
+        public void Resync()
+        {
+            foreach (Image fragment in fragments)
+            {
+                fragment.gameObject.SetActive(false);
+            }
+
+            shown = 0;
+            Refresh(false);
         }
 
         public void SetVisible(bool value)
@@ -190,7 +235,14 @@ namespace LoneTruth.UI
 
             Disc("Crown", root, new Vector2(0, size * 0.54f), size * 0.16f, rimColor);
             Disc("Rim", root, Vector2.zero, size, rimColor);
-            Disc("Face", root, Vector2.zero, size * 0.88f, faceColor);
+            // Under the face, so only the case gets painted.
+            woundRing = Disc("WoundRing", root, Vector2.zero, size, woundColor);
+            woundRing.type = Image.Type.Filled;
+            woundRing.fillMethod = Image.FillMethod.Radial360;
+            woundRing.fillOrigin = (int)Image.Origin360.Top;
+            woundRing.fillClockwise = true;
+            woundRing.fillAmount = 0f;
+            Disc("Face", root, Vector2.zero, size * 0.84f, faceColor);
 
             // Hour marks.
             for (int h = 0; h < 12; h++)
@@ -241,6 +293,10 @@ namespace LoneTruth.UI
             notebookNote = ui.MakeText("NotebookNote", root, 22, inkColor, TextAnchor.LowerRight);
             GameUI.Place(notebookNote.rectTransform, new Vector2(1, 1), new Vector2(1, 0), new Vector2(0, 14), new Vector2(600, 32));
             notebookNote.gameObject.SetActive(false);
+
+            healthText = ui.MakeText("HealthText", root, 24, inkColor, TextAnchor.MiddleRight);
+            GameUI.Place(healthText.rectTransform, new Vector2(0, 0.5f), new Vector2(1, 0.5f), new Vector2(-12, 0), new Vector2(160, 34));
+            healthText.gameObject.SetActive(false);
 
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;

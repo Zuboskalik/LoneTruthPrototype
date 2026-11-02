@@ -371,7 +371,7 @@ namespace LoneTruth.EditorTools
             GameObject matthew = Npc(p, ac, "NPC_Matthew_x9", "Matthew", new Vector3(9f, 0f, 0f), play, "Поговорить", "");
             FaceDoor(matthew);
             GameObject plaques = InspectSpot("Clue_Plaques_x11", new Vector3(11f, 0f, 0f), play);
-            GameObject weight = InspectSpot("Counterweight_x14", new Vector3(14f, 0f, 0f), play, 0.8f);
+            GameObject weight = InspectSpot("Counterweight1_x14", new Vector3(14f, 0f, 0f), play, 0.8f);
 
             Transform story = Group("--- Story");
             // Side quest 1.3 «Ночной колокол»: the start.

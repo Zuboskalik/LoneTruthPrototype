@@ -1,6 +1,7 @@
 using System.Collections;
 using LoneTruth.Core;
 using LoneTruth.Inventory;
+using LoneTruth.Investigation;
 using LoneTruth.Player;
 using LoneTruth.UI;
 using UnityEngine;
@@ -17,12 +18,14 @@ namespace LoneTruth.Combat
     {
         private const string DeathCard = "Темнота. Угольная пыль на зубах.";
         private const int MinRounds = 6;
+        private const int HopeHealthPerLevel = 10; // design doc, section 4: every 3 Hope shards
 
         [SerializeField] private Color hitColor = new Color(1f, 0.25f, 0.2f);
 
         private Health health;
         private SpriteRenderer sprite;
         private Coroutine flashRoutine;
+        private int baseMaxHealth;
 
         private void Awake()
         {
@@ -30,6 +33,28 @@ namespace LoneTruth.Combat
             sprite = GetComponentInChildren<SpriteRenderer>();
             health.OnDamaged += HandleDamaged;
             health.OnDeath += HandleDeath;
+            baseMaxHealth = health.MaxHealth;
+        }
+
+        private void OnEnable()
+        {
+            ShardManager.ShardGained += OnShardGained;
+        }
+
+        private void OnDisable()
+        {
+            ShardManager.ShardGained -= OnShardGained;
+        }
+
+        private void OnShardGained(ShardType type, int total)
+        {
+            RefreshHopeBonus();
+        }
+
+        /// <summary>Maximum health follows the Hope bonus level.</summary>
+        public void RefreshHopeBonus()
+        {
+            health.SetMaxHealth(baseMaxHealth + HopeHealthPerLevel * ShardManager.BonusLevel(ShardType.Hope));
         }
 
         private void OnDestroy()

@@ -221,7 +221,9 @@ namespace LoneTruth.UI
             }
 
             player.GetComponent<InventoryManager>().RestoreSlots(slots);
+            player.GetComponent<PlayerDeath>().RefreshHopeBonus();
             player.GetComponent<Health>().SetCurrent(Mathf.Max(1, data.hp));
+            GetComponent<PocketWatchUI>().Resync();
             player.GetComponent<WeaponController>().RestoreState(data.rounds);
             player.GetComponent<PlayerController>().ScriptedInput = 0f;
             GameUI.Instance.SetObjective(data.goal);

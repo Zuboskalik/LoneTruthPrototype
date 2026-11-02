@@ -42,6 +42,14 @@ namespace LoneTruth.Combat
             currentHealth = Mathf.Clamp(value, 0, maxHealth);
         }
 
+        /// <summary>A raised maximum also adds the difference to current health.</summary>
+        public void SetMaxHealth(int value)
+        {
+            int gained = value - maxHealth;
+            maxHealth = value;
+            currentHealth = Mathf.Clamp(currentHealth + Mathf.Max(0, gained), 0, maxHealth);
+        }
+
         public void Heal(int amount)
         {
             if (IsDead || amount <= 0)
