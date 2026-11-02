@@ -710,7 +710,13 @@ namespace LoneTruth.EditorTools
             PropInst(p, "NoticeBoard_x23", $"{PropDir}/PRP_NoticeBoard.png", new Vector3(23f, 0f, 2.7f), fac);
             // After the bell the town puts its windows out (maps 1-02): a dark copy over every facade but the saloon's.
             var nightDark = new List<GameObject>();
+            var facades = new List<Transform>();
             foreach (Transform facade in fac)
+            {
+                facades.Add(facade); // the copies below go into the same group: never iterate it live
+            }
+
+            foreach (Transform facade in facades)
             {
                 if (facade.name.StartsWith("FAC_") && !facade.name.StartsWith("FAC_Saloon"))
                 {
