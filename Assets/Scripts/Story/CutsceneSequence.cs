@@ -36,7 +36,10 @@ namespace LoneTruth.Story
         Keystone,        // key = key truth id (+1 Truth, once)
         QuestOutcome,    // key = quest id, text = outcome id (sets the outcome flag, grants its shards)
         Dialogue,        // dialogue: a conversation with answers (DialogueSO), waits until it ends
-        ActorAnimation   // animator trigger on an NPC (actor, key), e.g. the sheriff handing over the report
+        ActorAnimation,  // animator trigger on an NPC (actor, key), e.g. the sheriff handing over the report
+        RunIf,           // if flag key is set (it is cleared), plays the steps of sequence target here
+        SaveMenu,        // if flag key is set (it is cleared), the slot menu of the bed
+        Checkpoint       // a death rolls back to this moment (a rest is a save point even without a slot)
     }
 
     [Serializable]
@@ -165,6 +168,12 @@ namespace LoneTruth.Story
 
         /// <summary>Takes the controls before the sequence starts (scene-start cutscenes wait a frame).</summary>
         public static void LockInput(bool on) => SetCutsceneMode(on);
+
+        /// <summary>Loading a save: whatever was playing no longer counts.</summary>
+        public static void AbortAll()
+        {
+            AnyPlaying = false;
+        }
 
         private static void SetCutsceneMode(bool on)
         {
@@ -297,6 +306,34 @@ namespace LoneTruth.Story
                     if (pc != null) pc.PlayAnimationTrigger(s.key);
                     break;
 
+                case CutsceneStepType.RunIf:
+                    if (StoryState.Has(s.key))
+                    {
+                        StoryState.Set(s.key, false);
+                        CutsceneSequence nested = s.target.GetComponent<CutsceneSequence>();
+                        foreach (CutsceneStep step in nested.steps)
+                        {
+                            yield return Execute(step);
+                        }
+
+                        StoryState.Set(nested.doneFlag);
+                    }
+
+                    break;
+
+                case CutsceneStepType.SaveMenu:
+                    if (StoryState.Has(s.key))
+                    {
+                        StoryState.Set(s.key, false);
+                        yield return SaveMenuUI.Instance.SaveToSlot();
+                    }
+
+                    break;
+
+                case CutsceneStepType.Checkpoint:
+                    SaveSystem.SetCheckpoint(SaveMenuUI.Instance.Capture());
+                    break;
+
                 case CutsceneStepType.ActorAnimation:
                     if (s.actor != null) SetTrigger(s.actor.GetComponentInChildren<Animator>(), s.key);
                     break;
@@ -312,7 +349,16 @@ namespace LoneTruth.Story
                 return;
             }
 
-            inv.AddItem(item, Mathf.Max(1, amount));
+            if (!inv.AddItem(item, Mathf.Max(1, amount)))
+            {
+                if (GameUI.Instance != null)
+                {
+                    GameUI.Instance.Toast("Некуда положить.", 2.2f);
+                }
+
+                return;
+            }
+
             if (announce && GameUI.Instance != null)
             {
                 GameUI.Instance.Toast(amount > 1

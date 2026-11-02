@@ -1545,6 +1545,774 @@
     {
       "key": "Бинт?.. Спасибо, мистер. Я этого не забуду.",
       "value": "A bandage?.. Thank you, mister. I won't forget this."
+    },
+    {
+      "key": "Задняя дверь конторы",
+      "value": "Office back door"
+    },
+    {
+      "key": "Заперто изнутри.",
+      "value": "Locked from inside."
+    },
+    {
+      "key": "Проход на Главную улицу",
+      "value": "Passage to Main Street"
+    },
+    {
+      "key": "Люк заперт на висячий замок. Нужен ключ от архива: выберите его (Q) и примените (G).",
+      "value": "A padlock on the hatch. It takes the archive key: select it (Q) and use it (G)."
+    },
+    {
+      "key": "Ключ подошёл. Люк открыт.",
+      "value": "The key fits. The hatch is open."
+    },
+    {
+      "key": "Задняя дверь: кладбище",
+      "value": "Back door: cemetery"
+    },
+    {
+      "key": "Люк заперт. Цепи от него уходят к трём противовесам: неф, ризница, крипта. И днём наверху делать нечего.",
+      "value": "The hatch is locked. Its chains run to three counterweights: nave, vestry, crypt. And by day there's nothing up there."
+    },
+    {
+      "key": "В сарае за конюшней раненый, отец. Шахтёр. Его ищут люди Кэллахана.",
+      "value": "There's a wounded man in the shed behind the stable, Father. A miner. Callahan's men are after him."
+    },
+    {
+      "key": "В ризнице есть сундук и сухой угол. Приведите его… нет. Я сам. Ночью никто не смотрит на старика.",
+      "value": "The vestry has a chest and a dry corner. Bring him… no. I'll go myself. Nobody looks at an old man at night."
+    },
+    {
+      "key": "Джесси будет в ризнице",
+      "value": "Jesse will be in the vestry"
+    },
+    {
+      "key": "Первый противовес. Цепь пошла вниз и ушла под потолок, к колокольне.",
+      "value": "The first counterweight. The chain runs down and away under the roof, to the belfry."
+    },
+    {
+      "key": "Опущен противовес. Всего их три: неф, ризница, крипта",
+      "value": "Counterweight lowered. There are three: nave, vestry, crypt"
+    },
+    {
+      "key": "Опустить противовес",
+      "value": "Lower the counterweight"
+    },
+    {
+      "key": "Лиам",
+      "value": "Liam"
+    },
+    {
+      "key": "Не сейчас, мистер!",
+      "value": "Not now, mister!"
+    },
+    {
+      "key": "Мальчишка. Оглядывается, в руке конверт.",
+      "value": "A boy. Looking over his shoulder, an envelope in his hand."
+    },
+    {
+      "key": "Стой, парень.",
+      "value": "Hold it, kid."
+    },
+    {
+      "key": "Не надо, мистер! Я ничего плохого!",
+      "value": "Don't, mister! I ain't done nothing bad!"
+    },
+    {
+      "key": "Откуда письма?",
+      "value": "Where do the letters come from?"
+    },
+    {
+      "key": "Они сами вылетают! С тягой, из скважины на окраине. Я только подбираю и ношу миссис Бирн.",
+      "value": "They fly out by themselves! On the draught, from the air shaft out past the edge of town. I just pick them up and bring them to Mrs. Byrne."
+    },
+    {
+      "key": "Скважина идёт вниз, на второй горизонт. Решётка там ржавая, её только ломом.",
+      "value": "The shaft goes down to level two. The grate's all rust, you'd need a crowbar."
+    },
+    {
+      "key": "Вот, сегодняшнее. Только не говорите компании!",
+      "value": "Here, tonight's. Just don't tell the company!"
+    },
+    {
+      "key": "Лом — у Руфи за $15 или в сарае, рядом с Джесси.",
+      "value": "A crowbar: Ruth sells one for $15, or there's one in the shed by Jesse."
+    },
+    {
+      "key": "Тропа в конце переулка ведёт к скважине. Нужен лом.",
+      "value": "The path at the end of the alley leads to the air shaft. I need a crowbar."
+    },
+    {
+      "key": "Сохранить игру",
+      "value": "Save the game"
+    },
+    {
+      "key": "Отойти",
+      "value": "Step away"
+    },
+    {
+      "key": "Сторож",
+      "value": "Watchman"
+    },
+    {
+      "key": "Томас, скорее всего, жив. Снизу стучат. Я его верну.",
+      "value": "Thomas is most likely alive. Someone's knocking down there. I'll bring him back."
+    },
+    {
+      "key": "Письма — жестокая шутка мальчишки. Забудьте о них.",
+      "value": "The letters are a boy's cruel joke. Forget them."
+    },
+    {
+      "key": "Тот же почерк. Но Томас не знал этих слов. Его рукой кто-то водит.",
+      "value": "The same hand. But Thomas didn't know these words. Something is guiding his hand."
+    },
+    {
+      "key": "Вы были у скважины, мистер Холт? Что там?",
+      "value": "You've been to the air shaft, Mr. Holt? What's there?"
+    },
+    {
+      "key": "Пока не могу сказать. Я ещё вернусь.",
+      "value": "I can't say yet. I'll be back."
+    },
+    {
+      "key": "Я знала. Возьмите его лампу, мистер Холт. Внизу она вам нужнее.",
+      "value": "I knew it. Take his lamp, Mr. Holt. You'll need it more, down there."
+    },
+    {
+      "key": "Карбидная лампа Томаса. Агнес держала её на гвозде у двери целый месяц.",
+      "value": "Thomas's carbide lamp. Agnes kept it on the nail by the door for a whole month."
+    },
+    {
+      "key": "Мальчишки… Значит, мальчишки. Уходите, мистер Холт.",
+      "value": "Boys… So it's boys. Please go, Mr. Holt."
+    },
+    {
+      "key": "Записка под дверь конторы, сто долларов в ответ. Компания зальёт скважину бетоном.",
+      "value": "A note under the office door, a hundred dollars back. The company will fill the shaft with concrete."
+    },
+    {
+      "key": "«Десятина»… «Старик, что не стареет»… «Сэмюэл Холт, сын Эдгара». Томас так не говорил. Никогда.",
+      "value": "\"The tithe\"… \"The Old Man who does not age\"… \"Samuel Holt, son of Edgar\". Thomas never talked like that. Never."
+    },
+    {
+      "key": "Кто бы ни водил его рукой — он там, внизу. Возьмите его лампу.",
+      "value": "Whoever guides his hand, he's down there. Take his lamp."
+    },
+    {
+      "key": "Хватит хоронить пустые гробы. Помогите людям, пока не поздно.",
+      "value": "Stop burying empty coffins. Help these people while there's still time."
+    },
+    {
+      "key": "Книга и ваши пожертвования — или об этом узнает весь город.",
+      "value": "The book and your donations, or the whole town hears about this."
+    },
+    {
+      "key": "Этот жетон я снял с мёртвого шахтёра. Чьи гробы пустые?",
+      "value": "I took this token off a dead miner. Whose coffins are empty?"
+    },
+    {
+      "key": "Эймос передал: «Священник знает. Спроси про книгу».",
+      "value": "Amos gave me this: \"The priest knows. Ask about the book.\""
+    },
+    {
+      "key": "Тридцать лет компания жертвует на часовню. Тридцать лет я хороню пустые гробы и записываю имена.",
+      "value": "For thirty years the company has given to this chapel. For thirty years I've buried empty coffins and written down the names."
+    },
+    {
+      "key": "Что вы теперь со мной сделаете, мистер Холт?",
+      "value": "What will you do with me now, Mr. Holt?"
+    },
+    {
+      "key": "Я ещё вернусь, отец.",
+      "value": "I'll be back, Father."
+    },
+    {
+      "key": "…Да. Вот книга смертей. И фальшфейеры, я их освятил — огонь берёт Пустых. Колокол будет звонить.",
+      "value": "…Yes. Here's the book of deaths. And flares, I've blessed them: fire takes the Hollow. The bell will keep ringing."
+    },
+    {
+      "key": "Двенадцать, семнадцать, двадцать три. Ни одного тела.",
+      "value": "Twelve, seventeen, twenty-three. Not one body."
+    },
+    {
+      "key": "Берите. Восемьдесят долларов и книга. Этой же ночью меня здесь не будет.",
+      "value": "Take it. Eighty dollars and the book. I'll be gone before the night is out."
+    },
+    {
+      "key": "Вместе с ним уйдёт и звонарь. Кто теперь будет держать их колоколом?",
+      "value": "The bell-ringer will go with him. Who'll hold them back with the bell now?"
+    },
+    {
+      "key": "Страница тысяча девятьсот шестого. Семнадцать имён… Читайте сами.",
+      "value": "The page for nineteen-oh-six. Seventeen names… Read it yourself."
+    },
+    {
+      "key": "Эдгар Холт. Мой отец. Его гроб тоже пустой?",
+      "value": "Edgar Holt. My father. Is his coffin empty too?"
+    },
+    {
+      "key": "Могила на склоне, среди шестого года. Лопата у сторожа. И возьмите фальшфейеры — я их освятил.",
+      "value": "The grave's on the slope, among the 1906 ones. The watchman has a spade. And take these flares: I've blessed them."
+    },
+    {
+      "key": "Задняя дверь часовни",
+      "value": "Chapel back door"
+    },
+    {
+      "key": "Между могилами кто-то идёт. Шахтёр. Глаза светятся, как лампы.",
+      "value": "Someone is walking between the graves. A miner. His eyes shine like lamps."
+    },
+    {
+      "key": "Двадцать третий? Нет. На нём каска другого года.",
+      "value": "One of the twenty-three? No. His helmet is from another time."
+    },
+    {
+      "key": "Остановить Пустого на кладбище.",
+      "value": "Stop the Hollow in the cemetery."
+    },
+    {
+      "key": "Достать револьвер: выберите его (Q), G. Прицел: ПКМ или Ctrl. Выстрел: E. Перекат: Shift. Фальшфейер: выберите, G.",
+      "value": "Draw the revolver: select it (Q), G. Aim: RMB or Ctrl. Fire: E. Roll: Shift. Flare: select it, G."
+    },
+    {
+      "key": "Рассыпался угольной пылью. Как будто в нём ничего другого и не было.",
+      "value": "He crumbled into coal dust. As if there had never been anything else in him."
+    },
+    {
+      "key": "Подобрать то, что осталось от Пустого. Закончив ночные дела — лечь спать в номере.",
+      "value": "Pick up what's left of the Hollow. When the night's business is done, go to bed in the room."
+    },
+    {
+      "key": "Жетон шахтёра. Выбит год: 1882. Этому человеку должно быть за восемьдесят.",
+      "value": "A miner's token. Stamped with the year: 1882. That man should be past eighty."
+    },
+    {
+      "key": "Улика в блокноте: жетон шахтёра 1882 года",
+      "value": "Clue in the notebook: a miner's token from 1882"
+    },
+    {
+      "key": "Подобрать жетон",
+      "value": "Pick up the token"
+    },
+    {
+      "key": "Могила отца. Голыми руками не раскопать. Лопата у сторожа, в дальнем конце кладбища.",
+      "value": "My father's grave. Not something to dig up bare-handed. The watchman has a spade, at the far end of the cemetery."
+    },
+    {
+      "key": "Гроб лёгкий. Внутри ничего. Только губная гармошка.",
+      "value": "The coffin is light. Nothing inside. Only a harmonica."
+    },
+    {
+      "key": "Отец забыл её дома в то утро. Мать положила её сюда: больше от него не осталось ничего.",
+      "value": "He forgot it at home that morning. Mother laid it here: there was nothing else left of him."
+    },
+    {
+      "key": "Улика в блокноте: губная гармошка отца",
+      "value": "Clue in the notebook: father's harmonica"
+    },
+    {
+      "key": "Осмотреть могилу",
+      "value": "Examine the grave"
+    },
+    {
+      "key": "«Эдгар Холт. 1906». Краска на кресте давно облезла.",
+      "value": "\"Edgar Holt. 1906.\" The paint on the cross peeled long ago."
+    },
+    {
+      "key": "Лопата сторожа. Он сказал бы: «Берите, мистер, сам я тут копать не стану».",
+      "value": "The watchman's spade. He'd say: \"Take it, mister, I won't dig here myself.\""
+    },
+    {
+      "key": "Лопата взята",
+      "value": "Spade taken"
+    },
+    {
+      "key": "Взять лопату",
+      "value": "Take the spade"
+    },
+    {
+      "key": "Лопата сторожа. Сейчас мне нечего копать.",
+      "value": "The watchman's spade. I've nothing to dig right now."
+    },
+    {
+      "key": "Тел тут нет, мистер. Я-то знаю, сколько весит гроб. Лопата у стены, если нужна.",
+      "value": "There's no bodies here, mister. I know what a coffin weighs. The spade's by the wall, if you need it."
+    },
+    {
+      "key": "Вернуться в неф",
+      "value": "Back to the nave"
+    },
+    {
+      "key": "Второй противовес. Цепь пошла вниз и звякнула где-то под потолком.",
+      "value": "The second counterweight. The chain runs down and clinks somewhere up under the roof."
+    },
+    {
+      "key": "Противовес на цепи. Цепь уходит в потолок.",
+      "value": "A counterweight on a chain. The chain goes up through the ceiling."
+    },
+    {
+      "key": "Приходская книга смертей. 1882 — двенадцать. 1906 — семнадцать. 1936 — двадцать три.",
+      "value": "The parish book of deaths. 1882: twelve. 1906: seventeen. 1936: twenty-three."
+    },
+    {
+      "key": "Тела не найдены ни разу. Ни разу. Переписал страницы тайком.",
+      "value": "The bodies were never found. Not once. I copied the pages on the quiet."
+    },
+    {
+      "key": "Улика в блокноте: приходская книга смертей",
+      "value": "Clue in the notebook: the parish book of deaths"
+    },
+    {
+      "key": "Открыть книгу",
+      "value": "Open the book"
+    },
+    {
+      "key": "Приходская книга смертей. Выписки уже у меня.",
+      "value": "The parish book of deaths. I already have my copy."
+    },
+    {
+      "key": "Здесь тихо, мистер. Спасибо. Отец Мэтью приносит воду.",
+      "value": "It's quiet here, mister. Thank you. Father Matthew brings water."
+    },
+    {
+      "key": "Подняться в неф",
+      "value": "Up to the nave"
+    },
+    {
+      "key": "Темно, хоть глаз коли. Впереди кто-то дышит, хотя дышать тут нечем.",
+      "value": "Pitch dark. Something ahead is breathing, though there's nothing here to breathe."
+    },
+    {
+      "key": "Пустой спит. Его будит шум и огонь: выстрел, фальшфейер, перекат. Иди шагом.",
+      "value": "The Hollow sleeps. Noise and fire wake it: a shot, a flare, a roll. Walk."
+    },
+    {
+      "key": "Третий противовес. Цепь пошла вниз. Наверху что-то щёлкнуло.",
+      "value": "The third counterweight. The chain runs down. Something clicks far above."
+    },
+    {
+      "key": "Противовес на цепи.",
+      "value": "A counterweight on a chain."
+    },
+    {
+      "key": "Спуститься в неф",
+      "value": "Down to the nave"
+    },
+    {
+      "key": "Подойти",
+      "value": "Approach"
+    },
+    {
+      "key": "Старик тянет верёвку. Немой: только губы шевелятся в такт.",
+      "value": "An old man hauling on the rope. Mute: only his lips move with the beat."
+    },
+    {
+      "key": "Он звонит, потому что колокол не пускает их в город. Не с кем об этом поговорить. Некому и сказать.",
+      "value": "He rings because the bell keeps them out of the town. No one to talk to about it. No one to tell."
+    },
+    {
+      "key": "«Священник знает. Спроси про книгу».",
+      "value": "\"The priest knows. Ask about the book.\""
+    },
+    {
+      "key": "Улика в блокноте: записка Эймоса",
+      "value": "Clue in the notebook: Amos's note"
+    },
+    {
+      "key": "Спросить отца Мэтью про книгу.",
+      "value": "Ask Father Matthew about the book."
+    },
+    {
+      "key": "Эймос",
+      "value": "Amos"
+    },
+    {
+      "key": "Старик кивает и снова берётся за верёвку.",
+      "value": "The old man nods and takes up the rope again."
+    },
+    {
+      "key": "Тропа в переулок",
+      "value": "Path to the alley"
+    },
+    {
+      "key": "Решётка скважины",
+      "value": "Air-shaft grate"
+    },
+    {
+      "key": "Решётка проржавела насквозь, из-под неё тянет тёплым воздухом. Руками не сдвинуть: нужен лом.",
+      "value": "The grate is rusted through, warm air drifting from under it. It won't move by hand: I need a crowbar."
+    },
+    {
+      "key": "Решётка подалась. За ней на выступе лежит письмо: свежее, с угольной пылью на сгибах.",
+      "value": "The grate gives. Behind it, on a ledge, lies a letter: fresh, with coal dust in the folds."
+    },
+    {
+      "key": "Улика в блокноте: свежее письмо из скважины",
+      "value": "Clue in the notebook: a fresh letter from the air shaft"
+    },
+    {
+      "key": "Снизу, с глубины двести метров, идёт стук. Три коротких. Три длинных.",
+      "value": "From two hundred metres down comes a knocking. Three short. Three long."
+    },
+    {
+      "key": "Кто-то жив и просит помощи. Но скважина узкая, сантиметров сорок: письмо пройдёт, человек нет.",
+      "value": "Someone is alive and calling for help. But the shaft is narrow, sixteen inches or so: a letter gets through, a man doesn't."
+    },
+    {
+      "key": "Рассказать Агнес о том, что нашлось в скважине.",
+      "value": "Tell Agnes what the air shaft held."
+    },
+    {
+      "key": "Ворота на Главную улицу",
+      "value": "Gate to Main Street"
+    },
+    {
+      "key": "Будка сторожа",
+      "value": "Watchman's hut"
+    },
+    {
+      "key": "Склад взрывчатки",
+      "value": "Explosives store"
+    },
+    {
+      "key": "Склад на замке. У дверей пост.",
+      "value": "The store is locked, with a guard at the door."
+    },
+    {
+      "key": "Двор лесопилки. Двое с фонарями и пёс. Ключи сторож держит в будке, слева.",
+      "value": "The sawmill yard. Two men with lanterns and a dog. The watchman keeps his keys in the hut, on the left."
+    },
+    {
+      "key": "Спрятаться за брёвнами: E. Фонарь видит только вперёд. Псу — мясо из лавки: выберите, G.",
+      "value": "Hide behind the logs: E. A lantern only sees ahead. For the dog, meat from the shop: select it, G."
+    },
+    {
+      "key": "Выйти во двор",
+      "value": "Out to the yard"
+    },
+    {
+      "key": "Лестница в контору",
+      "value": "Stairs to the office"
+    },
+    {
+      "key": "Дверь в контору заперта на засов снаружи.",
+      "value": "The door to the office is bolted from the other side."
+    },
+    {
+      "key": "Люк во двор",
+      "value": "Hatch to the yard"
+    },
+    {
+      "key": "Гроссбух добычи серебра. 1882, 1906, 1936: перед каждым обвалом жила иссякает.",
+      "value": "The silver output ledger. 1882, 1906, 1936: before every collapse the vein runs dry."
+    },
+    {
+      "key": "На полях одна и та же пометка: «Д. уплачена». И время: 4:17.",
+      "value": "The same note in the margin: \"T. paid\". And a time: 4:17."
+    },
+    {
+      "key": "Через месяц после обвалов 1882 и 1906 находят новую богатую жилу. В 1936-м её нет.",
+      "value": "A month after the collapses of 1882 and 1906, a rich new vein is found. In 1936, there is none."
+    },
+    {
+      "key": "Улика в блокноте: гроссбух. Сопоставьте его с книгой смертей (Tab)",
+      "value": "Clue in the notebook: the ledger. Compare it with the book of deaths (Tab)"
+    },
+    {
+      "key": "Открыть гроссбух",
+      "value": "Open the ledger"
+    },
+    {
+      "key": "Гроссбух компании. Выписки уже у меня.",
+      "value": "The company ledger. I already have my copy."
+    },
+    {
+      "key": "Свежее письмо из скважины",
+      "value": "Fresh letter from the air shaft"
+    },
+    {
+      "key": "Лежало за решёткой, с угольной пылью на сгибах. Почерк Томаса. Но слова не его: «десятина», «Старик, что не стареет», «Сэмюэл Холт, сын Эдгара».",
+      "value": "It lay behind the grate, with coal dust in the folds. Thomas's hand. But not his words: \"the tithe\", \"the Old Man who does not age\", \"Samuel Holt, son of Edgar\"."
+    },
+    {
+      "key": "Записка Эймоса",
+      "value": "Amos's note"
+    },
+    {
+      "key": "Колокольня",
+      "value": "Belfry"
+    },
+    {
+      "key": "«Священник знает. Спроси про книгу». Немой звонарь звонит, потому что колокол не пускает Пустых в город.",
+      "value": "\"The priest knows. Ask about the book.\" The mute bell-ringer rings because the bell keeps the Hollow out of town."
+    },
+    {
+      "key": "Губная гармошка отца",
+      "value": "Father's harmonica"
+    },
+    {
+      "key": "Кладбище, могила Эдгара Холта",
+      "value": "Cemetery, Edgar Holt's grave"
+    },
+    {
+      "key": "Единственное, что лежало в гробу отца. В то утро 1906 года он забыл её дома, и мать положила её вместо тела.",
+      "value": "The only thing in my father's coffin. He forgot it at home that morning in 1906, and my mother laid it there in place of a body."
+    },
+    {
+      "key": "Карбидная лампа Томаса",
+      "value": "Thomas's carbide lamp"
+    },
+    {
+      "key": "Агнес отдала мне лампу мужа: внизу она нужнее. Пригодится в шахте.",
+      "value": "Agnes gave me her husband's lamp: it's needed more below. It will serve in the mine."
+    },
+    {
+      "key": "Разносчик газет, 10 лет",
+      "value": "Paperboy, 10 years old"
+    },
+    {
+      "key": "Приносит письма на подоконник Агнес. Они вылетают с тягой из вентиляционной скважины на окраине.",
+      "value": "Brings the letters to Agnes's windowsill. They fly out on the draught from the air shaft past the edge of town."
+    },
+    {
+      "key": "Немой звонарь часовни",
+      "value": "The chapel's mute bell-ringer"
+    },
+    {
+      "key": "Звонит каждую ночь: колокол не пускает Пустых в город. Записка: «Священник знает. Спроси про книгу».",
+      "value": "Rings every night: the bell keeps the Hollow out of town. His note: \"The priest knows. Ask about the book.\""
+    },
+    {
+      "key": "Ночь. Колокол звонит, город гасит окна. Руфь дала фальшфейер: «они опять наверху». Через часовню — на кладбище.",
+      "value": "Night. The bell rings, the town puts out its windows. Ruth gave me a flare: \"they're up top again\". Through the chapel to the cemetery."
+    },
+    {
+      "key": "На кладбище я убил шахтёра со светящимися глазами. Он рассыпался угольной пылью. В городе лучше не задерживаться: но ночь ещё есть. Закончив дела — лечь спать.",
+      "value": "In the cemetery I killed a miner with shining eyes. He crumbled into coal dust. The night isn't over yet. When my business is done, go to bed."
+    },
+    {
+      "key": "Письма приносит Лиам: они вылетают с тягой из вентиляционной скважины на окраине. Решётку не сдвинуть без лома: у Руфи за $15 или в сарае, рядом с Джесси.",
+      "value": "Liam brings the letters: they fly out on the draught from the air shaft past the edge of town. The grate won't move without a crowbar: Ruth sells one for $15, or there's one in the shed by Jesse."
+    },
+    {
+      "key": "За решёткой свежее письмо. Снизу стук: три коротких, три длинных. Рассказать Агнес.",
+      "value": "Behind the grate, a fresh letter. A knocking from below: three short, three long. Tell Agnes."
+    },
+    {
+      "key": "Звонит немой старик Эймос. Он написал: «Священник знает. Спроси про книгу». Припереть отца Мэтью.",
+      "value": "The ringer is Amos, a mute old man. He wrote: \"The priest knows. Ask about the book.\" Corner Father Matthew."
+    },
+    {
+      "key": "В книге 1906 года записан мой отец. Лопата у сторожа: раскопать могилу на кладбище.",
+      "value": "My father is in the book for 1906. The watchman has a spade: dig up the grave in the cemetery."
+    },
+    {
+      "key": "Крипта",
+      "value": "Crypt"
+    },
+    {
+      "key": "Фальшфейер",
+      "value": "Flare"
+    },
+    {
+      "key": "Красная вспышка ослепляет врагов рядом, огонь держит Пустых на расстоянии. G — зажечь.",
+      "value": "A red flash blinds enemies nearby, the fire keeps the Hollow back. G to light."
+    },
+    {
+      "key": "Освящённый фальшфейер",
+      "value": "Consecrated flare"
+    },
+    {
+      "key": "Как обычный, но вспышка ещё и обжигает Пустых. G — зажечь.",
+      "value": "Like a plain one, but the flash also burns the Hollow. G to light."
+    },
+    {
+      "key": "Кусок мяса",
+      "value": "Piece of meat"
+    },
+    {
+      "key": "Для сторожевого пса: подойти поближе, G — бросить. Схватит и убежит.",
+      "value": "For a guard dog: get close, G to throw. It grabs it and runs."
+    },
+    {
+      "key": "Лом",
+      "value": "Crowbar"
+    },
+    {
+      "key": "Тяжёлый лом. Подойдёт для ржавой решётки.",
+      "value": "A heavy crowbar. Good for a rusted grate."
+    },
+    {
+      "key": "Ключ от архива",
+      "value": "Archive key"
+    },
+    {
+      "key": "Ключ с доски сторожа: подвал конторы. Подходит и к люку во дворе.",
+      "value": "A key from the watchman's board: the office cellar. It fits the hatch in the yard too."
+    },
+    {
+      "key": "Заперто до утра. Шериф ночью не работает.",
+      "value": "Locked till morning. The sheriff doesn't work nights."
+    },
+    {
+      "key": "Ворота на цепи. Открывают только ночью, для своих.",
+      "value": "The gate is chained. It only opens at night, for their own."
+    },
+    {
+      "key": "Проход во двор конторы",
+      "value": "Passage to the office yard"
+    },
+    {
+      "key": "Слышите колокол, мистер Холт? Значит, они опять наверху.",
+      "value": "Hear the bell, Mr. Holt? Means they're up top again."
+    },
+    {
+      "key": "Кто — они?",
+      "value": "Who's they?"
+    },
+    {
+      "key": "Сами увидите. Возьмите. Этого они боятся больше, чем пули.",
+      "value": "You'll see. Take this. They fear it more than a bullet."
+    },
+    {
+      "key": "Фальшфейер: выберите его (Q), G. Вспышка ослепляет всех рядом, огонь держит Пустых на расстоянии.",
+      "value": "Flare: select it (Q), G. The flash blinds everyone nearby, the fire keeps the Hollow back."
+    },
+    {
+      "key": "Дойти до часовни (правый конец Главной улицы). Через неё — на кладбище.",
+      "value": "Go to the chapel (right end of Main Street). Through it to the cemetery."
+    },
+    {
+      "key": "Ночь первая.",
+      "value": "The first night."
+    },
+    {
+      "key": "Колокол. Бьёт на весь город, и окна за стеклом гаснут одно за другим.",
+      "value": "The bell. It tolls over the whole town, and beyond the glass the windows go out one by one."
+    },
+    {
+      "key": "От часовни кто-то идёт через кладбище. Пора взглянуть.",
+      "value": "Someone is coming through the cemetery, past the chapel. Time to take a look."
+    },
+    {
+      "key": "Спуститься в салун. Потом — через часовню на кладбище.",
+      "value": "Go down to the saloon. Then through the chapel to the cemetery."
+    },
+    {
+      "key": "Хватит на эту ночь.",
+      "value": "Enough for one night."
+    },
+    {
+      "key": "Кровать",
+      "value": "Bed"
+    },
+    {
+      "key": "Железная кровать. Спать хочется так, что всё равно какая.",
+      "value": "An iron bed. I'm tired enough not to care."
+    },
+    {
+      "key": "Отдохнуть до (день 1)",
+      "value": "Rest until (Day 1)"
+    },
+    {
+      "key": "Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до ночи.",
+      "value": "If I lie down now, the day is over. Agnes, the chapel, the shed behind the stable… What I haven't done can wait till night."
+    },
+    {
+      "key": "Отдохнуть до (ночь 1)",
+      "value": "Rest until (Night 1)"
+    },
+    {
+      "key": "Какой тут сон. Колокол бьёт, а на кладбище кто-то ходит. Сначала — туда.",
+      "value": "No sleeping now. The bell is tolling and someone is walking the cemetery. There first."
+    },
+    {
+      "key": "Если лягу сейчас — ночь кончится. Что не успел, то не успел.",
+      "value": "If I lie down now, the night is over. What's not done stays undone."
+    },
+    {
+      "key": "Отдохнуть до (день 2)",
+      "value": "Rest until (Day 2)"
+    },
+    {
+      "key": "Лечь спать: кровать.",
+      "value": "Go to sleep: the bed."
+    },
+    {
+      "key": "Темнота. Угольная пыль на зубах.",
+      "value": "Darkness. Coal dust on the teeth."
+    },
+    {
+      "key": "Ночь 1",
+      "value": "Night 1"
+    },
+    {
+      "key": "День 1",
+      "value": "Day 1"
+    },
+    {
+      "key": "Пролог",
+      "value": "Prologue"
+    },
+    {
+      "key": "Глава 1",
+      "value": "Chapter 1"
+    },
+    {
+      "key": "Поздно прятаться: меня уже заметили.",
+      "value": "Too late to hide: they've seen me."
+    },
+    {
+      "key": "Выйти из укрытия",
+      "value": "Come out"
+    },
+    {
+      "key": "Спрятаться",
+      "value": "Hide"
+    },
+    {
+      "key": "Пёс схватил мясо и убежал.",
+      "value": "The dog grabs the meat and runs."
+    },
+    {
+      "key": "Перезаписать?",
+      "value": "Overwrite?"
+    },
+    {
+      "key": "Да",
+      "value": "Yes"
+    },
+    {
+      "key": "Нет",
+      "value": "No"
+    },
+    {
+      "key": "Игра сохранена.",
+      "value": "Game saved."
+    },
+    {
+      "key": "Новая игра",
+      "value": "New game"
+    },
+    {
+      "key": "Продолжить",
+      "value": "Continue"
+    },
+    {
+      "key": "Слот {0}",
+      "value": "Slot {0}"
+    },
+    {
+      "key": "пусто",
+      "value": "empty"
+    },
+    {
+      "key": "W / S — выбрать   ·   E — подтвердить   ·   Esc — назад",
+      "value": "W / S to choose   ·   E to confirm   ·   Esc to go back"
+    },
+    {
+      "key": "W / S — выбрать   ·   E — подтвердить",
+      "value": "W / S to choose   ·   E to confirm"
     }
   ]
 }

@@ -5,14 +5,14 @@ using UnityEngine;
 namespace LoneTruth.EditorTools
 {
     /// <summary>
-    /// Holt's hand-drawn spritesheet (Assets/Sprites/Generated/ProtagonistSpritesheet.png).
+    /// Holt's hand-drawn spritesheet (Assets/Sprites/Characters/Chapter1/ProtagonistSpritesheet.png).
     /// Rows, top to bottom: idle gestures (6), walk (8), run (8), aim / fire / lower (8). When the
     /// sheet exists it replaces the placeholder Holt frames in AC_Holt and P_Player.
     /// Slicing and clip building live in Chapter1CharacterSheets.
     /// </summary>
     public static partial class Chapter1LocationBuilder
     {
-        private const string HoltSheetPath = "Assets/Sprites/Generated/ProtagonistSpritesheet.png";
+        private const string HoltSheetPath = "Assets/Sprites/Characters/Chapter1/ProtagonistSpritesheet.png";
 
         private static readonly CharacterSheet HoltSheet = new CharacterSheet
         {
@@ -31,7 +31,7 @@ namespace LoneTruth.EditorTools
         // PPU keeps him the same size in the world.
         private static readonly CharacterSheet HoltWalkSheet = new CharacterSheet
         {
-            Path = "Assets/Sprites/Generated/ProtagonistSpritesheetWalkRight.png",
+            Path = "Assets/Sprites/Characters/Chapter1/ProtagonistSpritesheetWalkRight.png",
             Prefix = "HoltWalk",
             Ppu = 114.6f,
             Rows = new[]

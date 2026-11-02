@@ -64,6 +64,15 @@ namespace LoneTruth.EditorTools
             var token = Clue("Token1882", "clue_token_1882", "Жетон шахтёра 1882 года", "Кладбище",
                 "Остался от Пустого, который рассыпался угольной пылью. Шахтёр, погибший полвека назад.");
 
+            var freshLetter = Clue("FreshLetter", StoryFlags.ClueFreshLetter, "Свежее письмо из скважины", "Оголовок скважины",
+                "Лежало за решёткой, с угольной пылью на сгибах. Почерк Томаса. Но слова не его: «десятина», «Старик, что не стареет», «Сэмюэл Холт, сын Эдгара».");
+            var amosNote = Clue("AmosNote", StoryFlags.AmosNote, "Записка Эймоса", "Колокольня",
+                "«Священник знает. Спроси про книгу». Немой звонарь звонит, потому что колокол не пускает Пустых в город.");
+            var harmonica = Clue("Harmonica", StoryFlags.ClueHarmonica, "Губная гармошка отца", "Кладбище, могила Эдгара Холта",
+                "Единственное, что лежало в гробу отца. В то утро 1906 года он забыл её дома, и мать положила её вместо тела.");
+            var thomasLamp = Clue("ThomasLamp", StoryFlags.ClueThomasLamp, "Карбидная лампа Томаса", "Дом Агнес",
+                "Агнес отдала мне лампу мужа: внизу она нужнее. Пригодится в шахте.");
+
             // ---------------------------------------------------------------- key truth
             var tithe = NotebookAsset<DeductionSO>("Deduction_Tithe");
             tithe.Configure("Десятина",
@@ -111,6 +120,16 @@ namespace LoneTruth.EditorTools
                 NpcSheet("Cornelius") != null ? SheetFrame(CorneliusSheet, "Stand_00") : S($"{CharDir}/CH_Cornelius_Ref.png"));
             cornelius.AddNote(StoryFlags.CluePortrait, "Нервничает и всё время смотрит на портрет деда у меня за спиной.");
 
+            var liam = NotebookAsset<PersonSO>("Person_Liam");
+            liam.Configure("Лиам", StoryFlags.Quest11Postman, "Разносчик газет, 10 лет",
+                "Приносит письма на подоконник Агнес. Они вылетают с тягой из вентиляционной скважины на окраине.",
+                NpcSheet("Liam") != null ? SheetFrame(LiamSheet, "Scared_00") : null);
+
+            var amos = NotebookAsset<PersonSO>("Person_Amos");
+            amos.Configure("Эймос", StoryFlags.AmosNote, "Немой звонарь часовни",
+                "Звонит каждую ночь: колокол не пускает Пустых в город. Записка: «Священник знает. Спроси про книгу».",
+                NpcSheet("Amos") != null ? SheetFrame(AmosSheet, "Note_00") : null);
+
             // ---------------------------------------------------------------- quests
             var main = NotebookAsset<QuestSO>("Quest_Main");
             main.Configure("ch1", "Холлоу-Рок", true, "");
@@ -122,6 +141,8 @@ namespace LoneTruth.EditorTools
                 "Корнелиус хочет, чтобы я подтвердил гибель 23 человек. Узнать, что на самом деле случилось в шахте: поговорить с людьми, осмотреть город.");
             main.AddStage(StoryFlags.SheriffReport,
                 "Шериф Долан отдал отчёт об обвале и проговорился: «Взрывали в 4:17». Часы отца остановились в то же время. Закончив дела в городе — отдохнуть в номере до темноты.");
+            main.AddStage(StoryFlags.Night1, "Ночь. Колокол звонит, город гасит окна. Руфь дала фальшфейер: «они опять наверху». Через часовню — на кладбище.");
+            main.AddStage(StoryFlags.FirstHollowDead, "На кладбище я убил шахтёра со светящимися глазами. Он рассыпался угольной пылью. В городе лучше не задерживаться: но ночь ещё есть. Закончив дела — лечь спать.");
 
             // Story choices (2 shards each) — reached later in the chapter.
             var signature = NotebookAsset<QuestSO>("Quest_Signature");
@@ -142,7 +163,8 @@ namespace LoneTruth.EditorTools
             var letters = NotebookAsset<QuestSO>("Quest_1_1_Letters");
             letters.Configure("1_1", "Письма из-под земли", false, "agnes_door_closed");
             letters.AddStage(StoryFlags.Quest11Started, "Агнес показала семь писем, написанных рукой Томаса, с угольной пылью на сгибах. Они появляются на её подоконнике каждую ночь. Кто-то их приносит — стоит подождать ночью в тени у её окна.");
-            letters.AddStage("q1_1_postman", "Письма приносит Лиам: они вылетают с тягой из вентиляционной скважины на окраине.");
+            letters.AddStage(StoryFlags.Quest11Postman, "Письма приносит Лиам: они вылетают с тягой из вентиляционной скважины на окраине. Решётку не сдвинуть без лома: у Руфи за $15 или в сарае, рядом с Джесси.");
+            letters.AddStage(StoryFlags.Quest11Knock, "За решёткой свежее письмо. Снизу стук: три коротких, три длинных. Рассказать Агнес.");
             letters.AddOutcome("hope", ShardType.Hope, 1, "", "Сказал Агнес, что Томас, скорее всего, жив, и пообещал вернуть его.");
             letters.AddOutcome("despair", ShardType.Despair, 1, "", "Продал сведения о вентиляции Корнелиусу, а Агнес сказал, что письма — жестокая шутка мальчишки.");
             letters.AddOutcome("truth", ShardType.Truth, 1, StoryFlags.ClueThomasOldLetter,
@@ -160,6 +182,8 @@ namespace LoneTruth.EditorTools
             var bell = NotebookAsset<QuestSO>("Quest_1_3_Bell");
             bell.Configure("1_3", "Ночной колокол", false, "");
             bell.AddStage(StoryFlags.Quest13Started, "Каждую ночь в 4:17 звонит колокол часовни, хотя колокольня заперта. Отец Мэтью просит выяснить причину — и явно чего-то боится. Звон слышно только ночью.");
+            bell.AddStage(StoryFlags.AmosNote, "Звонит немой старик Эймос. Он написал: «Священник знает. Спроси про книгу». Припереть отца Мэтью.");
+            bell.AddStage(StoryFlags.EdgarGraveKnown, "В книге 1906 года записан мой отец. Лопата у сторожа: раскопать могилу на кладбище.");
             bell.AddOutcome("hope", ShardType.Hope, 1, "", "Простил отца Мэтью и уговорил помогать людям.");
             bell.AddOutcome("despair", ShardType.Despair, 1, "", "Шантажировал отца Мэтью книгой и пожертвованиями.");
             bell.AddOutcome("truth", ShardType.Truth, 1, "clue_token_1882",
@@ -173,16 +197,20 @@ namespace LoneTruth.EditorTools
                 Place("1-03", "Салун «Последняя лампа»", SaloonScene, 0.12f, 0.36f, "1-02"),
                 Place("1-04", "Номер Холта", RoomScene, 0.12f, 0.10f, "1-03"),
                 Place("1-05", "Контора компании", OfficeScene, 0.34f, 0.30f, "1-02"),
-                Place("1-06", "Архив", "", 0.34f, 0.06f, "1-05"),
+                Place("1-06", "Архив", ArchiveScene, 0.34f, 0.06f, "1-07"),
                 Place("1-07", "Задний двор конторы", BackYardScene, 0.47f, 0.14f, "1-05"),
                 Place("1-08", "Контора шерифа", SheriffScene, 0.54f, 0.36f, "1-02"),
                 Place("1-09", "Часовня Святой Варвары", ChapelScene, 0.52f, 0.88f, "1-02"),
-                Place("1-13", "Кладбище", "", 0.76f, 0.88f, "1-09"),
+                Place("1-10", "Ризница", VestryScene, 0.42f, 0.96f, "1-09"),
+                Place("1-11", "Крипта", CryptScene, 0.60f, 0.96f, "1-09"),
+                Place("1-12", "Колокольня", BelfryScene, 0.60f, 0.76f, "1-09"),
+                Place("1-13", "Кладбище", CemeteryScene, 0.76f, 0.88f, "1-09"),
                 Place("1-14", "Переулок", AlleyScene, 0.74f, 0.40f, "1-02"),
                 Place("1-15", "Дом Агнес", AgnesScene, 0.64f, 0.12f, "1-14"),
                 Place("1-16", "Сарай за конюшней", ShedScene, 0.82f, 0.12f, "1-14"),
-                Place("1-17", "Оголовок скважины", "", 0.95f, 0.30f, "1-14"),
-                Place("1-18", "Лесопилка и склад взрывчатки", "", 0.72f, 0.62f, "1-02"),
+                Place("1-17", "Оголовок скважины", WellHeadScene, 0.95f, 0.30f, "1-14"),
+                Place("1-18", "Лесопилка и склад взрывчатки", SawmillScene, 0.72f, 0.62f, "1-02"),
+                Place("1-19", "Будка сторожа", HutScene, 0.62f, 0.62f, "1-18"),
                 Place("1-21", "Ворота шахты", "", 0.93f, 0.62f, "1-18")
             };
 
@@ -194,8 +222,8 @@ namespace LoneTruth.EditorTools
             }
 
             chapter.Configure("Глава 1 · Холлоу-Рок",
-                new List<ClueSO> { telegrams, portraitClue, report, plaques, thomasLetters, oldLetter, ledger, deathBook, shell, testimony, token },
-                new List<PersonSO> { agnes, callahan, ruth, cornelius, dolan, matthew, jesse },
+                new List<ClueSO> { telegrams, portraitClue, report, plaques, thomasLetters, oldLetter, ledger, deathBook, shell, testimony, token, freshLetter, amosNote, harmonica, thomasLamp },
+                new List<PersonSO> { agnes, callahan, ruth, cornelius, dolan, matthew, jesse, liam, amos },
                 new List<QuestSO> { main, signature, trigger, letters, barn, bell },
                 new List<DeductionSO> { tithe },
                 map);

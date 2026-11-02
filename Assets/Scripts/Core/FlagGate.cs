@@ -11,12 +11,21 @@ namespace LoneTruth.Core
         [SerializeField] private string[] requiredFlags;
         [SerializeField] private string[] forbiddenFlags;
         [SerializeField] private GameObject[] targets;
+        [SerializeField] private bool inverted; // shown unless all requiredFlags are set
 
         public void Configure(string[] required, string[] forbidden, params GameObject[] gated)
         {
             requiredFlags = required;
             forbiddenFlags = forbidden;
             targets = gated;
+        }
+
+        public void ConfigureInverted(string[] allOf, params GameObject[] gated)
+        {
+            requiredFlags = allOf;
+            forbiddenFlags = null;
+            targets = gated;
+            inverted = true;
         }
 
         private void OnEnable()
@@ -32,7 +41,7 @@ namespace LoneTruth.Core
 
         private void Apply()
         {
-            bool visible = StoryState.Check(requiredFlags, forbiddenFlags);
+            bool visible = StoryState.Check(requiredFlags, forbiddenFlags) != inverted;
             foreach (GameObject target in targets)
             {
                 if (target != null && target != gameObject && target.activeSelf != visible)

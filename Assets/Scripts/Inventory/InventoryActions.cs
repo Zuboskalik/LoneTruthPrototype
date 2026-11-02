@@ -16,6 +16,8 @@ namespace LoneTruth.Inventory
     [RequireComponent(typeof(InventoryManager))]
     public class InventoryActions : MonoBehaviour
     {
+        private const float DogMeatRadius = 5f;
+
         [SerializeField] private KeyCode useKey = KeyCode.G;
 
         private InventoryManager inventory;
@@ -72,6 +74,25 @@ namespace LoneTruth.Inventory
 
                 case ItemType.Document:
                     StartCoroutine(ReadDocument(item));
+                    break;
+
+                case ItemType.Consumable when item.Effect == ConsumableEffect.Flare || item.Effect == ConsumableEffect.ConsecratedFlare:
+                    FlareEffect.Light(transform.position, item.Effect == ConsumableEffect.ConsecratedFlare);
+                    inventory.RemoveItem(item, 1);
+                    Say(Loc.Format("{0} — использовано", item.DisplayName));
+                    break;
+
+                case ItemType.Consumable when item.Effect == ConsumableEffect.Meat:
+                    if (EnemyController.TryFeedDog(transform.position, DogMeatRadius))
+                    {
+                        inventory.RemoveItem(item, 1);
+                        Say("Пёс схватил мясо и убежал.");
+                    }
+                    else
+                    {
+                        Say("Здесь это не пригодится.");
+                    }
+
                     break;
 
                 case ItemType.Consumable:

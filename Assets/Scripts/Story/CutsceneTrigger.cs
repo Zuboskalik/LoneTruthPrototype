@@ -19,6 +19,15 @@ namespace LoneTruth.Story
     /// </summary>
     public class CutsceneTrigger : MonoBehaviour
     {
+        /// <summary>While set, scene-start cutscenes wait (the «New game / Continue» menu is up).</summary>
+        public static bool HoldSceneStart;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            HoldSceneStart = false;
+        }
+
         [SerializeField] private CutsceneSequence sequence;
         [SerializeField] private CutsceneTriggerMode mode = CutsceneTriggerMode.OnSceneStart;
         [SerializeField] private string[] requiredFlags;
@@ -51,6 +60,11 @@ namespace LoneTruth.Story
             }
 
             yield return null;
+            while (HoldSceneStart)
+            {
+                yield return null;
+            }
+
             if (CanPlay)
             {
                 sequence.Play();
@@ -76,7 +90,7 @@ namespace LoneTruth.Story
 
         private void OnFlagsChanged()
         {
-            if (CanPlay)
+            if (!HoldSceneStart && CanPlay)
             {
                 sequence.Play();
             }

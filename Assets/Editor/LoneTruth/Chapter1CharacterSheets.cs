@@ -66,11 +66,14 @@ namespace LoneTruth.EditorTools
         }
 
         /// <summary>A sheet cut from a full source sheet into "{source}_animation.png".</summary>
-        private static CharacterSheet PackedSheet(string source, string prefix, float ppu, int[] splitRows, params PackRow[] pack)
+        private static CharacterSheet PackedSheet(string source, string prefix, float ppu, int[] splitRows, params PackRow[] pack) =>
+            PackedSheetAt(source, source.Substring(0, source.Length - ".png".Length) + "_animation.png", prefix, ppu, splitRows, pack);
+
+        private static CharacterSheet PackedSheetAt(string source, string path, string prefix, float ppu, int[] splitRows, params PackRow[] pack)
         {
             return new CharacterSheet
             {
-                Path = source.Substring(0, source.Length - ".png".Length) + "_animation.png",
+                Path = path,
                 Source = source,
                 Prefix = prefix,
                 Ppu = ppu,

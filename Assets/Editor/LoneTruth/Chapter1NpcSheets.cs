@@ -44,6 +44,7 @@ namespace LoneTruth.EditorTools
             public CharacterSheet WalkSheet; // a whole sheet of walk frames, played in order at WalkSheetFps
             public NpcClip Talk;
             public NpcClip React;
+            public NpcClip Gesture;       // a second one-shot gesture (trigger "Gesture"), for cutscenes
             public NpcClip Wary;          // on guard until the animator bool Calm is set (FlagAnimatorBool)
             public NpcClip WaryEnd;       // played once from Wary to Idle
             public bool SameScale;        // all frames are drawn at one scale (no row scaling), except RowScale
@@ -60,7 +61,7 @@ namespace LoneTruth.EditorTools
         // Only idle and walk are used until there are combat scenes with him.
         private static readonly CharacterSheet CallahanSheet = new CharacterSheet
         {
-            Path = "Assets/Sprites/Generated/Дьюк Кэллахан.png",
+            Path = "Assets/Sprites/Characters/Chapter1/Дьюк Кэллахан.png",
             Prefix = "Callahan",
             Ppu = 85f, // walk row: ~161 px for 1.9 m
             Rows = new[] { new SheetRow(0, "Idle", false, 6), new SheetRow(1, "Walk", true, 4) }
@@ -69,27 +70,27 @@ namespace LoneTruth.EditorTools
         // Ruth McKenzie: only the standing frames whose costume matches (towel on the shoulder, keys
         // at the left hip) are cut from the 3rd row: 00 hands on hips, 01 pipe, 02 talking, 03–04
         // arms crossed. The rows behind the counter and the walk are not used.
-        private static readonly CharacterSheet RuthSheet = PackedSheet("Assets/Sprites/Generated/Руфь Маккензи.png", "Ruth",
+        private static readonly CharacterSheet RuthSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Руфь Маккензи.png", "Ruth",
             92f, null, // ~155 px for 1.68 m
             new PackRow("Stand", false, (2, 0), (2, 1), (2, 4), (2, 5), (2, 6)));
 
         // Sheriff Dolan «hardly gets up from his desk» (1-08): sitting without the hat (00–02, 03
         // sighs); stands up to hand over the report (Report 00–06). Rows 2–3 of the source touch
         // (a raised bottle), so they are split at line 700.
-        private static readonly CharacterSheet DolanSheet = PackedSheet("Assets/Sprites/Generated/Шериф Долан.png", "Dolan",
+        private static readonly CharacterSheet DolanSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Шериф Долан.png", "Dolan",
             175f, new[] { 700 }, // sitting on the chair: ~318 px for ~1.8 m — he sits set back behind the desk
             new PackRow("Sit", false, (0, 2), (0, 3), (0, 4), (0, 5)),
             new PackRow("Report", false, (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6)));
 
         // Father Matthew (1-09): fingering the rosary; talking with an open hand.
-        private static readonly CharacterSheet MatthewSheet = PackedSheet("Assets/Sprites/Generated/Отец Мэтью.png", "Matthew",
+        private static readonly CharacterSheet MatthewSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Отец Мэтью.png", "Matthew",
             179f, null, // ~336 px for 1.88 m
             new PackRow("Rosary", false, (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
             new PackRow("Talk", false, (1, 0), (1, 1), (1, 2), (1, 3), (1, 4)));
 
         // Jesse Cole (1-16), wounded, sitting in the hay: aims the shotgun (Aim 00–03); lowers it
         // (Sit 00–01), then holds his side (02, 04, 05) and coughs (03).
-        private static readonly CharacterSheet JesseSheet = PackedSheet("Assets/Sprites/Generated/Джесси Коул.png", "Jesse",
+        private static readonly CharacterSheet JesseSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Джесси Коул.png", "Jesse",
             194f, null, // standing: ~342 px for 1.76 m
             new PackRow("Aim", false, (1, 0), (1, 1), (1, 2), (1, 3)),
             new PackRow("Sit", false, (1, 6), (1, 7), (1, 5), (1, 4), (0, 2), (0, 3)));
@@ -97,7 +98,7 @@ namespace LoneTruth.EditorTools
         // Saloon regulars (source rows 1–2 the man on the left, rows 3–4 the woman on the right):
         // ManB 00 size reference, 01–02 mug in the right hand; ManA 00–01 the shrug;
         // WomanA 00–02 nursing her mug; WomanB 00 size reference, 01–02 hand on her chest.
-        private static readonly CharacterSheet HotelPeopleSheet = PackedSheet("Assets/Sprites/Generated/PeopleHotelSpritesheet.png", "Hotel",
+        private static readonly CharacterSheet HotelPeopleSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/PeopleHotelSpritesheet.png", "Hotel",
             177f, null, // ~313 px for the 1.78 m man (2nd row), ~295 px for the 1.67 m woman
             new PackRow("ManB", false, (1, 0), (1, 1), (1, 2)),
             new PackRow("ManA", false, (0, 5), (0, 6)),
@@ -107,7 +108,7 @@ namespace LoneTruth.EditorTools
         // Main Street passers-by on day 1 (source rows 1–2 the man, rows 3–4 the woman):
         // ManA 00–02 hands in pockets, 03–04 one hand out; ManB 00 size reference;
         // WomanA 00–02 arms folded; WomanB 00 size reference, 01–02 hand on her chest.
-        private static readonly CharacterSheet StreetPeopleSheet = PackedSheet("Assets/Sprites/Generated/PeopleStreetSpritesheet.png", "Street",
+        private static readonly CharacterSheet StreetPeopleSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/PeopleStreetSpritesheet.png", "Street",
             177f, null,
             new PackRow("ManA", false, (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
             new PackRow("ManB", false, (1, 0)),
@@ -132,15 +133,15 @@ namespace LoneTruth.EditorTools
 
         // Duke Callahan's walk: 3 rows (24 frames), ~206 px for 1.9 m.
         private static readonly CharacterSheet CallahanWalkSheet =
-            WalkSheet("Assets/Sprites/Generated/Дьюк Кэллахан_walk.png", "CallahanWalk", 108.5f, 3);
+            WalkSheet("Assets/Sprites/Characters/Chapter1/Дьюк Кэллахан_walk.png", "CallahanWalk", 108.5f, 3);
 
         // The conductor's walk with the bag: 2 rows (16 frames), ~208 px for 1.75 m.
         private static readonly CharacterSheet ConductorWalkSheet =
-            WalkSheet("Assets/Sprites/Generated/StationConductor_walk.png", "ConductorWalk", 119f, 2);
+            WalkSheet("Assets/Sprites/Characters/Chapter1/StationConductor_walk.png", "ConductorWalk", 119f, 2);
 
         // The conductor in the prologue: Idle 00 standing with his bag; Talk 00 size reference,
         // 01 raised hand, 02–03 shouting and pointing. He walks from his own walk sheet.
-        private static readonly CharacterSheet ConductorSheet = PackedSheet("Assets/Sprites/Generated/StationConductor.png", "Conductor",
+        private static readonly CharacterSheet ConductorSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/StationConductor.png", "Conductor",
             178f, null, // talk row: ~312 px for 1.75 m
             new PackRow("Idle", false, (0, 1)),
             new PackRow("Talk", false, (1, 0), (1, 2), (1, 5), (1, 6)));
@@ -148,7 +149,7 @@ namespace LoneTruth.EditorTools
         // Cornelius Whitlock (1-05, at his desk): Stand 00 / 02 standing, 01 hands on the lapels;
         // Wipe 00–03 out with the handkerchief and over the forehead; Glasses 00–01 fixing the
         // pince-nez; Talk 00–03 explaining with nervous hands.
-        private static readonly CharacterSheet CorneliusSheet = PackedSheet("Assets/Sprites/Generated/Корнелиус Уитлок.png", "Cornelius",
+        private static readonly CharacterSheet CorneliusSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Корнелиус Уитлок.png", "Cornelius",
             194f, null, // standing: ~334 px for 1.72 m
             new PackRow("Stand", false, (0, 0), (0, 1), (0, 3)),
             new PackRow("Wipe", false, (1, 2), (1, 3), (1, 4), (1, 6)),
@@ -157,7 +158,7 @@ namespace LoneTruth.EditorTools
 
         // The clerk at the reception counter (1-05) stands: Stand 00–01, 02 hands clasped, 03 fixing
         // his glasses; Talk 00–01 gestures; Greet 00 a raised hand. The sitting rows are not used.
-        private static readonly CharacterSheet ClerkSheet = PackedSheet("Assets/Sprites/Generated/Клерк.png", "Clerk",
+        private static readonly CharacterSheet ClerkSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Клерк.png", "Clerk",
             195f, null, // ~339 px for 1.74 m
             new PackRow("Stand", false, (0, 0), (0, 1), (0, 6), (0, 5)),
             new PackRow("Talk", false, (0, 2), (0, 3)),
@@ -165,11 +166,37 @@ namespace LoneTruth.EditorTools
 
         // Agnes Byrne (1-15): Letters 00–05 clutching the letters; Talk 00–03 talking with them in
         // her hand; Show 00–04 holding the bundle out to Holt.
-        private static readonly CharacterSheet AgnesSheet = PackedSheet("Assets/Sprites/Generated/Агнес Бирн.png", "Agnes",
+        private static readonly CharacterSheet AgnesSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Агнес Бирн.png", "Agnes",
             208f, null, // ~339 px for 1.63 m
             new PackRow("Letters", false, (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
             new PackRow("Talk", false, (1, 0), (1, 1), (1, 2), (1, 5)),
             new PackRow("Show", false, (2, 0), (2, 1), (2, 2), (2, 3), (2, 4)));
+
+        // Liam (1-14, night): runs with a letter; frightened (Scared 01–02); confesses looking at the
+        // floor (Talk); holds the letter out (Give).
+        private static readonly CharacterSheet LiamSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Лиам.png", "Liam",
+            221f, null, // ~298 px for 1.35 m
+            new PackRow("Run", true, (0, 4), (0, 5), (0, 6)),
+            new PackRow("Scared", false, (1, 0), (1, 3), (1, 4)),
+            new PackRow("Talk", false, (2, 0), (2, 4), (2, 5), (2, 6)),
+            new PackRow("Give", false, (3, 0), (3, 1), (3, 2)));
+
+        // Amos (1-12), the mute bell-ringer: pulls the rope; holds out his note.
+        private static readonly CharacterSheet AmosSheet = PackedSheet("Assets/Sprites/Characters/Chapter1/Эймос.png", "Amos",
+            192f, null, // hunched: ~297 px for 1.55 m
+            new PackRow("Ring", false, (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)),
+            new PackRow("Note", false, (3, 0), (3, 1), (3, 2), (3, 3)));
+
+        // The Hollow miner, an enemy (animator in Chapter1Night1Builder). The source stays in
+        // Chapter2/ for that chapter's own needs. Rows 1–2 of it touch (a raised pick): split at 374.
+        private static readonly CharacterSheet HollowSheet = PackedSheetAt("Assets/Sprites/Characters/Chapter2/Пустой Шахтёр-Photoroom.png",
+            "Assets/Sprites/Characters/Chapter1/Пустой Шахтёр_animation.png", "Hollow",
+            180f, new[] { 374 }, // ~321 px for 1.78 m
+            new PackRow("Walk", true, (0, 0), (0, 1), (0, 2), (0, 3), (0, 5)),
+            new PackRow("Swing", false, (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7)),
+            new PackRow("Blind", false, (2, 0), (2, 1), (2, 2), (2, 3), (2, 4)),
+            new PackRow("Recoil", false, (2, 5), (2, 6), (2, 7)),
+            new PackRow("Die", false, (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7)));
 
         private static readonly Dictionary<string, NpcSpec> NpcSpecs = new Dictionary<string, NpcSpec>
         {
@@ -242,6 +269,23 @@ namespace LoneTruth.EditorTools
                 Sheet = StreetPeopleSheet, Reference = "WomanB_00", PlaceholderKey = "PasserbyWoman", FaceLeft = true,
                 Idle = new NpcClip(1.5f, "WomanA_00", "WomanA_01", "WomanA_02", "WomanA_01"),
                 React = new NpcClip(3, "WomanB_01", "WomanB_02", "WomanB_01", "WomanB_02")
+            },
+            // Frightened at first; confesses looking at the floor; gives up the letter.
+            ["Liam"] = new NpcSpec
+            {
+                Sheet = LiamSheet, Reference = "Scared_00", PlaceholderKey = "Liam", SameScale = true,
+                Idle = new NpcClip(1, "Scared_00"),
+                Walk = new NpcClip(10, "Run_00", "Run_01", "Run_02"),
+                Talk = new NpcClip(2, "Talk_00", "Talk_01", "Talk_02", "Talk_03"),
+                React = new NpcClip(2, "Scared_01", "Scared_02", "Scared_01", "Scared_02"),
+                Gesture = new NpcClip(1.5f, "Give_00", "Give_01", "Give_02", "Give_02")
+            },
+            // Rings on and on; stops only to hold out the note.
+            ["Amos"] = new NpcSpec
+            {
+                Sheet = AmosSheet, Reference = "Ring_00", PlaceholderKey = "Watchman", SameScale = true,
+                Idle = new NpcClip(2.5f, "Ring_00", "Ring_01", "Ring_02", "Ring_03", "Ring_04", "Ring_05"),
+                React = new NpcClip(1.5f, "Note_00", "Note_01", "Note_02", "Note_03", "Note_03", "Note_03")
             },
             // Stands still with his bag between lines; raises a hand, then shouts and points while
             // talking; walks off with the bag (his walk sheet).
@@ -332,7 +376,7 @@ namespace LoneTruth.EditorTools
 
         private static void ImportCharacterSheets()
         {
-            var sheets = new List<CharacterSheet> { HoltSheet, HoltWalkSheet };
+            var sheets = new List<CharacterSheet> { HoltSheet, HoltWalkSheet, HollowSheet };
             foreach (NpcSpec spec in NpcSpecs.Values)
             {
                 foreach (CharacterSheet sheet in new[] { spec.Sheet, spec.WalkSheet })
@@ -436,6 +480,18 @@ namespace LoneTruth.EditorTools
                 toReact.canTransitionToSelf = false;
                 toReact.AddCondition(AnimatorConditionMode.If, 0f, "React");
                 Go(react, idle, true);
+            }
+
+            if (spec.Gesture.IsSet)
+            {
+                ac.AddParameter("Gesture", AnimatorControllerParameterType.Trigger);
+                AnimatorState gesture = State("Gesture", new Vector3(500, 200), spec.Gesture, false);
+                AnimatorStateTransition toGesture = sm.AddAnyStateTransition(gesture);
+                toGesture.hasExitTime = false;
+                toGesture.duration = 0f;
+                toGesture.canTransitionToSelf = false;
+                toGesture.AddCondition(AnimatorConditionMode.If, 0f, "Gesture");
+                Go(gesture, idle, true);
             }
 
             return ac;

@@ -1,0 +1,802 @@
+fileFormatVersion: 2
+guid: 7c913656e50412f4a8b7c4af667035eb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8519643251507343522
+    second: "\u041F\u0443\u0441\u0442\u043E\u0439 \u0428\u0430\u0445\u0442\u0451\u0440_animation_0"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 180
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Hollow_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 1468
+        width: 197
+        height: 333
+      alignment: 9
+      pivot: {x: 0.65774155, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74086599fe3d1df4a9a7cf430a25b449
+      internalID: -727315386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 1468
+        width: 201
+        height: 330
+      alignment: 9
+      pivot: {x: 0.70984024, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfaa06302b7991243980018207cb7c3a
+      internalID: -166883454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 1468
+        width: 168
+        height: 334
+      alignment: 9
+      pivot: {x: 0.7420291, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d1e577570dc2a44bdd3006f43a6001
+      internalID: -1475531030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 1468
+        width: 182
+        height: 330
+      alignment: 9
+      pivot: {x: 0.71572375, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0af7673146da2e14d986beed1061aa6e
+      internalID: 2137778772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 1468
+        width: 183
+        height: 326
+      alignment: 9
+      pivot: {x: 0.7821939, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53753f11aa5968648a7cf9b8a7cce0f8
+      internalID: 304971377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 1079
+        width: 184
+        height: 338
+      alignment: 9
+      pivot: {x: 0.35218835, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d44de77e2a4cfbd44a88cb87d083f36d
+      internalID: -777699614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_01
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 1079
+        width: 184
+        height: 342
+      alignment: 9
+      pivot: {x: 0.3544834, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ad1931ec582654e9e80ac77b7c21ce
+      internalID: 1103374217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_02
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 1079
+        width: 188
+        height: 345
+      alignment: 9
+      pivot: {x: 0.34331268, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d1f427331f906c4db025c5f917c2977
+      internalID: -273331422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_03
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 1079
+        width: 189
+        height: 343
+      alignment: 9
+      pivot: {x: 0.3367555, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cbd2ccffab497e49beff4c9ec70777d
+      internalID: 532575904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_04
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 1079
+        width: 250
+        height: 324
+      alignment: 9
+      pivot: {x: 0.18428637, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6f9dbbc173820542bbe3ac52ba7d883
+      internalID: -1760940272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_05
+      rect:
+        serializedVersion: 2
+        x: 1233
+        y: 1079
+        width: 188
+        height: 347
+      alignment: 9
+      pivot: {x: 0.26006365, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 958a1a653230d2243be85aef2bf7dc53
+      internalID: 2135042699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_06
+      rect:
+        serializedVersion: 2
+        x: 1461
+        y: 1079
+        width: 207
+        height: 315
+      alignment: 9
+      pivot: {x: 0.3311054, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84cfa1bf7079b684abc3ece972a8be06
+      internalID: 1693766050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Swing_07
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 1079
+        width: 186
+        height: 323
+      alignment: 9
+      pivot: {x: 0.3422097, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 853b2609600f32649aefdf935bd95f00
+      internalID: -1149082442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Blind_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 716
+        width: 197
+        height: 323
+      alignment: 9
+      pivot: {x: 0.33505908, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5436dcd2ddf3c54428ee8ac65ffe09e9
+      internalID: 496792099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Blind_01
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 716
+        width: 197
+        height: 323
+      alignment: 9
+      pivot: {x: 0.3343701, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06100c9fd88b07241a3809c25189bcde
+      internalID: 1638831517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Blind_02
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 716
+        width: 196
+        height: 317
+      alignment: 9
+      pivot: {x: 0.3188215, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46e4dd7c85c41c044b88a1f29a9c43aa
+      internalID: 714262241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Blind_03
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 716
+        width: 199
+        height: 315
+      alignment: 9
+      pivot: {x: 0.32074833, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4acc3117d3dfdee4fab8f8940adc5e82
+      internalID: -1969744238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Blind_04
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 716
+        width: 195
+        height: 310
+      alignment: 9
+      pivot: {x: 0.29206544, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e54c536f60c59b4ca92de244a539350
+      internalID: -966156692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Recoil_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 351
+        width: 204
+        height: 318
+      alignment: 9
+      pivot: {x: 0.12778144, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fa11bb777b37dc4ba75adca51537025
+      internalID: -1589616082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Recoil_01
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 351
+        width: 208
+        height: 320
+      alignment: 9
+      pivot: {x: 0.12695724, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e943e9080c5f44488d39490b37d1cab
+      internalID: -908375199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Recoil_02
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 351
+        width: 214
+        height: 324
+      alignment: 9
+      pivot: {x: 0.15220599, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d01ac18f73be11a46bfcdb7a366518d4
+      internalID: 405768979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 40
+        width: 189
+        height: 271
+      alignment: 9
+      pivot: {x: 0.47492877, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 484ca31361e5fd34e99e865cab6da8c9
+      internalID: 443093230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_01
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 40
+        width: 189
+        height: 263
+      alignment: 9
+      pivot: {x: 0.4973545, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5f8bb51620b88044b3f0d1be50d46ff
+      internalID: -1614723826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_02
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 40
+        width: 190
+        height: 256
+      alignment: 9
+      pivot: {x: 0.49736843, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 826a6d7d96f9e2842a0bd5e140892190
+      internalID: -2116443641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_03
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 40
+        width: 199
+        height: 249
+      alignment: 9
+      pivot: {x: 0.65808195, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8675b93a32356ee4d813dbafe5a3a792
+      internalID: -1143540060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_04
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 40
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.43540668, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0550e8b38373e44bb6281e38b151125
+      internalID: -288389446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_05
+      rect:
+        serializedVersion: 2
+        x: 1216
+        y: 40
+        width: 218
+        height: 239
+      alignment: 9
+      pivot: {x: 0.50133157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2eba19cb2e50f0840bb52616b8b610be
+      internalID: -503930909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_06
+      rect:
+        serializedVersion: 2
+        x: 1474
+        y: 40
+        width: 211
+        height: 242
+      alignment: 9
+      pivot: {x: 0.49763033, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2faf7c9b2f4ebc48945ec934032641b
+      internalID: -120572428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hollow_Die_07
+      rect:
+        serializedVersion: 2
+        x: 1725
+        y: 40
+        width: 155
+        height: 88
+      alignment: 9
+      pivot: {x: 0.4967742, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 977bc07e86f48b44599b90f7bdb7992e
+      internalID: -85232489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0396c11388eb5d149adddbee42847e54
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Hollow_Blind_00: 496792099
+      Hollow_Blind_01: 1638831517
+      Hollow_Blind_02: 714262241
+      Hollow_Blind_03: -1969744238
+      Hollow_Blind_04: -966156692
+      Hollow_Die_00: 443093230
+      Hollow_Die_01: -1614723826
+      Hollow_Die_02: -2116443641
+      Hollow_Die_03: -1143540060
+      Hollow_Die_04: -288389446
+      Hollow_Die_05: -503930909
+      Hollow_Die_06: -120572428
+      Hollow_Die_07: -85232489
+      Hollow_Recoil_00: -1589616082
+      Hollow_Recoil_01: -908375199
+      Hollow_Recoil_02: 405768979
+      Hollow_Swing_00: -777699614
+      Hollow_Swing_01: 1103374217
+      Hollow_Swing_02: -273331422
+      Hollow_Swing_03: 532575904
+      Hollow_Swing_04: -1760940272
+      Hollow_Swing_05: 2135042699
+      Hollow_Swing_06: 1693766050
+      Hollow_Swing_07: -1149082442
+      Hollow_Walk_00: -727315386
+      Hollow_Walk_01: -166883454
+      Hollow_Walk_02: -1475531030
+      Hollow_Walk_03: 2137778772
+      Hollow_Walk_04: 304971377
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

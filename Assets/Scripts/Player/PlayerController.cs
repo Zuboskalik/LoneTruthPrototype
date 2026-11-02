@@ -82,6 +82,24 @@ namespace LoneTruth.Player
              LoneTruth.Core.GameMaster.Instance.IsInState(LoneTruth.Core.GameState.Exploration)) &&
             (LoneTruth.Core.ScreenFader.Instance == null || LoneTruth.Core.ScreenFader.Instance.Alpha < 0.5f);
 
+        /// <summary>Holt is in a hiding place: enemies do not see him, and only E brings him out.</summary>
+        public bool IsHidden { get; private set; }
+
+        public void SetHidden(bool hidden, float x)
+        {
+            IsHidden = hidden;
+            moveInput = 0f;
+            Vector3 p = transform.position;
+            p.x = x;
+            rb.position = p;
+            transform.position = p;
+            rb.linearVelocity = Vector3.zero;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = hidden ? new Color(0.4f, 0.4f, 0.45f) : Color.white;
+            }
+        }
+
         /// <summary>Turns Holt to look toward the given x (e.g. the character he talks to).</summary>
         public void FaceTowards(float x)
         {
@@ -116,8 +134,8 @@ namespace LoneTruth.Player
 
         private void Update()
         {
-            bool allowed = InputAllowed;
-            moveInput = allowed ? Input.GetAxisRaw("Horizontal") : ScriptedInput;
+            bool allowed = InputAllowed && !IsHidden;
+            moveInput = allowed ? Input.GetAxisRaw("Horizontal") : IsHidden ? 0f : ScriptedInput;
 
             if (dodgeCooldownTimer > 0f)
             {
@@ -230,6 +248,7 @@ namespace LoneTruth.Player
             }
 
             isDodging = true;
+            LoneTruth.Combat.EnemyController.MakeNoise(transform.position, 4f); // a roll is not quiet
             dodgeTimer = dodgeDuration;
             dodgeCooldownTimer = dodgeCooldown + dodgeDuration;
         }

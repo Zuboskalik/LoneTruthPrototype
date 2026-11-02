@@ -355,12 +355,18 @@ namespace LoneTruth.EditorTools
             Transform play = Group("--- Gameplay");
             SceneDoor(p, "1-09_to_1-02", "MainStreet", "from_1-09", "Выйти на улицу", $"{PropDir}/DOOR_Interior.png", 1f, play);
             Spawn("from_1-02", 2.5f, play);
-            Stub(p, "1-09_to_1-13", "1-13", "Кладбище", "Задняя дверь на кладбище заперта.", $"{PropDir}/DOOR_BackDoor_Closed.png", 5f, play);
-            GameObject crypt = Stub(p, "1-09_to_1-11", "1-11", "Люк в крипту", "Внизу темно. Без лампы туда лучше не лезть.", $"{PropDir}/PRP_FloorHatch.png", 17f, play);
-            crypt.transform.Find("DoorArt").localPosition = new Vector3(0f, 0f, 0.6f); // the hatch is in the floor
-            GameObject belfry = Stub(p, "1-09_to_1-12", "1-12", "Люк колокольни", "Люк колокольни заперт. Ключ, говорят, только у отца Мэтью.", $"{PropDir}/PRP_BelfryLadder.png", 19f, play);
+            SceneDoor(p, "1-09_to_1-13", "Cemetery", "from_1-09", "Задняя дверь: кладбище", $"{PropDir}/DOOR_BackDoor_Closed.png", 5f, play);
+            Spawn("from_1-13", 5f, play);
+            Spawn("from_1-11", 17f, play);
+            Spawn("from_1-12", 19f, play);
+            Spawn("from_1-10", 21f, play);
+            GameObject crypt = SceneDoor(p, "1-09_to_1-11", "Crypt", "from_1-09", "Люк в крипту", $"{PropDir}/PRP_FloorHatch.png", 17f, play);
+            crypt.transform.Find("Art").localPosition = new Vector3(0f, 0f, 0.6f); // the hatch is in the floor
+            GameObject belfry = Stub(p, "1-09_to_1-12", "1-12", "Люк колокольни", "Люк заперт. Цепи от него уходят к трём противовесам: неф, ризница, крипта. И днём наверху делать нечего.", $"{PropDir}/PRP_BelfryLadder.png", 19f, play);
             belfry.transform.Find("DoorArt").localPosition = new Vector3(0f, 0f, 2.8f);
-            Stub(p, "1-09_to_1-10", "1-10", "Ризница", "Ризница заперта.", $"{PropDir}/DOOR_Interior.png", 21f, play);
+            GameObject belfryOpen = SceneDoor(p, "1-09_to_1-12_open", "Belfry", "from_1-09", "Люк колокольни", $"{PropDir}/PRP_BelfryLadder.png", 19f, play);
+            belfryOpen.transform.Find("Art").localPosition = new Vector3(0f, 0f, 2.8f);
+            SceneDoor(p, "1-09_to_1-10", "Vestry", "from_1-09", "Ризница", $"{PropDir}/DOOR_Interior.png", 21f, play);
 
             GameObject matthew = Npc(p, ac, "NPC_Matthew_x9", "Matthew", new Vector3(9f, 0f, 0f), play, "Поговорить", "");
             FaceDoor(matthew);
@@ -377,8 +383,24 @@ namespace LoneTruth.EditorTools
                 Line("Отец Мэтью", "Узнайте, кто звонит, мистер Холт. Прошу вас. Только… это слышно лишь ночью."),
                 Inner("Опять 4:17. Он чего-то боится — и, кажется, не колокола."),
                 Note("Новое дело в блокноте: «Ночной колокол»"));
-            Talk(matthew, "Поговорить", "Отец Мэтью", "Колокол звонит в 4:17, мистер Холт. Ночью вы всё услышите сами.")
-                .AddBranch(bell, null, F(StoryFlags.Quest13Started));
+            // Night 1: Amos's note drives him into a corner (the choice of quest 1.3); Hope of quest 1.2
+            // needs his word to hide Jesse. Starting the quest stays open at night too.
+            string[] belfryReady = F(StoryFlags.Night1, StoryFlags.Counterweight1, StoryFlags.Counterweight2, StoryFlags.Counterweight3);
+            Gate("BelfryOpen", story, belfryReady, null, belfryOpen);
+            GateNot("BelfryClosed", story, belfryReady, belfry);
+            CutsceneSequence hideJesse = Sequence("Q1_2_HideJesse", story, StoryFlags.JesseMoved,
+                WalkTo(7.6f),
+                Line("Холт", "В сарае за конюшней раненый, отец. Шахтёр. Его ищут люди Кэллахана."),
+                Line("Отец Мэтью", "В ризнице есть сундук и сухой угол. Приведите его… нет. Я сам. Ночью никто не смотрит на старика."),
+                Note("Джесси будет в ризнице"));
+            CutsceneSequence bellFinale = Sequence("Q1_3_Finale", story, "",
+                WalkTo(7.6f),
+                Talking(MatthewFinaleDialogue(items)));
+            CutsceneInteractable matthewTalk = Talk(matthew, "Поговорить", "Отец Мэтью", "Колокол звонит в 4:17, мистер Холт. Ночью вы всё услышите сами.");
+            matthewTalk.AddBranch(hideJesse, F("jesse_in_vestry"), F(StoryFlags.JesseMoved));
+            matthewTalk.AddBranch(bellFinale, F(StoryFlags.AmosNote), NoQuest13Outcome);
+            matthewTalk.AddBranch(bell, null, F(StoryFlags.Quest13Started));
+            Gate("MatthewStays", story, null, F(StoryFlags.MatthewGone), matthew);
 
             CutsceneSequence plaqueClue = Sequence("Clue_NamePlaques", story, StoryFlags.ClueNamePlaques,
                 Inner("Таблички с именами погибших шахтёров. 1882 — двенадцать имён. 1906 — семнадцать."),
@@ -386,7 +408,10 @@ namespace LoneTruth.EditorTools
                 Note("Улика в блокноте: таблички с именами погибших"));
             Talk(plaques, "Осмотреть", "", "Таблички с именами погибших: 1882, 1906, 1936.").AddBranch(plaqueClue, null, null);
 
-            Talk(weight, "Осмотреть", "", "Противовес на цепи. Цепь уходит под потолок, к колокольне.");
+            CutsceneSequence lowerWeight = Sequence("Counterweight1", story, StoryFlags.Counterweight1,
+                Inner("Первый противовес. Цепь пошла вниз и ушла под потолок, к колокольне."),
+                Note("Опущен противовес. Всего их три: неф, ризница, крипта"));
+            Talk(weight, "Опустить противовес", "", "Противовес на цепи. Цепь уходит под потолок, к колокольне.").AddBranch(lowerWeight, F(StoryFlags.Quest13Started), null);
 
             EditorSceneManager.SaveScene(scene, ChapelScene);
         }
@@ -424,13 +449,41 @@ namespace LoneTruth.EditorTools
             SceneDoor(p, "1-14_to_1-02", "MainStreet", "from_1-14", "Выйти на Главную улицу", $"{PropDir}/DOOR_AlleyGate_Closed.png", 1f, play);
             SceneDoor(p, "1-14_to_1-15", "AgnesHouse", "from_1-14", "Дом Агнес Бирн", $"{PropDir}/DOOR_AgnesHouse.png", 6f, play);
             SceneDoor(p, "1-14_to_1-16", "Shed", "from_1-14", "Сарай за конюшней", $"{PropDir}/DOOR_Shed.png", 14f, play);
-            Stub(p, "1-14_to_1-17", "1-17", "Тропа на окраину", "Дальше пустырь и отвалы шахты. Сейчас мне там делать нечего.", $"{PropDir}/DOOR_AlleyGate_Closed.png", 19f, play);
+            SceneDoor(p, "1-14_to_1-17", "WellHead", "from_1-14", "Тропа на окраину", $"{PropDir}/DOOR_AlleyGate_Closed.png", 19f, play);
+            Spawn("from_1-17", 19f, play);
+            GameObject hide = HideSpot("Hide_AgnesWindow_x8", 8f, play, StoryFlags.AlleyHidden);
+            GameObject liam = Npc(p, ac, "NPC_Liam_Ambush", "Liam", new Vector3(19f, 0f, 0.4f), play, "Поговорить", "");
+            Talk(liam, "Поговорить", "Лиам", "Не сейчас, мистер!");
+            liam.SetActive(false);
             Spawn("from_1-02", 2.5f, play);
             Spawn("from_1-15", 6f, play);
             Spawn("from_1-16", 14f, play);
 
             Transform story = Group("--- Story");
             Gate("KitchenLightAtNight", story, null, F(StoryFlags.TimeDay), kitchenGlow);
+            Gate("ShadowAtNight", story, F(StoryFlags.Night1), F(StoryFlags.Quest11Postman), hide);
+
+            // Quest 1.1, step 1–2: the ambush at Agnes's window (design doc 8.3).
+            CutsceneSequence ambush = Sequence("Q1_1_Ambush", story, StoryFlags.Quest11Postman,
+                Wait(2.5f),
+                Active(liam, true),
+                Move(liam, 10.2f, 3.6f, true),
+                Inner("Мальчишка. Оглядывается, в руке конверт."),
+                Unflag(StoryFlags.AlleyHidden),
+                Line("Холт", "Стой, парень."),
+                ActorAnim(liam, "React"),
+                Line("Лиам", "Не надо, мистер! Я ничего плохого!"),
+                Line("Холт", "Откуда письма?"),
+                Line("Лиам", "Они сами вылетают! С тягой, из скважины на окраине. Я только подбираю и ношу миссис Бирн."),
+                Line("Лиам", "Скважина идёт вниз, на второй горизонт. Решётка там ржавая, её только ломом."),
+                ActorAnim(liam, "Gesture"),
+                Line("Лиам", "Вот, сегодняшнее. Только не говорите компании!"),
+                Move(liam, 19.5f, 3.6f, false),
+                Wait(2.6f),
+                Active(liam, false),
+                Note("Лом — у Руфи за $15 или в сарае, рядом с Джесси.", 5f),
+                Goal("Тропа в конце переулка ведёт к скважине. Нужен лом."));
+            FlagTrigger(ambush, F(StoryFlags.AlleyHidden, StoryFlags.Night1, StoryFlags.Quest11Started), F(StoryFlags.Quest11Postman));
 
             Transform fx = Group("--- FX");
             Inst(p.Rain, "Rain", new Vector3(10f, 9f, 1f), fx);
@@ -450,7 +503,7 @@ namespace LoneTruth.EditorTools
             SpriteObj("Dresser_x4", $"{PropDir}/PRP_Dresser.png", new Vector3(4.2f, 0f, 3.1f), set);
             SpriteObj("KitchenTable_x7", $"{PropDir}/PRP_KitchenTable.png", new Vector3(7.2f, 0f, 2f), set);
             SpriteObj("WindowLetters_x9", $"{PropDir}/PRP_WindowLetters.png", new Vector3(9f, 1f, 3.5f), set);
-            SpriteObj("CarbideLamp_x11", $"{PropDir}/PRP_CarbideLamp.png", new Vector3(11f, 1.4f, 3.5f), set);
+            GameObject lampArt = SpriteObj("CarbideLamp_x11", $"{PropDir}/PRP_CarbideLamp.png", new Vector3(11f, 1.4f, 3.5f), set);
             PointLight("Stove_Light", new Vector3(2.6f, 0.8f, 2.4f), set, "#E07A3A", 2.5f, 4.5f);
             PointLight("Table_Light", new Vector3(7f, 2.6f, 1.4f), set, "#E3C893", 3.5f, 6f);
             PointLight("Window_Light", new Vector3(9f, 2f, 2.6f), set, "#9AA6B5", 1.6f, 4f);
@@ -476,8 +529,11 @@ namespace LoneTruth.EditorTools
                 Line("Агнес Бирн", "Компания говорит — завалило. Двадцать три человека. А мой муж пишет мне по ночам."),
                 Inner("Кто-то же их приносит. Ночью стоит подождать в тени у её окна."),
                 Note("Новое дело в блокноте: «Письма из-под земли»"));
-            Talk(agnes, "Поговорить", "Агнес Бирн", "Он жив, мистер Холт. Я знаю.")
-                .AddBranch(letters, null, F(StoryFlags.Quest11Started));
+            Gate("LampOnTheNail", story, null, F(StoryFlags.ClueThomasLamp), lampArt);
+            CutsceneSequence lettersFinale = Sequence("Q1_1_Finale", story, "", WalkTo(4.8f), Talking(AgnesFinaleDialogue()));
+            CutsceneInteractable agnesTalk = Talk(agnes, "Поговорить", "Агнес Бирн", "Он жив, мистер Холт. Я знаю.");
+            agnesTalk.AddBranch(lettersFinale, F(StoryFlags.Quest11Knock), NoQuest11Outcome);
+            agnesTalk.AddBranch(letters, null, F(StoryFlags.Quest11Started));
 
             CutsceneSequence windowClue = Sequence("Clue_ThomasLetters", story, StoryFlags.ClueThomasLetters,
                 Inner("Семь писем, почерк Томаса. Угольная пыль на сгибах, бумага пахнет шахтой."),
@@ -513,10 +569,13 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-14", 2.5f, play);
             GameObject jesse = Npc(p, ac, "NPC_Jesse_x9", "Jesse", new Vector3(9f, 0f, 0f), play, "Поговорить", "", 0.4f); // sits against the hay
             FaceDoor(jesse);
+            GameObject crowbar = Pickup("Crowbar_x5", 5f, play, items.Crowbar, 1, "crowbar_taken", $"{PropDir}/PRP_Spade.png");
             // He keeps the shotgun on Holt until Holt names Agnes, and again while the revolver is out.
             jesse.AddComponent<FlagAnimatorBool>().Configure("Calm", F(StoryFlags.JesseCalm), F(StoryFlags.WeaponDrawn), "Idle");
 
             Transform story = Group("--- Story");
+            Gate("CrowbarByJesse", story, F(StoryFlags.Quest12FoundJesse), null, crowbar);
+            Gate("JesseUntilMoved", story, null, F(StoryFlags.JesseMoved), jesse);
             // Side quest 1.2 «Раненый в сарае» (design doc 8.4). Jesse aims until the revolver is put
             // away («NPC реагируют настороженно»); then the first contact and the deal are dialogues
             // with answers. With the revolver drawn he always cuts the talk short.

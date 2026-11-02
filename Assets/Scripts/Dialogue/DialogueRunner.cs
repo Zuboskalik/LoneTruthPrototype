@@ -147,10 +147,10 @@ namespace LoneTruth.Dialogue
 
             if (c.giveItem != null && inventory != null)
             {
-                inventory.AddItem(c.giveItem, Mathf.Max(1, c.giveAmount));
+                bool added = inventory.AddItem(c.giveItem, Mathf.Max(1, c.giveAmount));
                 if (GameUI.Instance != null)
                 {
-                    GameUI.Instance.Toast(Loc.Format("Получено: {0}", c.giveItem.DisplayName));
+                    GameUI.Instance.Toast(added ? Loc.Format("Получено: {0}", c.giveItem.DisplayName) : Loc.T("Некуда положить."));
                 }
             }
 

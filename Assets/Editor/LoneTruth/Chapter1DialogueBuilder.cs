@@ -160,6 +160,24 @@ namespace LoneTruth.EditorTools
                 DNode("thanks", "Джесси Коул", "Бинт?.. Спасибо, мистер. Я этого не забуду."));
         }
 
+        /// <summary>The bed's menu: rest (when the plot allows it), save, or step away.</summary>
+        private static DialogueSO BedDialogue(string asset, string thought, string restLabel)
+        {
+            var choices = new List<DialogueSO.Choice>();
+            if (restLabel != null)
+            {
+                var rest = DChoice(restLabel);
+                rest.setFlags = new[] { StoryFlags.BedRest };
+                choices.Add(rest);
+            }
+
+            var save = DChoice("Сохранить игру");
+            save.setFlags = new[] { StoryFlags.BedSave };
+            choices.Add(save);
+            choices.Add(DChoice("Отойти"));
+            return DialogueAsset(asset, "bed", DNode("bed", "", thought, "", choices.ToArray()));
+        }
+
         // ------------------------------------------------------------------ 1-03 Ruth (trade)
 
         private static LoneTruth.Shop.ShopSO RuthShop(Items items)
@@ -172,14 +190,16 @@ namespace LoneTruth.EditorTools
                 AssetDatabase.CreateAsset(shop, path);
             }
 
-            // Goods from the maps (1-03): rounds, bandages, whiskey. The flare and the crowbar ($15)
-            // join when the Hollows and the air-shaft grate exist. Prices other than the crowbar's
-            // are not in the design doc.
+            // Goods from the maps (1-03) and the dog's meat (design doc 7.1). Prices other than the
+            // crowbar's are not in the design doc.
             shop.Configure("ruth", "«Последняя лампа» — лавка Руфи", new List<LoneTruth.Shop.ShopSO.Entry>
             {
                 new LoneTruth.Shop.ShopSO.Entry { item = items.Ammo, amount = 6, price = 6 },
                 new LoneTruth.Shop.ShopSO.Entry { item = items.Bandage, amount = 1, price = 8 },
-                new LoneTruth.Shop.ShopSO.Entry { item = items.Whiskey, amount = 1, price = 10 }
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Whiskey, amount = 1, price = 10 },
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Flare, amount = 1, price = 12 },
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Meat, amount = 1, price = 4 },
+                new LoneTruth.Shop.ShopSO.Entry { item = items.Crowbar, amount = 1, price = 15, stock = 1 }
             });
             EditorUtility.SetDirty(shop);
             return shop;
@@ -231,7 +251,9 @@ namespace LoneTruth.EditorTools
                 new SpeakerPortraitsSO.Entry { speaker = "Шериф Долан", portrait = Sheet("Dolan", "Dolan") },
                 new SpeakerPortraitsSO.Entry { speaker = "Отец Мэтью", portrait = Sheet("Matthew", "Matthew") },
                 new SpeakerPortraitsSO.Entry { speaker = "Агнес Бирн", portrait = Sheet("Agnes", "Agnes") },
-                new SpeakerPortraitsSO.Entry { speaker = "Джесси Коул", portrait = Sheet("Jesse", "Jesse") }
+                new SpeakerPortraitsSO.Entry { speaker = "Джесси Коул", portrait = Sheet("Jesse", "Jesse") },
+                new SpeakerPortraitsSO.Entry { speaker = "Лиам", portrait = Sheet("Liam", "Liam") },
+                new SpeakerPortraitsSO.Entry { speaker = "Сторож", portrait = Placeholder("Watchman") }
             });
             EditorUtility.SetDirty(asset);
             return asset;

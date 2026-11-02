@@ -36,6 +36,12 @@ namespace LoneTruth.Combat
             }
         }
 
+        /// <summary>Sets health directly (loading a save).</summary>
+        public void SetCurrent(int value)
+        {
+            currentHealth = Mathf.Clamp(value, 0, maxHealth);
+        }
+
         public void Heal(int amount)
         {
             if (IsDead || amount <= 0)

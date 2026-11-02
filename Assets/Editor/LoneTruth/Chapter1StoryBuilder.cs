@@ -33,6 +33,10 @@ namespace LoneTruth.EditorTools
         private class Items
         {
             public ItemSO Revolver, Ammo, Letter, RoomKey, CompanyPass, Bandage, Whiskey, LowerLevelsMap;
+            public ItemSO Flare, FlareConsecrated, Meat, Crowbar, ArchiveKey;
+
+            /// <summary>What a save file can name (by item id).</summary>
+            public ItemSO[] All => new[] { Revolver, Ammo, Letter, RoomKey, CompanyPass, Bandage, Whiskey, LowerLevelsMap, Flare, FlareConsecrated, Meat, Crowbar, ArchiveKey };
         }
 
         private static ItemSO Item(string file, string id, string name, ItemType type, int maxStack, string icon, string description, string documentText = "")
@@ -57,6 +61,13 @@ namespace LoneTruth.EditorTools
             return item;
         }
 
+        private static void SetEffect(ItemSO item, LoneTruth.Inventory.ConsumableEffect effect)
+        {
+            var so = new SerializedObject(item);
+            so.FindProperty("effect").enumValueIndex = (int)effect;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
         private static Items BuildItems()
         {
             var items = new Items
@@ -79,8 +90,23 @@ namespace LoneTruth.EditorTools
                     "Глоток: +50 здоровья. G — выпить."),
                 LowerLevelsMap = Item("Doc_LowerLevelsMap", "doc_lower_levels_map", "Карта нижних горизонтов", ItemType.Document, 1, "ICO_LowerLevelsMap",
                     "Карта, которую нарисовал Джесси Коул. G — посмотреть.",
-                    "Карта нижних горизонтов шахты «Святая Варвара», нарисованная рукой Джесси Коула.\n\nГоризонты 1–3, вентиляционные ходы, старые выработки. Один проход отмечен крестом.")
+                    "Карта нижних горизонтов шахты «Святая Варвара», нарисованная рукой Джесси Коула.\n\nГоризонты 1–3, вентиляционные ходы, старые выработки. Один проход отмечен крестом."),
+                // Design doc 3.4: a red flash blinds enemies within 5 m for 4 s, burns for 20 s; the Hollow back away.
+                Flare = Item("Consumable_Flare", "flare", "Фальшфейер", ItemType.Consumable, 3, "ICO_Flare",
+                    "Красная вспышка ослепляет врагов рядом, огонь держит Пустых на расстоянии. G — зажечь."),
+                FlareConsecrated = Item("Consumable_FlareConsecrated", "flare_consecrated", "Освящённый фальшфейер", ItemType.Consumable, 3, "ICO_FlareConsecrated",
+                    "Как обычный, но вспышка ещё и обжигает Пустых. G — зажечь."),
+                Meat = Item("Consumable_Meat", "meat", "Кусок мяса", ItemType.Consumable, 3, "ICO_Meat",
+                    "Для сторожевого пса: подойти поближе, G — бросить. Схватит и убежит."),
+                Crowbar = Item("Key_Crowbar", "crowbar", "Лом", ItemType.Key, 1, "ICO_Crowbar",
+                    "Тяжёлый лом. Подойдёт для ржавой решётки."),
+                ArchiveKey = Item("Key_Archive", "key_archive", "Ключ от архива", ItemType.Key, 1, "ICO_ArchiveKey",
+                    "Ключ с доски сторожа: подвал конторы. Подходит и к люку во дворе.")
             };
+
+            SetEffect(items.Flare, LoneTruth.Inventory.ConsumableEffect.Flare);
+            SetEffect(items.FlareConsecrated, LoneTruth.Inventory.ConsumableEffect.ConsecratedFlare);
+            SetEffect(items.Meat, LoneTruth.Inventory.ConsumableEffect.Meat);
 
             var bandage = new SerializedObject(items.Bandage);
             bandage.FindProperty("healAmount").intValue = 30;
@@ -417,6 +443,10 @@ namespace LoneTruth.EditorTools
         /// <summary>Loads the scene only if the flag is set (an answer chose to leave); the flag is cleared.</summary>
         private static CutsceneStep LoadIf(string flag, string scene, string spawn) => new CutsceneStep { type = CutsceneStepType.LoadScene, key = flag, scene = scene, spawnId = spawn, boolValue = true };
 
+        private static CutsceneStep RunIf(string flag, CutsceneSequence sequence) => new CutsceneStep { type = CutsceneStepType.RunIf, key = flag, target = sequence.gameObject };
+        private static CutsceneStep SaveStep() => new CutsceneStep { type = CutsceneStepType.SaveMenu, key = StoryFlags.BedSave };
+        private static CutsceneStep Checkpoint() => new CutsceneStep { type = CutsceneStepType.Checkpoint };
+
         private static CutsceneSequence Sequence(string name, Transform parent, string doneFlag, params CutsceneStep[] steps)
         {
             var go = new GameObject("Seq_" + name);
@@ -484,6 +514,14 @@ namespace LoneTruth.EditorTools
             var go = new GameObject("Gate_" + name);
             go.transform.SetParent(parent, false);
             go.AddComponent<FlagGate>().Configure(required, forbidden, targets);
+        }
+
+        /// <summary>Shows its targets unless all the flags are set.</summary>
+        private static void GateNot(string name, Transform parent, string[] allOf, params GameObject[] targets)
+        {
+            var go = new GameObject("Gate_" + name);
+            go.transform.SetParent(parent, false);
+            go.AddComponent<FlagGate>().ConfigureInverted(allOf, targets);
         }
 
         private static string[] F(params string[] flags) => flags;
@@ -606,6 +644,7 @@ namespace LoneTruth.EditorTools
                 Goal("Найти встречающего на перроне."),
                 Note("A / D — идти   ·   E — взаимодействовать   ·   Q — выбрать предмет   ·   G — применить   ·   Tab — блокнот", 7f));
             StartTrigger(prologue, null, F(StoryFlags.PrologueDone));
+            story.gameObject.AddComponent<LoneTruth.UI.GameStartMenu>();
 
             // Clue on the platform (optional): unsent telegrams.
             CutsceneSequence clue = Sequence("Clue_Telegrams", story, StoryFlags.ClueTelegrams,
@@ -669,6 +708,22 @@ namespace LoneTruth.EditorTools
             SpriteObj("FAC_Chapel_49-56", $"{EnvDir}/MainStreet/FAC_Chapel.png", new Vector3(52.5f, 0f, 3f), fac, 1f, tint);
             SpriteObj("FAC_MineRoadFence_56-60", $"{EnvDir}/MainStreet/FAC_MineRoadFence.png", new Vector3(58f, 0f, 3.2f), fac, 1f, tint);
             PropInst(p, "NoticeBoard_x23", $"{PropDir}/PRP_NoticeBoard.png", new Vector3(23f, 0f, 2.7f), fac);
+            // After the bell the town puts its windows out (maps 1-02): a dark copy over every facade but the saloon's.
+            var nightDark = new List<GameObject>();
+            foreach (Transform facade in fac)
+            {
+                if (facade.name.StartsWith("FAC_") && !facade.name.StartsWith("FAC_Saloon"))
+                {
+                    GameObject dark = Object.Instantiate(facade.gameObject, fac);
+                    dark.name = facade.name + "_Dark";
+                    dark.transform.position = facade.position + new Vector3(0f, 0f, -0.02f);
+                    var darkSprite = dark.GetComponent<SpriteRenderer>();
+                    darkSprite.color = new Color(0f, 0f, 0f, 0.62f);
+                    darkSprite.sortingOrder = FacadeOrder + 1;
+                    nightDark.Add(dark);
+                }
+            }
+
             GameObject saloonGlow = PointLight("Saloon_Windows_Light", new Vector3(10f, 2.2f, 2.2f), fac, "#E8A84E", 3f, 6f);
 
             Transform set = Group("--- Set Dressing");
@@ -699,18 +754,24 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-08", 28f, play);
             Spawn("from_1-14", 36f, play);
             Spawn("from_1-09", 52f, play);
+            Spawn("from_1-18", 45f, play);
+            Spawn("from_1-07", 25f, play);
 
             // Day-1 places open with the free investigation; until then (the night of arrival, the
             // morning before Whitlock) they stay closed stubs.
             GameObject sheriffDoor = SceneDoor(p, "1-02_to_1-08", "SheriffOffice", "from_1-02", "Контора шерифа", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
             GameObject sheriffStub = Stub(p, "1-02_to_1-08_closed", "1-08", "Контора шерифа", "Заперто.", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
+            GameObject sheriffStubNight = Stub(p, "1-02_to_1-08_night", "1-08", "Контора шерифа", "Заперто до утра. Шериф ночью не работает.", $"{PropDir}/DOOR_Sheriff_Closed.png", 28f, play);
             GameObject alleyDoor = SceneDoor(p, "1-02_to_1-14", "Alley", "from_1-02", "Переулок", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
             GameObject alleyStub = Stub(p, "1-02_to_1-14_closed", "1-14", "Переулок", "Проход перегорожен калиткой.", $"{PropDir}/DOOR_AlleyGate_Closed.png", 36f, play);
             GameObject chapelDoor = SceneDoor(p, "1-02_to_1-09", "ChapelNave", "from_1-02", "Часовня Святой Варвары", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
             GameObject chapelStub = Stub(p, "1-02_to_1-09_closed", "1-09", "Часовня", "Двери часовни закрыты.", $"{PropDir}/DOOR_Chapel_Closed.png", 52f, play);
 
             // Not-yet-built locations keep their closed stubs.
-            Stub(p, "1-02_to_1-18", "1-18", "Ворота лесопилки", "Ворота на цепи.", $"{PropDir}/DOOR_SawmillGate_Closed.png", 45f, play);
+            GameObject sawmillStub = Stub(p, "1-02_to_1-18", "1-18", "Ворота лесопилки", "Ворота на цепи. Открывают только ночью, для своих.", $"{PropDir}/DOOR_SawmillGate_Closed.png", 45f, play);
+            GameObject sawmillDoor = SceneDoor(p, "1-02_to_1-18_night", "SawmillYard", "from_1-02", "Ворота лесопилки", $"{PropDir}/DOOR_SawmillGate_Closed.png", 45f, play);
+            // The office is locked at night, yet the design doc wants its yard reachable «ночью со двора конторы».
+            GameObject yardPassage = SceneDoor(p, "1-02_to_1-07", "OfficeBackYard", "from_1-02", "Проход во двор конторы", $"{PropDir}/DOOR_AlleyGate_Closed.png", 25f, play);
             Stub(p, "1-02_to_1-21", "1-21", "Дорога к шахте", "Ворота на замке.", $"{PropDir}/DOOR_MineGate_Closed.png", 58f, play);
 
             Transform day = Group("State_Day");
@@ -730,8 +791,14 @@ namespace LoneTruth.EditorTools
             Gate("DayPasserby", story, F(StoryFlags.TimeDay), null, miner, woman);
             Gate("OfficeOpenByDay", story, F(StoryFlags.TimeDay), null, officeDoor);
             Gate("OfficeClosedAtNight", story, null, F(StoryFlags.TimeDay), officeStub);
-            Gate("Day1PlacesOpen", story, F(StoryFlags.FreeInvestigationDay1), null, sheriffDoor, alleyDoor, chapelDoor);
-            Gate("Day1PlacesClosed", story, null, F(StoryFlags.FreeInvestigationDay1), sheriffStub, alleyStub, chapelStub);
+            Gate("Day1PlacesOpen", story, F(StoryFlags.FreeInvestigationDay1), null, alleyDoor, chapelDoor);
+            Gate("Day1PlacesClosed", story, null, F(StoryFlags.FreeInvestigationDay1), alleyStub, chapelStub);
+            Gate("SheriffOpenByDay", story, F(StoryFlags.FreeInvestigationDay1, StoryFlags.TimeDay), null, sheriffDoor);
+            Gate("SheriffBeforeInvestigation", story, F(StoryFlags.TimeDay), F(StoryFlags.FreeInvestigationDay1), sheriffStub);
+            Gate("SheriffClosedAtNight", story, null, F(StoryFlags.TimeDay), sheriffStubNight);
+            Gate("SawmillAtNight", story, F(StoryFlags.Night1), null, sawmillDoor, yardPassage);
+            Gate("SawmillByDay", story, null, F(StoryFlags.Night1), sawmillStub);
+            Gate("WindowsOut", story, F(StoryFlags.Night1), null, nightDark.ToArray());
             // Hidden only after the check-in, so he walks off the screen instead of vanishing mid-street.
             Gate("CallahanEscort", story, F(StoryFlags.EscortToSaloon), F(StoryFlags.SaloonCheckIn), escortCallahan);
 
@@ -814,6 +881,17 @@ namespace LoneTruth.EditorTools
                 Note("Ключ — в инвентаре: выберите его (Q) и примените у двери (G).", 6f));
             StartTrigger(checkIn, F(StoryFlags.EscortDone), F(StoryFlags.SaloonCheckIn));
 
+            // Night 1: the flare (design doc 8.2 step 5). Holt passes the bar on his way out of his room.
+            CutsceneSequence flare = Sequence("N1_RuthFlare", story, StoryFlags.FlareGiven,
+                WalkTo(11.6f),
+                Line("Руфь", "Слышите колокол, мистер Холт? Значит, они опять наверху."),
+                Line("Холт", "Кто — они?"),
+                Line("Руфь", "Сами увидите. Возьмите. Этого они боятся больше, чем пули."),
+                Give(items.Flare, 1, true),
+                Note("Фальшфейер: выберите его (Q), G. Вспышка ослепляет всех рядом, огонь держит Пустых на расстоянии.", 7f),
+                Goal("Дойти до часовни (правый конец Главной улицы). Через неё — на кладбище."));
+            StartTrigger(flare, F(StoryFlags.Night1), F(StoryFlags.FlareGiven));
+
             CutsceneSequence morning = Sequence("3a_RuthMorning", story, StoryFlags.RuthMorning,
                 Line("Руфь", "Утро, мистер Холт. Кофе холодный, новости ещё холоднее."),
                 Line("Руфь", "Кэллахан заходил на рассвете. Мистер Уитлок ждёт вас в конторе."));
@@ -860,43 +938,62 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-03", 2f, play);
             GameObject bed = InspectSpot("Bed_Sleep_x5", new Vector3(5f, 0f, 0f), play, 1.6f);
             GameObject letter = InspectSpot("Letter_Inspect_x7", new Vector3(7f, 0f, 0f), play);
-            // The demo has no combat scenes yet, so the room is where aiming and shooting can be tried.
-            new GameObject("CombatZone_Demo").AddComponent<LoneTruth.Combat.CombatZone>().transform.SetParent(play, false);
 
             Transform story = Group("--- Story");
-            CutsceneSequence sleep = Sequence("3_SleepToMorning", story, StoryFlags.Day1Morning,
+            // Sleep is the only switch between day and night (maps: «сон: смена дня и ночи, сохранение»).
+            // The bed is a menu: «Rest until…» appears once the plot's required beat of the day is done;
+            // saving is always there. See docs/DayNight.md and docs/Night1.md.
+            CutsceneSequence sleep = Sequence("Rest_ToDay1", story, StoryFlags.Day1Morning,
                 Inner("Месяц под землёй. Двадцать три человека. А мёртвые, выходит, пишут письма."),
                 FadeOut(1.4f),
                 Card("Утро.\nДень первый.", 2.5f),
                 Flag(StoryFlags.TimeDay),
                 Wait(0.3f),
                 FadeIn(1.4f),
-                Goal("Явиться в контору компании (Главная улица, каменный дом)."));
-            // Sleep is the only switch between day and night (maps: «сон: смена дня и ночи»). Day 1
-            // ends when the player decides; the one beat the plot needs first is the sheriff's report.
-            // Side quests started today keep their day steps open tomorrow, so resting early never locks anything.
-            CutsceneSequence goToOffice = Sequence("Bed_Day1_GoToOffice", story, "",
-                Inner("Утро. Сначала — контора компании: Уитлок ждёт."));
-            CutsceneSequence tooEarly = Sequence("Bed_Day1_TooEarly", story, "",
-                Inner("Рано отдыхать. Сначала — шериф: у него должен быть отчёт об обвале."));
-            CutsceneSequence confirmEnd = Sequence("Bed_Day1_Confirm", story, "",
-                Inner("Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до завтра."),
-                Flag(StoryFlags.Day1EndConfirm),
-                Note("Чтобы закончить день, лягте ещё раз (E у кровати).", 5f));
-            CutsceneSequence endDay = Sequence("Bed_Day1_End", story, "",
+                Goal("Явиться в контору компании (Главная улица, каменный дом)."),
+                Checkpoint());
+            CutsceneSequence toNight = Sequence("Rest_ToNight1", story, StoryFlags.Night1,
                 Inner("На сегодня хватит. До темноты — пара часов сна."),
                 FadeOut(1.4f),
+                Unflag(StoryFlags.TimeDay),
+                Flag(StoryFlags.Night1),
+                Card("Ночь первая.", 2.5f),
+                Wait(0.3f),
+                FadeIn(1.4f),
+                Inner("Колокол. Бьёт на весь город, и окна за стеклом гаснут одно за другим."),
+                Inner("От часовни кто-то идёт через кладбище. Пора взглянуть."),
+                Goal("Спуститься в салун. Потом — через часовню на кладбище."),
+                Checkpoint());
+            CutsceneSequence toDay2 = Sequence("Rest_ToDay2", story, "",
+                Inner("Хватит на эту ночь."),
+                FadeOut(1.4f),
                 Card("(Продолжение следует)", 0f),
-                Unflag(StoryFlags.Day1EndConfirm),
                 FadeIn(1.2f));
-            CutsceneInteractable bedTalk = Talk(bed, "Лечь спать", "", "Спать ещё рано.");
-            bedTalk.AddBranch(sleep, F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
-            bedTalk.AddBranch(goToOffice, F(StoryFlags.Day1Morning), F(StoryFlags.OfficeMeeting));
-            bedTalk.AddBranch(tooEarly, F(StoryFlags.FreeInvestigationDay1), F(StoryFlags.SheriffReport));
-            bedTalk.AddBranch(endDay, F(StoryFlags.SheriffReport, StoryFlags.Day1EndConfirm), null);
-            bedTalk.AddBranch(confirmEnd, F(StoryFlags.SheriffReport), null);
-            // The confirmation only counts during one visit to the room.
-            new GameObject("ClearDayEndConfirm").AddComponent<ClearFlagsOnSceneStart>().Configure(StoryFlags.Day1EndConfirm);
+
+            GameObject bedSteps = new GameObject("BedMenus");
+            bedSteps.transform.SetParent(story, false);
+            CutsceneInteractable bedTalk = Talk(bed, "Кровать", "", "");
+            void BedState(string name, string thought, string restLabel, CutsceneSequence rest, string[] required, string[] forbidden)
+            {
+                bedTalk.AddBranch(Sequence($"Bed_{name}", story, "",
+                    Talking(BedDialogue($"Bed_{name}", thought, restLabel)),
+                    SaveStep(),
+                    rest != null ? RunIf(StoryFlags.BedRest, rest) : Wait(0f)), required, forbidden);
+            }
+
+            BedState("Arrival", "Железная кровать. Спать хочется так, что всё равно какая.", "Отдохнуть до (день 1)", sleep,
+                F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
+            BedState("Morning", "Утро. Сначала — контора компании: Уитлок ждёт.", null, null,
+                F(StoryFlags.Day1Morning), F(StoryFlags.OfficeMeeting));
+            BedState("TooEarly", "Рано отдыхать. Сначала — шериф: у него должен быть отчёт об обвале.", null, null,
+                F(StoryFlags.FreeInvestigationDay1), F(StoryFlags.SheriffReport, StoryFlags.Night1));
+            // Quests started today keep their steps open at night, so resting early locks nothing.
+            BedState("Day1End", "Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до ночи.", "Отдохнуть до (ночь 1)", toNight,
+                F(StoryFlags.SheriffReport), F(StoryFlags.Night1));
+            BedState("NightEarly", "Какой тут сон. Колокол бьёт, а на кладбище кто-то ходит. Сначала — туда.", null, null,
+                F(StoryFlags.Night1), F(StoryFlags.FirstHollowDead));
+            BedState("NightEnd", "Если лягу сейчас — ночь кончится. Что не успел, то не успел.", "Отдохнуть до (день 2)", toDay2,
+                F(StoryFlags.Night1, StoryFlags.FirstHollowDead), null);
 
             CutsceneSequence reread = Sequence("Letter_Reread", story, "",
                 Anim("ReadLetter"),
@@ -905,7 +1002,7 @@ namespace LoneTruth.EditorTools
 
             CutsceneSequence arrive = Sequence("Room_Arrive", story, "room_first_visit",
                 Inner("Железная кровать, умывальник, окно на улицу. Чемодан можно не распаковывать."),
-                Goal("Лечь спать."));
+                Goal("Лечь спать: кровать."));
             StartTrigger(arrive, F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
 
             AddBounds(10f, Group("--- Collision & Bounds"));

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 8270301118454616215}
   - component: {fileID: 1168871831496378084}
   - component: {fileID: 660161353095379782}
+  - component: {fileID: 1083550290633960165}
   - component: {fileID: 6559905507504638279}
   - component: {fileID: 6733378991716925095}
   - component: {fileID: 2509041013957074727}
@@ -210,6 +211,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Combat.Health
   maxHealth: 100
   currentHealth: 0
+--- !u!114 &1083550290633960165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732229811787774295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c727bf2cdb0364e4bb8b11cc38bc624a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoneTruth.Combat.PlayerDeath
+  hitColor: {r: 1, g: 0.25, b: 0.2, a: 1}
 --- !u!114 &6559905507504638279
 MonoBehaviour:
   m_ObjectHideFlags: 0

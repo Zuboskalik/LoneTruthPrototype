@@ -12,6 +12,15 @@ namespace LoneTruth.Inventory
         Document
     }
 
+    /// <summary>What using a Consumable does.</summary>
+    public enum ConsumableEffect
+    {
+        Heal,
+        Flare,
+        ConsecratedFlare,
+        Meat // thrown to a guard dog
+    }
+
     [CreateAssetMenu(fileName = "NewItem", menuName = "LoneTruth/Inventory/Item")]
     public class ItemSO : ScriptableObject
     {
@@ -27,6 +36,7 @@ namespace LoneTruth.Inventory
         [TextArea(3, 10)] [SerializeField] private string documentText;
         [Tooltip("Health restored by a Consumable.")]
         [SerializeField] private int healAmount;
+        [SerializeField] private ConsumableEffect effect;
 
         public string Id => id;
         public string ItemName => itemName;
@@ -38,5 +48,6 @@ namespace LoneTruth.Inventory
         public string Description => description;
         public string DocumentText => documentText;
         public int HealAmount => healAmount;
+        public ConsumableEffect Effect => effect;
     }
 }

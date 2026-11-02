@@ -47,6 +47,13 @@ namespace LoneTruth.Core
             dayLightIntensity = 0.5f;
         }
 
+        /// <summary>A place with no light of its own (the crypt): shapes barely show until a flare is lit.</summary>
+        public void UseDarkPreset()
+        {
+            nightAmbient = dayAmbient = new Color(0.045f, 0.05f, 0.065f);
+            nightLightIntensity = dayLightIntensity = 0.02f;
+        }
+
         private void OnEnable()
         {
             StoryState.Changed += Apply;

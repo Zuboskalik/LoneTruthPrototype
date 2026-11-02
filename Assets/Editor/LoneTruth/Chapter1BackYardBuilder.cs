@@ -105,10 +105,23 @@ namespace LoneTruth.EditorTools
             PropInst(p, "FG_Barrels_x9", $"{PropDir}/PRP_Barrels.png", new Vector3(9f, -1.0f, -3f), fg, 1.1f, new Color(0.12f, 0.12f, 0.14f));
 
             Transform play = Group("--- Gameplay");
-            SceneDoor(p, "1-07_to_1-05", "CompanyOffice", "from_1-07", "Вернуться в контору", $"{PropDir}/DOOR_BackDoor_Closed.png", 1f, play);
+            GameObject officeDoor = SceneDoor(p, "1-07_to_1-05", "CompanyOffice", "from_1-07", "Вернуться в контору", $"{PropDir}/DOOR_BackDoor_Closed.png", 1f, play);
+            GameObject officeStub = Stub(p, "1-07_to_1-05_night", "1-05", "Задняя дверь конторы", "Заперто изнутри.", $"{PropDir}/DOOR_BackDoor_Closed.png", 1f, play);
+            GameObject streetGate = SceneDoor(p, "1-07_to_1-02", "MainStreet", "from_1-07", "Проход на Главную улицу", $"{PropDir}/DOOR_AlleyGate_Closed.png", 15.6f, play);
+            Spawn("from_1-02", 14.8f, play);
+            Spawn("from_1-06", 10f, play);
+            Transform nightGates = Group("--- Night");
+            Gate("OfficeDoorByDay", nightGates, F(StoryFlags.TimeDay), null, officeDoor);
+            Gate("OfficeLockedAtNight", nightGates, null, F(StoryFlags.TimeDay), officeStub);
+            Gate("StreetGateAtNight", nightGates, F(StoryFlags.Night1), null, streetGate);
             Spawn("from_1-05", 2f, play);
-            GameObject hatch = Stub(p, "1-07_to_1-06", "1-06", "Люк в подвал", "Люк заперт на висячий замок. Нужен ключ от архива.", $"{PropDir}/PRP_CellarHatch.png", 10f, play);
-            hatch.transform.Find("DoorArt").localPosition = new Vector3(0f, 0f, 1.6f);
+            GameObject hatch = SceneDoor(p, "1-07_to_1-06", "Archive", "from_1-07", "Люк в подвал", $"{PropDir}/PRP_CellarHatch.png", 10f, play);
+            hatch.transform.Find("Art").localPosition = new Vector3(0f, 0f, 1.6f);
+            var hatchLock = hatch.GetComponent<LoneTruth.Interaction.SceneTransitionDoor>();
+            SetField(hatchLock, "requiredItem", items.ArchiveKey);
+            SetField(hatchLock, "lockedLine", "Люк заперт на висячий замок. Нужен ключ от архива: выберите его (Q) и примените (G).");
+            SetField(hatchLock, "unlockedLine", "Ключ подошёл. Люк открыт.");
+            Gate("HatchAtNight", nightGates, F(StoryFlags.Night1), null, hatch);
             GameObject shellSpot = InspectSpot("Clue_Shell45_x4", new Vector3(4.2f, 0f, 0f), play, 1.4f);
             GameObject cart = InspectSpot("Cart_x13", new Vector3(13f, 0f, 0f), play, 2f);
 

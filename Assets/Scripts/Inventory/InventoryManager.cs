@@ -223,5 +223,18 @@ namespace LoneTruth.Inventory
         }
 
         public IReadOnlyList<InventorySlot> Slots => slots;
+
+        /// <summary>Loading a save: replaces the whole inventory.</summary>
+        public void RestoreSlots(IList<InventorySlot> saved)
+        {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                slots[i] = i < saved.Count ? saved[i] : new InventorySlot(null, 0);
+            }
+
+            SelectedSlotIndex = 0;
+            OnInventoryUpdated?.Invoke();
+            OnSlotSelected?.Invoke(0);
+        }
     }
 }

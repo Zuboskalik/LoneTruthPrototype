@@ -169,6 +169,9 @@ namespace LoneTruth.UI
             toastRoutine = StartCoroutine(ToastRoutine(text, seconds));
         }
 
+        /// <summary>The objective as authored (untranslated); a save keeps this.</summary>
+        public string RawObjective => rawObjective;
+
         public void SetObjective(string text)
         {
             rawObjective = text;

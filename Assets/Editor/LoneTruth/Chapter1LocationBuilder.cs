@@ -60,12 +60,14 @@ namespace LoneTruth.EditorTools
             DrawStoryPlaceholders();
             DrawDay1Placeholders();
             DrawBackYardPlaceholders();
+            DrawNight1Placeholders();
             ConfigureImports();
             ImportCharacterSheets();
             Items items = BuildItems();
             BuildNotebook();
             BuildSpeakerPortraits();
             Dictionary<string, RuntimeAnimatorController> controllers = BuildAnimation();
+            BuildEnemyControllers();
             Prefabs prefabs = BuildPrefabs(controllers, items);
             Material[] mats = BuildMaterials();
             Material[] interior = BuildInteriorMaterials();
@@ -78,12 +80,15 @@ namespace LoneTruth.EditorTools
             BuildOffice(prefabs, controllers, interior, profile, items);
             BuildDay1Scenes(prefabs, controllers, profile, items);
             BuildBackYard(prefabs, controllers, profile, items);
+            BuildNight1Scenes(prefabs, controllers, profile, items);
 
             AddToBuildSettings(StationScene, StreetScene, SaloonScene, RoomScene, OfficeScene,
-                SheriffScene, ChapelScene, AlleyScene, AgnesScene, ShedScene, BackYardScene);
+                SheriffScene, ChapelScene, AlleyScene, AgnesScene, ShedScene, BackYardScene,
+                CemeteryScene, VestryScene, CryptScene, BelfryScene, WellHeadScene, SawmillScene, HutScene, ArchiveScene);
             AssetDatabase.SaveAssets();
             return "Built 1-01 Station, 1-02 Main Street, 1-03 Saloon, 1-04 Holt's room, 1-05 Company office, " +
-                   "1-07 Office back yard, 1-08 Sheriff, 1-09 Chapel nave, 1-14 Alley, 1-15 Agnes's house, 1-16 Shed";
+                   "1-06 Archive, 1-07 Office back yard, 1-08 Sheriff, 1-09 Chapel nave, 1-10 Vestry, 1-11 Crypt, 1-12 Belfry, 1-13 Cemetery, " +
+                   "1-14 Alley, 1-15 Agnes's house, 1-16 Shed, 1-17 Well head, 1-18 Sawmill yard, 1-19 Watchman's hut";
         }
 
         // ------------------------------------------------------------------ folders
@@ -830,7 +835,7 @@ namespace LoneTruth.EditorTools
             }
 
             foreach (string npc in new[] { "Conductor", "Callahan", "PasserbyMiner", "PasserbyWoman", "SaloonMan", "SaloonWoman", "Ruth", "Cornelius", "Clerk",
-                "Dolan", "Agnes", "Matthew", "Jesse" })
+                "Dolan", "Agnes", "Matthew", "Jesse", "Liam", "Amos", "Watchman" })
             {
                 string path = $"{AnimDir}/AC_{npc}.controller";
                 RuntimeAnimatorController sheetController = BuildNpcSheetController(npc, path);
@@ -1024,6 +1029,7 @@ namespace LoneTruth.EditorTools
             SetField(wc, "ammoItem", items.Ammo);
             SetField(wc, "loadedAmmo", 6);
             player.AddComponent<Health>();
+            player.AddComponent<LoneTruth.Combat.PlayerDeath>();
             player.AddComponent<InventoryActions>();
             player.AddComponent<PersistentPlayer>();
             player.AddComponent<WeaponFireEffects>();
@@ -1036,6 +1042,7 @@ namespace LoneTruth.EditorTools
             ui.AddComponent<LoneTruth.UI.GameUI>();
             ui.AddComponent<LoneTruth.UI.InventoryBarUI>();
             ui.AddComponent<LoneTruth.UI.ShopUI>();
+            ui.AddComponent<LoneTruth.UI.SaveMenuUI>().SetCatalog(items.All);
             ui.AddComponent<LoneTruth.UI.DialogueUI>().SetPortraits(AssetDatabase.LoadAssetAtPath<LoneTruth.Dialogue.SpeakerPortraitsSO>(PortraitsPath));
             ui.AddComponent<LoneTruth.UI.PocketWatchUI>();
             var notebook = ui.AddComponent<LoneTruth.UI.NotebookUI>();

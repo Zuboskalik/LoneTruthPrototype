@@ -45,6 +45,8 @@ namespace LoneTruth.Combat
         [SerializeField] private LayerMask hitLayers = ~0;
         [SerializeField] private int damagePerShot = 25;
 
+        private const float ShotNoiseRadius = 25f;
+
         private bool isEquipped;
         private bool isAiming;
         private float fireTimer;
@@ -125,6 +127,11 @@ namespace LoneTruth.Combat
 
         private void TryStartAiming()
         {
+            if (playerController != null && playerController.IsHidden)
+            {
+                return;
+            }
+
             if (!isEquipped)
             {
                 Say(holsteredLine);
@@ -172,6 +179,14 @@ namespace LoneTruth.Combat
             }
         }
 
+        /// <summary>Loading a save: the cylinder as saved, the revolver back in its holster.</summary>
+        public void RestoreState(int rounds)
+        {
+            loadedAmmo = Mathf.Clamp(rounds, 0, maxLoadedAmmo);
+            isEquipped = false;
+            SetAiming(false);
+        }
+
         public bool Fire()
         {
             if (!isEquipped || !isAiming || loadedAmmo <= 0)
@@ -180,6 +195,7 @@ namespace LoneTruth.Combat
             }
 
             loadedAmmo--;
+            EnemyController.MakeNoise(transform.position, ShotNoiseRadius);
             if (playerController != null)
             {
                 playerController.PlayAnimationTrigger("Fire");
@@ -205,6 +221,12 @@ namespace LoneTruth.Combat
             foreach (RaycastHit hit in hits)
             {
                 if (hit.collider.transform.IsChildOf(transform))
+                {
+                    continue;
+                }
+
+                // Bullets pass through door and interaction triggers; only bodies stop them.
+                if (hit.collider.isTrigger && hit.collider.GetComponentInParent<Health>() == null)
                 {
                     continue;
                 }
@@ -236,6 +258,13 @@ namespace LoneTruth.Combat
             if (dummy != null)
             {
                 dummy.TakeDamage(damagePerShot);
+                return;
+            }
+
+            Health target = hit.collider.GetComponentInParent<Health>();
+            if (target != null)
+            {
+                target.TakeDamage(damagePerShot);
             }
         }
 
