@@ -68,7 +68,7 @@ namespace LoneTruth.Interaction
             }
 
             StoryState.Set(UnlockFlag);
-            // The key has done its job: free the slot in the eight-slot bar.
+            // The key has done its job: it leaves the bar.
             var inventory = user != null ? user.GetComponent<InventoryManager>() : null;
             if (inventory != null)
             {

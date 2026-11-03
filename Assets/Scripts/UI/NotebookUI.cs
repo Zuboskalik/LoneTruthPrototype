@@ -28,6 +28,9 @@ namespace LoneTruth.UI
         [SerializeField] private Color accentColor = new Color(0.55f, 0.2f, 0.12f);
         [SerializeField] private int visibleRows = 14;
 
+        private const float BodyWheelStep = 40f;
+        private const float BodyKeySpeed = 420f;
+
         public static bool IsOpen { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -56,6 +59,11 @@ namespace LoneTruth.UI
         private Section section;
         private int selected;
         private int scroll;
+        private float bodyScroll;
+        private bool bodyScrollPending;
+        private RectTransform bodyView;
+        private RectTransform bodyThumb;
+        private GameObject bodyTrack;
         private readonly HashSet<ClueSO> marked = new HashSet<ClueSO>();
         private string message = "";
         private float savedTimeScale = 1f;
@@ -126,8 +134,22 @@ namespace LoneTruth.UI
 
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) SwitchSection(1);
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) SwitchSection(-1);
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < -0.1f) Move(1);
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0.1f) Move(-1);
+            // The wheel over a long record scrolls the record; elsewhere it picks entries.
+            bool wheelOnBody = BodyOverflows && RectTransformUtility.RectangleContainsScreenPoint(bodyView, Input.mousePosition, null);
+            float wheel = wheelOnBody ? 0f : Input.mouseScrollDelta.y;
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || wheel < -0.1f) Move(1);
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || wheel > 0.1f) Move(-1);
+            if (BodyOverflows)
+            {
+                float pixels = wheelOnBody ? -Input.mouseScrollDelta.y * BodyWheelStep : 0f;
+                if (Input.GetKey(KeyCode.Q)) pixels -= BodyKeySpeed * Time.unscaledDeltaTime;
+                if (Input.GetKey(KeyCode.E)) pixels += BodyKeySpeed * Time.unscaledDeltaTime;
+                if (pixels != 0f)
+                {
+                    ScrollBody(bodyScroll + pixels);
+                }
+            }
+
             if (section == Section.Clues && Input.GetKeyDown(KeyCode.Space)) ToggleMark();
             if (section == Section.Clues && Input.GetKeyDown(KeyCode.F)) Compare();
 
@@ -162,6 +184,7 @@ namespace LoneTruth.UI
             message = "";
             selected = 0;
             scroll = 0;
+            bodyScrollPending = true;
             root.SetActive(true);
             Render();
         }
@@ -196,6 +219,7 @@ namespace LoneTruth.UI
             selected = 0;
             scroll = 0;
             message = "";
+            bodyScrollPending = true;
             Render();
         }
 
@@ -207,6 +231,7 @@ namespace LoneTruth.UI
                 return;
             }
 
+            bodyScrollPending = true;
             selected = Mathf.Clamp(selected + delta, 0, count - 1);
             if (selected < scroll) scroll = selected;
             if (selected >= scroll + visibleRows) scroll = selected - visibleRows + 1;
@@ -323,6 +348,12 @@ namespace LoneTruth.UI
             }
 
             RenderDetails(entries.Count > 0 ? entries[selected] : null);
+            LayoutBody(entries.Count > 0 && entries[selected] is QuestSO);
+            if (BodyOverflows)
+            {
+                hintText.text += "   ·   " + Loc.T("Q / E или колесо — прокрутить запись");
+            }
+
             messageText.text = message;
         }
 
@@ -423,6 +454,39 @@ namespace LoneTruth.UI
             }
 
             detailBody.text = body.ToString();
+        }
+
+        private bool BodyOverflows => detailBody.rectTransform.sizeDelta.y > bodyView.rect.height + 1f;
+
+        /// <summary>Sizes the record to its text. A newly opened quest shows its latest entries.</summary>
+        private void LayoutBody(bool startAtEnd)
+        {
+            RectTransform body = detailBody.rectTransform;
+            body.sizeDelta = new Vector2(body.sizeDelta.x, detailBody.preferredHeight + 8f);
+            if (bodyScrollPending)
+            {
+                bodyScrollPending = false;
+                bodyScroll = startAtEnd ? float.MaxValue : 0f;
+            }
+
+            ScrollBody(bodyScroll);
+        }
+
+        private void ScrollBody(float value)
+        {
+            RectTransform body = detailBody.rectTransform;
+            float viewHeight = bodyView.rect.height;
+            float range = Mathf.Max(0f, body.sizeDelta.y - viewHeight);
+            bodyScroll = Mathf.Clamp(value, 0f, range);
+            body.anchoredPosition = new Vector2(0f, bodyScroll);
+
+            bodyTrack.SetActive(range > 1f);
+            if (range > 1f)
+            {
+                float thumb = Mathf.Max(30f, viewHeight * viewHeight / body.sizeDelta.y);
+                bodyThumb.sizeDelta = new Vector2(bodyThumb.sizeDelta.x, thumb);
+                bodyThumb.anchoredPosition = new Vector2(0f, -(viewHeight - thumb) * bodyScroll / range);
+            }
         }
 
         private void RenderMap()
@@ -553,9 +617,21 @@ namespace LoneTruth.UI
             detailSubtitle = Ink("Subtitle", detailPanel.transform, 20, fadedInkColor, TextAnchor.UpperLeft);
             detailSubtitle.fontStyle = FontStyle.Italic;
             GameUI.Place(detailSubtitle.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, -44), new Vector2(600, 56));
-            detailBody = Ink("Body", detailPanel.transform, 24, inkColor, TextAnchor.UpperLeft);
+            // A long record scrolls inside this clipped window, with a thin bar on its right.
+            var viewGo = new GameObject("BodyView", typeof(RectTransform), typeof(RectMask2D));
+            viewGo.transform.SetParent(detailPanel.transform, false);
+            bodyView = (RectTransform)viewGo.transform;
+            GameUI.Place(bodyView, new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, -108), new Vector2(590, 500));
+            detailBody = Ink("Body", bodyView, 24, inkColor, TextAnchor.UpperLeft);
             detailBody.lineSpacing = 1.15f;
-            GameUI.Place(detailBody.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, -108), new Vector2(600, 500));
+            detailBody.verticalOverflow = VerticalWrapMode.Overflow;
+            GameUI.Place(detailBody.rectTransform, new Vector2(0, 1), new Vector2(0, 1), Vector2.zero, new Vector2(590, 500));
+
+            bodyTrack = Panel("BodyTrack", detailPanel.transform, Vector2.zero, Vector2.one, new Color(inkColor.r, inkColor.g, inkColor.b, 0.12f)).gameObject;
+            GameUI.Place((RectTransform)bodyTrack.transform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(596, -108), new Vector2(4, 500));
+            bodyThumb = Panel("BodyThumb", bodyTrack.transform, Vector2.zero, Vector2.one, new Color(inkColor.r, inkColor.g, inkColor.b, 0.55f));
+            GameUI.Place(bodyThumb, new Vector2(0, 1), new Vector2(0, 1), Vector2.zero, new Vector2(4, 30));
+            bodyTrack.SetActive(false);
 
             var portraitGo = new GameObject("Portrait", typeof(RectTransform), typeof(Image));
             portraitGo.transform.SetParent(detailPanel.transform, false);

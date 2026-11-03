@@ -7,7 +7,8 @@ namespace LoneTruth.Inventory
     public class InventoryManager : MonoBehaviour
     {
         [Header("Inventory")]
-        [SerializeField] private int inventorySize = 8;
+        // Unreachable in play: a full bag must never block the story. The bar shows eight at a time.
+        [SerializeField] private int inventorySize = 99;
         [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
 
         [Header("Slot Selection")]

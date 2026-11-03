@@ -398,6 +398,18 @@ namespace LoneTruth.EditorTools
             }
         }
 
+        /// <summary>
+        /// A character sent walking while it still talks or gestures (lines skipped quickly) walks at
+        /// once: otherwise it would slide along in the old pose until that clip ends.
+        /// </summary>
+        private static void InterruptByWalking(AnimatorState state, AnimatorState walk)
+        {
+            if (walk != null)
+            {
+                Go(state, walk, false).AddCondition(AnimatorConditionMode.Greater, 0.1f, "Speed");
+            }
+        }
+
         /// <summary>Sheet NPC controller by key, or null for placeholder NPCs.</summary>
         private static RuntimeAnimatorController BuildNpcSheetController(string key, string controllerPath)
         {
@@ -438,10 +450,10 @@ namespace LoneTruth.EditorTools
                 Go(idle, wary, false).AddCondition(AnimatorConditionMode.IfNot, 0f, "Calm");
             }
 
+            AnimatorState walk = null;
             if (spec.Walk.IsSet || spec.WalkSheet != null && spec.WalkSheet.Exists)
             {
                 ac.AddParameter("Speed", AnimatorControllerParameterType.Float);
-                AnimatorState walk;
                 if (spec.WalkSheet != null && spec.WalkSheet.Exists)
                 {
                     // A separate walk sheet, drawn at its own PPU: no row scaling.
@@ -467,6 +479,8 @@ namespace LoneTruth.EditorTools
                 {
                     Go(talk, wary, false).AddCondition(AnimatorConditionMode.IfNot, 0f, "Calm");
                 }
+
+                InterruptByWalking(talk, walk);
             }
 
             if (spec.React.IsSet)
@@ -480,6 +494,7 @@ namespace LoneTruth.EditorTools
                 toReact.canTransitionToSelf = false;
                 toReact.AddCondition(AnimatorConditionMode.If, 0f, "React");
                 Go(react, idle, true);
+                InterruptByWalking(react, walk);
             }
 
             if (spec.Gesture.IsSet)
@@ -492,6 +507,7 @@ namespace LoneTruth.EditorTools
                 toGesture.canTransitionToSelf = false;
                 toGesture.AddCondition(AnimatorConditionMode.If, 0f, "Gesture");
                 Go(gesture, idle, true);
+                InterruptByWalking(gesture, walk);
             }
 
             return ac;

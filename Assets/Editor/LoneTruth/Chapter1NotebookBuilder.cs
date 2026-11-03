@@ -163,7 +163,7 @@ namespace LoneTruth.EditorTools
             var letters = NotebookAsset<QuestSO>("Quest_1_1_Letters");
             letters.Configure("1_1", "Письма из-под земли", false, "agnes_door_closed");
             letters.AddStage(StoryFlags.Quest11Started, "Агнес показала семь писем, написанных рукой Томаса, с угольной пылью на сгибах. Они появляются на её подоконнике каждую ночь. Кто-то их приносит — стоит подождать ночью в тени у её окна.");
-            letters.AddStage(StoryFlags.Quest11Postman, "Письма приносит Лиам: они вылетают с тягой из вентиляционной скважины на окраине. Решётку не сдвинуть без лома: у Руфи за $15 или в сарае, рядом с Джесси.");
+            letters.AddStage(StoryFlags.Quest11Postman, "Письма приносит Лиам: они вылетают с тягой из вентиляционной скважины на окраине. Решётка там ржавая: нужно раздобыть у кого-то или купить лом.");
             letters.AddStage(StoryFlags.Quest11Knock, "За решёткой свежее письмо. Снизу стук: три коротких, три длинных. Рассказать Агнес.");
             letters.AddOutcome("hope", ShardType.Hope, 1, "", "Сказал Агнес, что Томас, скорее всего, жив, и пообещал вернуть его.");
             letters.AddOutcome("despair", ShardType.Despair, 1, "", "Продал сведения о вентиляции Корнелиусу, а Агнес сказал, что письма — жестокая шутка мальчишки.");

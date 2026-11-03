@@ -19,6 +19,9 @@ namespace LoneTruth.UI
     public class InventoryBarUI : MonoBehaviour
     {
         [SerializeField] private int maxViews = 8;
+
+        private readonly List<int> filled = new List<int>();
+        private int firstShown;
         [SerializeField] private float slotWidth = 104f;
         [SerializeField] private float iconSize = 72f;
         [SerializeField] private Color bracketColor = new Color(0.25f, 0.85f, 0.42f);
@@ -100,17 +103,32 @@ namespace LoneTruth.UI
 
             barRoot.SetActive(true);
             IReadOnlyList<InventorySlot> slots = inventory.Slots;
+            // Only filled slots show; with more items than views the row follows the selection.
+            filled.Clear();
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (!slots[i].IsEmpty)
+                {
+                    filled.Add(i);
+                }
+            }
+
+            int selectedPosition = filled.IndexOf(inventory.SelectedSlotIndex);
+            if (selectedPosition >= 0)
+            {
+                if (selectedPosition < firstShown) firstShown = selectedPosition;
+                if (selectedPosition >= firstShown + views.Count) firstShown = selectedPosition - views.Count + 1;
+            }
+
+            firstShown = Mathf.Clamp(firstShown, 0, Mathf.Max(0, filled.Count - views.Count));
+
             int v = 0;
             int weaponView = -1;
             string selectedName = "";
-            for (int i = 0; i < slots.Count && v < views.Count; i++)
+            for (int position = firstShown; position < filled.Count && v < views.Count; position++)
             {
+                int i = filled[position];
                 InventorySlot slot = slots[i];
-                if (slot.IsEmpty)
-                {
-                    continue;
-                }
-
                 SlotView view = views[v++];
                 view.Root.SetActive(true);
                 view.Icon.sprite = slot.item.Icon;
@@ -150,7 +168,9 @@ namespace LoneTruth.UI
             }
 
             UpdateWeaponLock(weaponView);
-            nameText.text = selectedName;
+            nameText.text = filled.Count > views.Count && selectedPosition >= 0
+                ? $"{selectedName}   ({selectedPosition + 1}/{filled.Count})"
+                : selectedName;
             hintText.text = weapon != null && weapon.IsEquipped && CombatZone.WeaponsAllowed
                 ? Loc.T(Hint) + "   ·   " + Loc.T(AimHint)
                 : Loc.T(Hint);

@@ -93,13 +93,13 @@ namespace LoneTruth.EditorTools
                     "Карта нижних горизонтов шахты «Святая Варвара», нарисованная рукой Джесси Коула.\n\nГоризонты 1–3, вентиляционные ходы, старые выработки. Один проход отмечен крестом."),
                 // Design doc 3.4: a red flash blinds enemies within 5 m for 4 s, burns for 20 s; the Hollow back away.
                 Flare = Item("Consumable_Flare", "flare", "Фальшфейер", ItemType.Consumable, 3, "ICO_Flare",
-                    "Красная вспышка ослепляет врагов рядом, огонь держит Пустых на расстоянии. G — зажечь."),
+                    "Сигнальный фальшфейер: резкая красная вспышка, горит долго. G — зажечь."),
                 FlareConsecrated = Item("Consumable_FlareConsecrated", "flare_consecrated", "Освящённый фальшфейер", ItemType.Consumable, 3, "ICO_FlareConsecrated",
-                    "Как обычный, но вспышка ещё и обжигает Пустых. G — зажечь."),
+                    "Фальшфейер, над которым отец Мэтью читал молитву. G — зажечь."),
                 Meat = Item("Consumable_Meat", "meat", "Кусок мяса", ItemType.Consumable, 3, "ICO_Meat",
-                    "Для сторожевого пса: подойти поближе, G — бросить. Схватит и убежит."),
+                    "Сырое мясо. Может привлечь животных, если бросить его на землю. G — бросить."),
                 Crowbar = Item("Key_Crowbar", "crowbar", "Лом", ItemType.Key, 1, "ICO_Crowbar",
-                    "Тяжёлый лом. Подойдёт для ржавой решётки."),
+                    "Тяжёлый стальной лом. Подденет то, что намертво приржавело."),
                 ArchiveKey = Item("Key_Archive", "key_archive", "Ключ от архива", ItemType.Key, 1, "ICO_ArchiveKey",
                     "Ключ с доски сторожа: подвал конторы. Подходит и к люку во дворе.")
             };
@@ -987,18 +987,18 @@ namespace LoneTruth.EditorTools
                     rest != null ? RunIf(StoryFlags.BedRest, rest) : Wait(0f)), required, forbidden);
             }
 
-            BedState("Arrival", "Железная кровать. Спать хочется так, что всё равно какая.", "Отдохнуть до (день 1)", sleep,
+            BedState("Arrival", "Железная кровать. Спать хочется так, что всё равно какая.", "Отдохнуть до дня", sleep,
                 F(StoryFlags.SaloonCheckIn), F(StoryFlags.Day1Morning));
             BedState("Morning", "Утро. Сначала — контора компании: Уитлок ждёт.", null, null,
                 F(StoryFlags.Day1Morning), F(StoryFlags.OfficeMeeting));
             BedState("TooEarly", "Рано отдыхать. Сначала — шериф: у него должен быть отчёт об обвале.", null, null,
                 F(StoryFlags.FreeInvestigationDay1), F(StoryFlags.SheriffReport, StoryFlags.Night1));
             // Quests started today keep their steps open at night, so resting early locks nothing.
-            BedState("Day1End", "Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до ночи.", "Отдохнуть до (ночь 1)", toNight,
+            BedState("Day1End", "Если лягу сейчас — день кончится. Агнес, часовня, сарай за конюшней… Что не успел — подождёт до ночи.", "Отдохнуть до ночи", toNight,
                 F(StoryFlags.SheriffReport), F(StoryFlags.Night1));
             BedState("NightEarly", "Какой тут сон. Колокол бьёт, а на кладбище кто-то ходит. Сначала — туда.", null, null,
                 F(StoryFlags.Night1), F(StoryFlags.FirstHollowDead));
-            BedState("NightEnd", "Если лягу сейчас — ночь кончится. Что не успел, то не успел.", "Отдохнуть до (день 2)", toDay2,
+            BedState("NightEnd", "Если лягу сейчас — ночь кончится. Что не успел, то не успел.", "Отдохнуть до дня", toDay2,
                 F(StoryFlags.Night1, StoryFlags.FirstHollowDead), null);
 
             CutsceneSequence reread = Sequence("Letter_Reread", story, "",

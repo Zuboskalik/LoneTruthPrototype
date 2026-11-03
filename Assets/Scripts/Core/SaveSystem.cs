@@ -65,6 +65,20 @@ namespace LoneTruth.Core
             LastCheckpoint = data;
         }
 
+        public static void Delete(int slot)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            PlayerPrefs.DeleteKey(Key(slot));
+            PlayerPrefs.Save();
+#else
+            string path = FilePath(slot);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+#endif
+        }
+
         public static SaveData Read(int slot)
         {
             try

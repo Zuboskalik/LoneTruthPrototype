@@ -481,9 +481,25 @@ namespace LoneTruth.EditorTools
                 Move(liam, 19.5f, 3.6f, false),
                 Wait(2.6f),
                 Active(liam, false),
-                Note("Лом — у Руфи за $15 или в сарае, рядом с Джесси.", 5f),
                 Goal("Тропа в конце переулка ведёт к скважине. Нужен лом."));
-            FlagTrigger(ambush, F(StoryFlags.AlleyHidden, StoryFlags.Night1, StoryFlags.Quest11Started), F(StoryFlags.Quest11Postman));
+            FlagTrigger(ambush, F(StoryFlags.AlleyHidden, StoryFlags.Night1, StoryFlags.Quest11Started), F(StoryFlags.Quest11Postman, StoryFlags.Quest11Knock));
+
+            // The grate was opened first (the crowbar from Jesse or Ruth): Holt already knows where the letters come from.
+            CutsceneSequence ambushKnown = Sequence("Q1_1_AmbushKnown", story, StoryFlags.Quest11Postman,
+                Wait(2.5f),
+                Active(liam, true),
+                Move(liam, 10.2f, 3.6f, true),
+                Inner("А вот и почтальон. Мальчишка с конвертом."),
+                Unflag(StoryFlags.AlleyHidden),
+                Line("Холт", "Не бойся, парень. Я был у скважины. Знаю, откуда письма."),
+                ActorAnim(liam, "React"),
+                Line("Лиам", "Так это вы решётку сорвали?! Я только подбираю их и ношу миссис Бирн, честно!"),
+                Line("Холт", "Знаю. Беги домой. Ночью здесь не место."),
+                Line("Лиам", "Спасибо, мистер!"),
+                Move(liam, 19.5f, 3.6f, false),
+                Wait(2.6f),
+                Active(liam, false));
+            FlagTrigger(ambushKnown, F(StoryFlags.AlleyHidden, StoryFlags.Night1, StoryFlags.Quest11Knock), F(StoryFlags.Quest11Postman));
 
             Transform fx = Group("--- FX");
             Inst(p.Rain, "Rain", new Vector3(10f, 9f, 1f), fx);
@@ -569,12 +585,12 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-14", 2.5f, play);
             GameObject jesse = Npc(p, ac, "NPC_Jesse_x9", "Jesse", new Vector3(9f, 0f, 0f), play, "Поговорить", "", 0.4f); // sits against the hay
             FaceDoor(jesse);
-            GameObject crowbar = Pickup("Crowbar_x5", 5f, play, items.Crowbar, 1, "crowbar_taken", $"{PropDir}/PRP_Spade.png");
+            GameObject crowbar = Pickup("Crowbar_x5", 5f, play, items.Crowbar, 1, "crowbar_taken", $"{PropDir}/PRP_Crowbar.png");
             // He keeps the shotgun on Holt until Holt names Agnes, and again while the revolver is out.
             jesse.AddComponent<FlagAnimatorBool>().Configure("Calm", F(StoryFlags.JesseCalm), F(StoryFlags.WeaponDrawn), "Idle");
 
             Transform story = Group("--- Story");
-            Gate("CrowbarByJesse", story, F(StoryFlags.Quest12FoundJesse), null, crowbar);
+            Gate("CrowbarByJesse", story, F(StoryFlags.Quest12FoundJesse), F(StoryFlags.GrateOpen), crowbar);
             Gate("JesseUntilMoved", story, null, F(StoryFlags.JesseMoved), jesse);
             // Side quest 1.2 «Раненый в сарае» (design doc 8.4). Jesse aims until the revolver is put
             // away («NPC реагируют настороженно»); then the first contact and the deal are dialogues

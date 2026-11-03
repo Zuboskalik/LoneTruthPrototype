@@ -78,8 +78,9 @@ namespace LoneTruth.EditorTools
                 {
                     id = "deal", speaker = "Джесси Коул",
                     text = "Мне нужен бинт и виски. Вывезите меня из города тайком — отдам карту нижних горизонтов.",
-                    next = "wound", setFlags = new[] { StoryFlags.Quest12FoundJesse }
+                    next = "crowbar", setFlags = new[] { StoryFlags.Quest12FoundJesse }
                 },
+                DNode("crowbar", "Джесси Коул", "И ещё. Лом у стены: прихватил, когда бежал из шахты. Мне уже без надобности, а вам, может, сгодится.", "wound"),
                 DNode("wound", "", "Рана в боку, повязка насквозь. Долго он здесь не протянет."));
         }
 

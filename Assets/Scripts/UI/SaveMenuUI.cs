@@ -25,6 +25,7 @@ namespace LoneTruth.UI
         private const string SavedSpawn = "from_1-03"; // Holt comes back by his room's door
         private const string TransientFlag = StoryFlags.WeaponDrawn;
         private const int MaxRows = 4;
+        private const int DeleteRequest = -2; // Choose reports «delete slot n» as DeleteRequest - n
 
         /// <summary>Tests: answer the next menu with this row (-1 = wait for a key).</summary>
         public static int AutoPick = -1;
@@ -119,7 +120,8 @@ namespace LoneTruth.UI
             while (true)
             {
                 int choice = -1;
-                yield return Choose("Lone Truth", new[] { "Новая игра", "Продолжить" }, new[] { true, true }, false, i => choice = i);
+                // All saves may have been deleted from the slot list below.
+                yield return Choose("Lone Truth", new[] { "Новая игра", "Продолжить" }, new[] { true, SaveSystem.AnySaves() }, false, i => choice = i);
                 if (choice == 0)
                 {
                     startNewGame(true);
@@ -245,26 +247,53 @@ namespace LoneTruth.UI
 
         // ---------------------------------------------------------------- menus
 
+        /// <summary>The slot list. X / Delete on a filled slot deletes it after asking; picked gets -1 on Esc.</summary>
         private IEnumerator ChooseSlot(string title, bool filledOnly, Action<int> picked)
         {
-            var labels = new string[SaveSystem.SlotCount];
-            var enabled = new bool[SaveSystem.SlotCount];
-            for (int i = 0; i < SaveSystem.SlotCount; i++)
+            int cursor = -1;
+            while (true)
             {
-                SaveData data = SaveSystem.Read(i);
-                labels[i] = Loc.Format("Слот {0}", i + 1) + "   ·   " + (data != null ? SaveSystem.Describe(data) : Loc.T("пусто"));
-                enabled[i] = !filledOnly || data != null;
-            }
+                var labels = new string[SaveSystem.SlotCount];
+                var enabled = new bool[SaveSystem.SlotCount];
+                bool any = false;
+                for (int i = 0; i < SaveSystem.SlotCount; i++)
+                {
+                    SaveData data = SaveSystem.Read(i);
+                    labels[i] = Loc.Format("Слот {0}", i + 1) + "   ·   " + (data != null ? SaveSystem.Describe(data) : Loc.T("пусто"));
+                    enabled[i] = !filledOnly || data != null;
+                    any |= enabled[i];
+                }
 
-            yield return Choose(title, labels, enabled, true, picked);
+                if (!any)
+                {
+                    picked(-1); // the last save was just deleted
+                    yield break;
+                }
+
+                int result = -1;
+                yield return Choose(title, labels, enabled, true, r => result = r, cursor >= 0 && enabled[cursor] ? cursor : -1, true);
+                if (result > DeleteRequest)
+                {
+                    picked(result);
+                    yield break;
+                }
+
+                cursor = DeleteRequest - result;
+                int answer = -1;
+                yield return Choose("Удалить сохранение?", new[] { "Да", "Нет" }, new[] { true, true }, true, i => answer = i, 1);
+                if (answer == 0)
+                {
+                    SaveSystem.Delete(cursor);
+                }
+            }
         }
 
         /// <param name="labels">Row texts; each is translated (ready-made labels pass through unchanged).</param>
-        private IEnumerator Choose(string title, string[] labels, bool[] enabled, bool canCancel, Action<int> picked, int preselected = -1)
+        private IEnumerator Choose(string title, string[] labels, bool[] enabled, bool canCancel, Action<int> picked, int preselected = -1, bool canDelete = false)
         {
             int selected = preselected >= 0 ? preselected : Array.IndexOf(enabled, true);
             panel.SetActive(true);
-            Render(title, labels, enabled, selected, canCancel);
+            Render(title, labels, enabled, selected, canCancel, canDelete);
             yield return null; // the key that opened the menu must not answer it
 
             int result = -1;
@@ -289,12 +318,18 @@ namespace LoneTruth.UI
                     }
                     while (!enabled[next]);
                     selected = next;
-                    Render(title, labels, enabled, selected, canCancel);
+                    Render(title, labels, enabled, selected, canCancel, canDelete);
                 }
 
                 if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
                 {
                     result = selected;
+                    break;
+                }
+
+                if (canDelete && (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Delete)) && SaveSystem.Read(selected) != null)
+                {
+                    result = DeleteRequest - selected;
                     break;
                 }
 
@@ -311,7 +346,7 @@ namespace LoneTruth.UI
             picked(result);
         }
 
-        private void Render(string title, string[] labels, bool[] enabled, int selected, bool canCancel)
+        private void Render(string title, string[] labels, bool[] enabled, int selected, bool canCancel, bool canDelete)
         {
             titleText.text = Loc.T(title);
             for (int i = 0; i < rows.Count; i++)
@@ -329,7 +364,9 @@ namespace LoneTruth.UI
                 row.fontStyle = isSelected ? FontStyle.Bold : FontStyle.Normal;
             }
 
-            hintText.text = Loc.T(canCancel ? "W / S — выбрать   ·   E — подтвердить   ·   Esc — назад" : "W / S — выбрать   ·   E — подтвердить");
+            hintText.text = Loc.T(canDelete ? "W / S — выбрать   ·   E — подтвердить   ·   X — удалить   ·   Esc — назад"
+                : canCancel ? "W / S — выбрать   ·   E — подтвердить   ·   Esc — назад"
+                : "W / S — выбрать   ·   E — подтвердить");
         }
 
         private void Build()

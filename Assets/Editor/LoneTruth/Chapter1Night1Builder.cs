@@ -107,6 +107,11 @@ namespace LoneTruth.EditorTools
                 p.Rect(16, 34, 8, p.H - 34, wood);
                 p.Rect(6, 0, 28, 40, steel);
             });
+            Prop("PRP_Crowbar", 0.5f, 1.1f, p =>
+            {
+                p.Rect(10, 0, 9, p.H, steel);                   // the shaft
+                p.Rect(10, p.H - 9, p.W - 14, 9, steel);         // the bent end: a Г, as on the icon
+            });
             Prop("PRP_TokenGlint", 0.3f, 0.3f, p => p.Ellipse(15, 15, 11, 11, PlaceholderPainter.C("#A89A70")));
             Prop("PRP_Wardrobe", 1.4f, 2.6f, p =>
             {
@@ -696,7 +701,8 @@ namespace LoneTruth.EditorTools
             Transform story = Group("--- Story");
             CutsceneSequence open = Sequence("Q1_1_Grate", story, StoryFlags.Quest11Knock,
                 WalkTo(12.6f),
-                Inner("Решётка подалась. За ней на выступе лежит письмо: свежее, с угольной пылью на сгибах."),
+                Note("Использован лом"),
+                Inner("Лом вошёл под прутья. Решётка подалась. За ней на выступе лежит письмо: свежее, с угольной пылью на сгибах."),
                 Flag(StoryFlags.ClueFreshLetter),
                 Note("Улика в блокноте: свежее письмо из скважины"),
                 Inner("Снизу, с глубины двести метров, идёт стук. Три коротких. Три длинных."),
@@ -745,7 +751,7 @@ namespace LoneTruth.EditorTools
             Transform story = Group("--- Story");
             CutsceneSequence enter = Sequence("Sawmill_Enter", story, "sawmill_entered",
                 Inner("Двор лесопилки. Двое с фонарями и пёс. Ключи сторож держит в будке, слева."),
-                Note("Спрятаться за брёвнами: E. Фонарь видит только вперёд. Псу — мясо из лавки: выберите, G.", 7f));
+                Note("Спрятаться за брёвнами: E. Фонарь видит только вперёд.", 7f));
             StartTrigger(enter, null, null);
 
             EditorSceneManager.SaveScene(scene, SawmillScene);
