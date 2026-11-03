@@ -176,6 +176,8 @@ namespace LoneTruth.Core
         public const string VentSealed = "VENT_SEALED";                  // quest 1.1, Despair (chapter 2 reads it)
         public const string JesseMoved = "jesse_moved";                  // Father Matthew took Jesse into the vestry
         public const string ArchiveKeyTaken = "archive_key_taken";
+        public const string CrowbarTaken = "crowbar_taken";
+        public const string CrowbarBought = "crowbar_bought";
 
         /// <summary>Runtime state, not story: the revolver is drawn (people react to it).</summary>
         public const string WeaponDrawn = "weapon_drawn";

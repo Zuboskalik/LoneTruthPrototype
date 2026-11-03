@@ -200,7 +200,18 @@ namespace LoneTruth.EditorTools
                 new LoneTruth.Shop.ShopSO.Entry { item = items.Whiskey, amount = 1, price = 10 },
                 new LoneTruth.Shop.ShopSO.Entry { item = items.Flare, amount = 1, price = 12 },
                 new LoneTruth.Shop.ShopSO.Entry { item = items.Meat, amount = 1, price = 4 },
-                new LoneTruth.Shop.ShopSO.Entry { item = items.Crowbar, amount = 1, price = 15, stock = 1 }
+                new LoneTruth.Shop.ShopSO.Entry
+                {
+                    item = items.Crowbar,
+                    amount = 1,
+                    price = 15,
+                    stock = 1,
+                    requiredFlags = new[] { StoryFlags.Quest11Postman },
+                    forbiddenFlags = new[] { StoryFlags.CrowbarTaken, StoryFlags.CrowbarBought, StoryFlags.GrateOpen },
+                    hideIfInInventory = true,
+                    hideWhenSoldOut = true,
+                    setFlagOnPurchase = StoryFlags.CrowbarBought
+                }
             });
             EditorUtility.SetDirty(shop);
             return shop;

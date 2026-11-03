@@ -24,7 +24,18 @@ namespace LoneTruth.Interaction
 
         private void OnEnable()
         {
-            if (StoryState.Has(takenFlag))
+            StoryState.Changed += CheckTaken;
+            CheckTaken();
+        }
+
+        private void OnDisable()
+        {
+            StoryState.Changed -= CheckTaken;
+        }
+
+        private void CheckTaken()
+        {
+            if (StoryState.Has(takenFlag) || (item != null && item.Id == "crowbar" && (StoryState.Has(StoryFlags.CrowbarBought) || StoryState.Has(StoryFlags.CrowbarTaken))))
             {
                 gameObject.SetActive(false);
             }
@@ -54,6 +65,11 @@ namespace LoneTruth.Interaction
             }
 
             StoryState.Set(takenFlag);
+            if (item != null && item.Id == "crowbar")
+            {
+                StoryState.Set(StoryFlags.CrowbarTaken);
+            }
+
             gameObject.SetActive(false);
         }
 

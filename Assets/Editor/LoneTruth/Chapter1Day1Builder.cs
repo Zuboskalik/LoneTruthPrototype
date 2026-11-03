@@ -585,12 +585,12 @@ namespace LoneTruth.EditorTools
             Spawn("from_1-14", 2.5f, play);
             GameObject jesse = Npc(p, ac, "NPC_Jesse_x9", "Jesse", new Vector3(9f, 0f, 0f), play, "Поговорить", "", 0.4f); // sits against the hay
             FaceDoor(jesse);
-            GameObject crowbar = Pickup("Crowbar_x5", 5f, play, items.Crowbar, 1, "crowbar_taken", $"{PropDir}/PRP_Crowbar.png");
+            GameObject crowbar = Pickup("Crowbar_x5", 5f, play, items.Crowbar, 1, StoryFlags.CrowbarTaken, $"{PropDir}/PRP_Crowbar.png");
             // He keeps the shotgun on Holt until Holt names Agnes, and again while the revolver is out.
             jesse.AddComponent<FlagAnimatorBool>().Configure("Calm", F(StoryFlags.JesseCalm), F(StoryFlags.WeaponDrawn), "Idle");
 
             Transform story = Group("--- Story");
-            Gate("CrowbarByJesse", story, F(StoryFlags.Quest12FoundJesse), F(StoryFlags.GrateOpen), crowbar);
+            Gate("CrowbarByJesse", story, F(StoryFlags.Quest12FoundJesse), F(StoryFlags.GrateOpen, StoryFlags.CrowbarBought, StoryFlags.CrowbarTaken), crowbar);
             Gate("JesseUntilMoved", story, null, F(StoryFlags.JesseMoved), jesse);
             // Side quest 1.2 «Раненый в сарае» (design doc 8.4). Jesse aims until the revolver is put
             // away («NPC реагируют настороженно»); then the first contact and the deal are dialogues

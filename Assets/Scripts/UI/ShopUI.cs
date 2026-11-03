@@ -44,6 +44,7 @@ namespace LoneTruth.UI
         private readonly List<Text> rows = new List<Text>();
 
         private ShopSO shop;
+        private readonly List<ShopSO.Entry> visibleEntries = new List<ShopSO.Entry>();
         private int selected;
         private string message = "";
 
@@ -94,6 +95,7 @@ namespace LoneTruth.UI
             shop = goods;
             selected = 0;
             message = "";
+            UpdateVisibleEntries();
             panel.SetActive(true);
             Render();
             yield return null;
@@ -103,9 +105,9 @@ namespace LoneTruth.UI
                 if (GameUI.AutoAdvance)
                 {
                     yield return new WaitForSecondsRealtime(0.4f);
-                    if (AutoBuy >= 0)
+                    if (AutoBuy >= 0 && visibleEntries.Count > 0)
                     {
-                        selected = Mathf.Clamp(AutoBuy, 0, shop.Entries.Count - 1);
+                        selected = Mathf.Clamp(AutoBuy, 0, visibleEntries.Count - 1);
                         AutoBuy = -1;
                         Buy();
                         yield return new WaitForSecondsRealtime(0.4f);
@@ -127,6 +129,7 @@ namespace LoneTruth.UI
 
             panel.SetActive(false);
             shop = null;
+            visibleEntries.Clear();
             yield return null; // don't let the closing key reach the next dialogue node
             if (ownState && gm != null && gm.IsInState(GameState.Dialogue))
             {
@@ -135,26 +138,46 @@ namespace LoneTruth.UI
             }
         }
 
+        private void UpdateVisibleEntries()
+        {
+            visibleEntries.Clear();
+            if (shop != null)
+            {
+                visibleEntries.AddRange(shop.GetVisibleEntries(Inventory()));
+            }
+
+            if (visibleEntries.Count == 0)
+            {
+                selected = 0;
+            }
+            else
+            {
+                selected = Mathf.Clamp(selected, 0, visibleEntries.Count - 1);
+            }
+        }
+
         private void Move(int delta)
         {
-            if (shop == null || shop.Entries.Count == 0)
+            UpdateVisibleEntries();
+            if (visibleEntries.Count == 0)
             {
                 return;
             }
 
-            selected = (selected + delta + shop.Entries.Count) % shop.Entries.Count;
+            selected = (selected + delta + visibleEntries.Count) % visibleEntries.Count;
             message = "";
             Render();
         }
 
         private void Buy()
         {
-            if (shop == null || selected >= shop.Entries.Count)
+            UpdateVisibleEntries();
+            if (selected >= visibleEntries.Count)
             {
                 return;
             }
 
-            ShopSO.Entry e = shop.Entries[selected];
+            ShopSO.Entry e = visibleEntries[selected];
             InventoryManager inventory = Inventory();
             int price = shop.PriceOf(e);
             if (shop.Left(e) <= 0)
@@ -177,6 +200,7 @@ namespace LoneTruth.UI
                 message = Loc.Format("Куплено: {0}", e.item.DisplayName);
             }
 
+            UpdateVisibleEntries();
             Render();
         }
 
@@ -202,6 +226,7 @@ namespace LoneTruth.UI
                 return;
             }
 
+            UpdateVisibleEntries();
             InventoryManager inventory = Inventory();
             titleText.text = Loc.T(shop.Title);
             moneyText.text = "$ " + StoryState.Money;
@@ -209,13 +234,15 @@ namespace LoneTruth.UI
             for (int i = 0; i < rows.Count; i++)
             {
                 Text row = rows[i];
-                if (i >= shop.Entries.Count)
+                Text price = row.transform.GetChild(0).GetComponent<Text>();
+                if (i >= visibleEntries.Count)
                 {
                     row.text = "";
+                    price.text = "";
                     continue;
                 }
 
-                ShopSO.Entry e = shop.Entries[i];
+                ShopSO.Entry e = visibleEntries[i];
                 bool isSelected = i == selected;
                 int left = shop.Left(e);
                 string name = e.item.DisplayName + (e.amount > 1 ? $" ×{e.amount}" : "");
@@ -224,16 +251,19 @@ namespace LoneTruth.UI
                 bool affordable = StoryState.Money >= shop.PriceOf(e) && left > 0;
                 row.color = !affordable ? mutedColor : isSelected ? titleColor : textColor;
                 row.fontStyle = isSelected ? FontStyle.Bold : FontStyle.Normal;
-                Text price = row.transform.GetChild(0).GetComponent<Text>();
                 price.text = "$ " + shop.PriceOf(e);
                 price.color = row.color;
             }
 
-            if (selected < shop.Entries.Count)
+            if (visibleEntries.Count > 0 && selected < visibleEntries.Count)
             {
-                ShopSO.Entry e = shop.Entries[selected];
+                ShopSO.Entry e = visibleEntries[selected];
                 int have = inventory != null ? inventory.CountItem(e.item) : 0;
                 detailText.text = Loc.T(e.item.Description) + "\n" + Loc.Format("У вас: {0}", have);
+            }
+            else
+            {
+                detailText.text = "";
             }
 
             messageText.text = message;
